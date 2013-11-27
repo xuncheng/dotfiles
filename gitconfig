@@ -1,0 +1,11 @@
+[user]
+	name = Xuncheng Wang
+	email = w.xun.cheng@gmail.com
+[color]
+	ui = true
+[format]
+	pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
+[core]
+	editor = vim
+[credential]
+	helper = osxkeychain
