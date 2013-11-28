@@ -5,6 +5,13 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 
+" =============== Vundle Initialization ===============
+" This loads all the plugins specified in ~/.vim/vundles.vim
+" Use Vundle plugin to manage all other plugins
+if filereadable(expand("~/.vim/vundles.vim"))
+  source ~/.vim/vundles.vim
+endif
+
 syntax on
 
 set history=1000
