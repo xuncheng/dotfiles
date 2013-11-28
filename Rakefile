@@ -35,6 +35,30 @@ task :install do
       link_file(file)
     end
   end
+
+  Rake::Task["install_vundle"].execute
+end
+
+desc "run Vundle installer in a clean vim environment"
+task :install_vundle do
+  puts "Installing vundle."
+  puts ""
+  
+  run %{
+    cd $HOME/.dotfiles
+    git clone https://github.com/gmarik/vundle.git #{File.join('vim','bundle', 'vundle')}
+  }
+
+  update_vundle
+end
+
+def run(cmd)
+  puts "[running] #{cmd}"
+  `#{cmd}` unless ENV['DEBUG']
+end
+
+def self.update_vundle
+  system "vim --noplugin -u #{ENV['HOME']}/.vim/vundles.vim -N \"+set hidden\" \"+syntax on\" +BundleClean +BundleInstall +qall"
 end
 
 def replace_file(file)
