@@ -1,5 +1,5 @@
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
-local user_host='%{$terminfo[bold]$fg[cyan]%}%n%{$reset_color%}'
+local user_host='%{$terminfo[bold]$fg[green]%}%n%{$reset_color%}'
 # local current_dir='%{$terminfo[bold]$fg[blue]%} %~%{$reset_color%}'
 local current_dir='%c'
 local git_branch='$(git_prompt_info)%{$reset_color%}'

@@ -112,9 +112,8 @@ augroup END
 :color grb256
 
 if has("gui_running")
-  :color Tomorrow-Night
-  " :color railscasts
-  " hi Normal  guifg=#E6E1DC  guibg=#232323
+  :color railscasts
+  hi Normal  guifg=#E6E1DC  guibg=#232323
   hi Search  guifg=NONE     guibg=NONE     gui=underline
 endif
 

@@ -49,5 +49,3 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 export EDITOR='mvim -w'
 export TERM=xterm-256color
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
