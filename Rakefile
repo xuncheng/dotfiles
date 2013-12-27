@@ -9,7 +9,7 @@ task :install do
   switch_to_zsh
   replace_all = false
   files = Dir['*'] - %w[Rakefile README.md LICENSE oh-my-zsh]
-  files << "oh-my-zsh/custom/xuncheng.zsh-theme"
+  files << "oh-my-zsh/custom/samuel.zsh-theme"
   files.each do |file|
     system %Q{mkdir -p "$HOME/.#{File.dirname(file)}"} if file =~ /\//
     if File.exist?(File.join(ENV['HOME'], ".#{file.sub(/\.erb$/, '')}"))
@@ -43,7 +43,7 @@ desc "run Vundle installer in a clean vim environment"
 task :install_vundle do
   puts "Installing vundle."
   puts ""
-  
+
   run %{
     cd $HOME/.dotfiles
     git clone https://github.com/gmarik/vundle.git #{File.join('vim','bundle', 'vundle')}
