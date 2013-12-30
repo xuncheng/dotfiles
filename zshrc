@@ -45,6 +45,9 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# Highlight search results in ack.
+export ACK_COLOR_MATCH='red'
+
 # Customize to your needs...
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 export EDITOR='mvim -w'
