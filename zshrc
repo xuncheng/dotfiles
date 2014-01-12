@@ -52,3 +52,8 @@ export ACK_COLOR_MATCH='red'
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 export EDITOR='mvim -w'
 export TERM=xterm-256color
+
+# handy keybindings
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+

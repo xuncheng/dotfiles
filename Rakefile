@@ -58,7 +58,7 @@ def run(cmd)
 end
 
 def self.update_vundle
-  system "vim --noplugin -u #{ENV['HOME']}/.vim/vundles.vim -N \"+set hidden\" \"+syntax on\" +BundleClean +BundleInstall +qall"
+  system "vim --noplugin -u #{ENV['HOME']}/.vimrc.bundles -N \"+set hidden\" \"+syntax on\" +BundleClean +BundleInstall +qall"
 end
 
 def replace_file(file)
