@@ -1,15 +1,15 @@
 [user]
-	name = Xuncheng Wang
-	email = w.xun.cheng@gmail.com
+  name = Xuncheng Wang
+  email = w.xun.cheng@gmail.com
+[push]
+  default = current
 [color]
-	ui = true
-[format]
-	pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
-[core]
-	editor = vim
-[credential]
-	helper = osxkeychain
+  ui = true
 [alias]
+  aa = add --all
+  st = status
+  ca = commit --amend
+  co = checkout
   # Fancy logging.
   #   h  = head
   #   hp = head with patch
@@ -24,3 +24,11 @@
   ra   = !git r --all
   l    = "!. ~/.githelpers && pretty_git_log"
   la   = !git l --all
+[format]
+  pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
+[core]
+  editor = vim
+[credential]
+  helper = osxkeychain
+[commit]
+  template = ~/.gitmessage
