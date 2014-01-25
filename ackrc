@@ -9,3 +9,4 @@
 --ignore-dir=tags
 --ignore-dir=tmp
 --ignore-dir=.bundle
+--ignore-dir=_site

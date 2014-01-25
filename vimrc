@@ -47,6 +47,8 @@ set directory=~/.vim-tmp,~/.tmp,~/var/tmp,/tmp
 set backspace=indent,eol,start
 " display incomplete commands
 set showcmd
+" auto reload changed file
+set autoread
 " Enable highlighting for syntax
 syntax on
 " Enable file type detection
