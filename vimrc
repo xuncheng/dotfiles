@@ -165,6 +165,13 @@ imap <c-l> <space>=><space>
 imap <c-c> <esc>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-snipmate Configuration
+" Use <C-J> to trigger snippets and move to the next placeholder
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+:imap <c-j> <Plug>snipMateNextOrTrigger
+:smap <c-j> <Plug>snipMateNextOrTrigger
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Else, do completion.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
