@@ -7,6 +7,7 @@ upgrade
 # Install useful tools
 install vim --override-system-vi
 install ack
+install the_silver_searcher
 install git
 
 tap homebrew/versions

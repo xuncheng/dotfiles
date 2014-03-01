@@ -12,9 +12,11 @@ export EDITOR='mvim -w'
 export TERM=xterm-256color
 
 alias zshconfig="mvim ~/.zshrc"
+alias cls=clear
 
-# Highlight search results in ack.
-export ACK_COLOR_MATCH='red'
+# Highlight search results
+alias ack="ack --color-match=red"
+alias ag="ag --color-match=31"
 
 # Handy keybindings
 bindkey "^A" beginning-of-line

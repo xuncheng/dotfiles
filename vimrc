@@ -215,6 +215,21 @@ let g:ctrlp_user_command  = 'find %s -type f'
 let g:ctrlp_use_caching   = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" OpenChangedFiles COMMAND
+" Open a split for each dirty file in git
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OpenChangedFiles()
+  only " Close all windows, unless they're modified
+  let status = system('git status -s | grep "^ \?\(M\|A\|UU\)" | sed "s/^.\{3\}//"')
+  let filenames = split(status, "\n")
+  exec "edit " . filenames[0]
+  for filename in filenames[1:]
+    exec "sp " . filename
+  endfor
+endfunction
+command! OpenChangedFiles :call OpenChangedFiles()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " InsertTime COMMAND
 " Insert the current time
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -223,9 +238,9 @@ command! InsertTime :normal a<c-r>=strftime('%F %H:%M:%S.0 %z')<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Diff tab management: open the current git diff in a tab
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" command! GdiffInTab tabedit %|vsplit|Gdiff
-" nnoremap <leader>d :GdiffInTab<cr>
-" nnoremap <leader>D :tabclose<cr>
+command! GdiffInTab tabedit %|vsplit|Gdiff
+nnoremap <leader>d :GdiffInTab<cr>
+nnoremap <leader>D :tabclose<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Add the pry debug line with \bp (or <Space>bp, if you did: map <Space> <Leader> )
