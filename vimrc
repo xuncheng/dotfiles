@@ -1,4 +1,5 @@
-" This is Gary Bernhardt's .vimrc file
+" This .vimrc file is based on Gary Bernhardt's .vimrc file
+" https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
 
 autocmd!
 
@@ -47,7 +48,7 @@ set directory=~/.vim-tmp,~/.tmp,~/var/tmp,/tmp
 set backspace=indent,eol,start
 " display incomplete commands
 set showcmd
-" auto reload changed file
+" If a file is changed outside of vim, automatically reload it without asking
 set autoread
 " Enable highlighting for syntax
 syntax on
@@ -126,9 +127,6 @@ augroup END
 :color grb256
 
 if has("gui_running")
-  " :color molokai
-  " hi Normal  guifg=#E6E1DC  guibg=#232323
-  " hi Search  guifg=NONE     guibg=NONE     gui=underline
   :color vividchalk
   hi Normal   guifg=#E6E1DC  guibg=#232323
   hi Search   guifg=NONE     guibg=NONE     gui=underline
