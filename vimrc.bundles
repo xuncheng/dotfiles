@@ -26,7 +26,6 @@ Bundle 'mattn/emmet-vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'mattn/webapi-vim'
-Bundle 'jgdavey/vim-railscasts'
 Bundle 'Raimondi/delimitMate'
 " Use vim-snipmate https://github.com/garbas/vim-snipmate
 Bundle 'MarcWeber/vim-addon-mw-utils'
