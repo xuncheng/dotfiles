@@ -8,8 +8,10 @@
 [alias]
   aa = add --all
   st = status
-  ca = commit --amend
   co = checkout
+  br = branch
+  ci = commit
+  ca = commit --amend
   # Fancy logging.
   #   h  = head
   #   hp = head with patch
