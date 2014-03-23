@@ -11,6 +11,11 @@ if filereadable(expand("~/.vimrc.bundles"))
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable built-in matchit plugin
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+runtime macros/matchit.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITTING CONFIGURATION
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
@@ -69,6 +74,11 @@ set list listchars=tab:»·,trail:·
 " Numbers
 set nu
 set numberwidth=5
+" More natural split opening
+" Open new split panes to right and bottom, which feels more natural than
+" Vim's default:
+set splitbelow
+set splitright
 set guifont=Inconsolata-dz:h13
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
@@ -152,18 +162,21 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
-
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
-
 " Insert a hash rocket with <c-l>
 imap <c-l> <space>=><space>
-
 " Can't be bothered to understand ESC vs <c-c> in insert mode
 imap <c-c> <esc>
+" Clear the search buffer when hitting return
+function! MapCR()
+  nnoremap <cr> :nohlsearch<cr>
+endfunction
+call MapCR()
+nnoremap <leader><leader> <c-^>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-snipmate Configuration
@@ -192,11 +205,10 @@ inoremap <s-tab> <c-n>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! RenameFile()
   let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
+  let new_name = input('New file name: ', old_name, 'file')
   if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
+    call rename(old_name, new_name)
+    exec ':e ' . new_name
   endif
 endfunction
 map <leader>n :call RenameFile()<cr>
@@ -213,6 +225,89 @@ function! PromoteToLet()
 endfunction
 :command! PromoteToLet :call PromoteToLet()
 :map <leader>p :PromoteToLet<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SWITCH BETWEEN TEST AND PRODUCTION CODE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OpenTestAlternate()
+  let new_file = AlternateForCurrentFile()
+  exec ':e ' . new_file
+endfunction
+function! AlternateForCurrentFile()
+  let current_file = expand("%")
+  let new_file = current_file
+  let in_spec = match(current_file, '^spec/') != -1
+  let going_to_spec = !in_spec
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<helpers\>') != -1
+  if going_to_spec
+    if in_app
+      let new_file = substitute(new_file, '^app/', '', '')
+    end
+    let new_file = substitute(new_file, '\.e\?rb$', '_spec.rb', '')
+    let new_file = 'spec/' . new_file
+  else
+    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+    let new_file = substitute(new_file, '^spec/', '', '')
+    if in_app
+      let new_file = 'app/' . new_file
+    end
+  endif
+  return new_file
+endfunction
+nnoremap <leader>. :call OpenTestAlternate()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>t :call RunCurrentSpec()<cr>
+nnoremap <leader>s :call RunNearestSpec()<cr>
+nnoremap <leader>l :call RunLastSpec()<cr>
+nnoremap <leader>a :call RunAllSpecs()<cr>
+
+function! RunAllSpecs()
+  let l:spec = "spec"
+  call SetLastSpecCommand(l:spec)
+  call RunSpecs(l:spec)
+endfunction
+
+function! RunCurrentSpec()
+  if InSpecFile()
+    let l:spec = @%
+    call SetLastSpecCommand(l:spec)
+    call RunSpecs(l:spec)
+  else
+    call RunLastSpec()
+  endif
+endfunction
+
+function! RunNearestSpec()
+  if InSpecFile()
+    let l:spec = @% . ":" . line(".")
+    call SetLastSpecCommand(l:spec)
+    call RunSpecs(l:spec)
+  else
+    call RunLastSpec()
+  endif
+endfunction
+
+function! RunLastSpec()
+  if exists("s:last_spec_command")
+    call RunSpecs(s:last_spec_command)
+  endif
+endfunction
+
+function! InSpecFile()
+  return match(expand("%"), "_spec.rb$") != -1 || match(expand("%"), ".feature$") != -1
+endfunction
+
+function! SetLastSpecCommand(spec)
+  let s:last_spec_command = a:spec
+endfunction
+
+function! RunSpecs(spec)
+  " execute substitute(g:rspec_command, '{spec}", a:spec, 'g')
+  execute substitute("!clear && echo " . "rspec {spec}" . " && " . "rspec {spec}", "{spec}", a:spec, "g")
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP Configuration
@@ -255,10 +350,3 @@ nnoremap <leader>D :tabclose<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 
-" Clear the search buffer when hitting return
-function! MapCR()
-  nnoremap <cr> :nohlsearch<cr>
-endfunction
-call MapCR()
-
-nnoremap <leader><leader> <c-^>
