@@ -12,6 +12,8 @@
   br = branch
   ci = commit
   ca = commit --amend
+  unstage = reset HEAD
+  uncommit = reset --soft HEAD^
   # Fancy logging.
   #   h  = head
   #   hp = head with patch
@@ -36,3 +38,6 @@
   template = ~/.gitmessage
 [mergetool]
   keepBackup = true
+[filter "media"]
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
