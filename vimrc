@@ -350,3 +350,17 @@ nnoremap <leader>D :tabclose<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Add :Rfactory command for spec/factories/*.rb
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rails_projections = {
+  \  "spec/factories/*.rb": {
+  \    "command":   "factory",
+  \    "affinity":  "collection",
+  \    "alternate": "app/models/%i.rb",
+  \    "related":   "db/schema.rb#%s",
+  \    "test":      "spec/models/%i_spec.rb",
+  \    "template":  "FactoryGirl.define do\n  factory :%i do\n  end\nend",
+  \    "keywords":  "factory sequence"
+  \    }
+  \  }
