@@ -227,57 +227,13 @@ endfunction
 :map <leader>p :PromoteToLet<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
+" RSpec.vim Configuration, https://github.com/thoughtbot/vim-rspec
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>t :call RunCurrentSpec()<cr>
-nnoremap <leader>s :call RunNearestSpec()<cr>
-nnoremap <leader>l :call RunLastSpec()<cr>
-nnoremap <leader>a :call RunAllSpecs()<cr>
-
-function! RunAllSpecs()
-  let l:spec = "spec"
-  call SetLastSpecCommand(l:spec)
-  call RunSpecs(l:spec)
-endfunction
-
-function! RunCurrentSpec()
-  if InSpecFile()
-    let l:spec = @%
-    call SetLastSpecCommand(l:spec)
-    call RunSpecs(l:spec)
-  else
-    call RunLastSpec()
-  endif
-endfunction
-
-function! RunNearestSpec()
-  if InSpecFile()
-    let l:spec = @% . ":" . line(".")
-    call SetLastSpecCommand(l:spec)
-    call RunSpecs(l:spec)
-  else
-    call RunLastSpec()
-  endif
-endfunction
-
-function! RunLastSpec()
-  if exists("s:last_spec_command")
-    call RunSpecs(s:last_spec_command)
-  endif
-endfunction
-
-function! InSpecFile()
-  return match(expand("%"), "_spec.rb$") != -1 || match(expand("%"), ".feature$") != -1
-endfunction
-
-function! SetLastSpecCommand(spec)
-  let s:last_spec_command = a:spec
-endfunction
-
-function! RunSpecs(spec)
-  " execute substitute(g:rspec_command, '{spec}", a:spec, 'g')
-  execute substitute("!clear && echo " . "rspec {spec}" . " && " . "rspec {spec}", "{spec}", a:spec, "g")
-endfunction
+let g:rspec_runner = "os_x_iterm"
+nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
+nnoremap <Leader>s :call RunNearestSpec()<CR>
+nnoremap <Leader>l :call RunLastSpec()<CR>
+nnoremap <Leader>a :call RunAllSpecs()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP Configuration
