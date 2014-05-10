@@ -32,6 +32,7 @@
   pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
 [core]
   editor = vim
+  excludesfile = ~/.gitignore_global
 [credential]
   helper = osxkeychain
 [commit]
