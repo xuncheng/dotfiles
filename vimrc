@@ -138,16 +138,14 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
-:color grb256
 
-if has("gui_running")
-  :color vividchalk
-  hi Normal   guifg=#E6E1DC  guibg=#232323
-  hi Search   guifg=NONE     guibg=NONE     gui=underline
-  hi Comment  guifg=#7C7C7C  guibg=NONE     gui=NONE
-  hi Pmenu    guifg=#f6f3e8  guibg=#444444  gui=NONE
-  hi PmenuSel guifg=#000000  guibg=#cae682  gui=NONE
-endif
+:color vividchalk
+hi Normal     guifg=#E6E1DC guibg=#232323 ctermfg=NONE  ctermbg=NONE     cterm=NONE
+hi Comment    guifg=#7C7C7C guibg=NONE    gui=NONE      ctermfg=darkgray ctermbg=NONE cterm=NONE
+hi CursorLine guifg=NONE    guibg=#121212 gui=NONE      ctermfg=NONE     ctermbg=234  cterm=NONE
+hi Pmenu      guifg=#f6f3e8 guibg=#444444 gui=NONE      ctermfg=NONE     ctermbg=NONE cterm=NONE
+hi PmenuSel   guifg=#000000 guibg=#cae682 gui=NONE      ctermfg=16       ctermbg=156
+hi Search     guifg=NONE    guibg=NONE    gui=underline ctermfg=NONE     ctermbg=NONE cterm=underline
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -178,6 +176,8 @@ function! MapCR()
 endfunction
 call MapCR()
 nnoremap <leader><leader> <c-^>
+" Execute ruby code
+nnoremap <leader>r :!ruby %<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-snipmate Configuration
