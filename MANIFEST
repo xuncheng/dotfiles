@@ -1,0 +1,17 @@
+ackrc
+agignore
+aliasrc
+gemrc
+gitconfig
+githelpers
+gitignore
+gitignore_global
+gitmessage
+rspec
+tmux.conf
+vimrc
+vimrc.bundles
+vim
+zshrc
+zsh_profile.d
+zshenv

@@ -1,0 +1,31 @@
+# Unix
+alias ...='cd ../..'
+alias ack='ag --color-match=31'
+alias cls='clear'
+alias killruby='killall -9 ruby'
+alias mkdir='mkdir -p'
+alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
+alias t='tail -f'
+
+# Git
+alias aa='add --all'
+alias br='branch'
+alias ca='commit --amend'
+alias ci='commit'
+alias co='checkout'
+alias cob='checkout -b'
+alias st='status'
+alias dc='diff --cached'
+alias uncommit='reset --soft HEAD^'
+alias unmerge='git reset --hard HEAD'
+alias unstage='reset HEAD'
+
+# Ruby/Rails
+alias be='bundle exec'
+alias fs='foreman start'
+alias rc='rails console'
+alias rs='bundle install && rails server -p 3000'
+alias sc='be rails console staging'
+alias pc='be rails console production'
+alias rg='rails generate'
+alias rgm='rails generate migration'

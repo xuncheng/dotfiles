@@ -1,12 +1,24 @@
-# Search
+--type-add=ruby=.haml,.rake,.ru,.palette
+--type-add=html=.html.erb,.html.haml,.mustache,.jst,.ejs
+--type-add=js=.js.erb,.coffee
+--type-add=css=.sass,.less,.scss
+--type-set=markdown=.markdown,.md
+--type-set=cucumber=.feature
 --type-set=coffee=.coffee
 --type-set=cucumber=.feature
 --type-set=haml=.haml
 --type-set=sass=.sass,.scss
-
-# Don't search
+--ignore-dir=vendor
 --ignore-dir=log
---ignore-dir=tags
 --ignore-dir=tmp
+--ignore-dir=doc
+--ignore-dir=coverage
+--ignore-dir=public/assets
+--ignore-dir=public/coffeescripts
 --ignore-dir=.bundle
 --ignore-dir=_site
+--sort-files
+--color
+--follow
+--group
+--context=3
