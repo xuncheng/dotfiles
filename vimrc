@@ -75,9 +75,7 @@ set list listchars=tab:»·,trail:·
 " Numbers
 set nu
 set numberwidth=5
-" More natural split opening
-" Open new split panes to right and bottom, which feels more natural than
-" Vim's default:
+" Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
 set guifont=Inconsolata-dz:h13
@@ -103,9 +101,12 @@ augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
   autocmd FileType text setlocal textwidth=78
-  " Jump to last cursor position unless it's invalid or in an event handler
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it for commit messages, when the position is invalid, or when
+  " inside an event handler (happens when dropping a file on gvim).
   autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
 
@@ -134,18 +135,38 @@ augroup vimrcEx
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
+:color grb256
 
-:color vividchalk
-hi Normal     guifg=#E6E1DC guibg=#232323 ctermfg=NONE  ctermbg=NONE     cterm=NONE
-hi Comment    guifg=#7C7C7C guibg=NONE    gui=NONE      ctermfg=darkgray ctermbg=NONE cterm=NONE
-hi CursorLine guifg=NONE    guibg=#121212 gui=NONE      ctermfg=NONE     ctermbg=234  cterm=NONE
-hi Pmenu      guifg=#f6f3e8 guibg=#444444 gui=NONE      ctermfg=NONE     ctermbg=NONE cterm=NONE
-hi PmenuSel   guifg=#000000 guibg=#cae682 gui=NONE      ctermfg=16       ctermbg=156
-hi Search     guifg=NONE    guibg=NONE    gui=underline ctermfg=NONE     ctermbg=NONE cterm=underline
+if has("gui_running")
+  :color vividchalk
+  hi Normal     guifg=#E6E1DC guibg=#232323 ctermfg=NONE  ctermbg=NONE     cterm=NONE
+  hi Comment    guifg=#7C7C7C guibg=NONE    gui=NONE      ctermfg=darkgray ctermbg=NONE cterm=NONE
+  hi CursorLine guifg=NONE    guibg=#121212 gui=NONE      ctermfg=NONE     ctermbg=234  cterm=NONE
+  hi Pmenu      guifg=#f6f3e8 guibg=#444444 gui=NONE      ctermfg=NONE     ctermbg=NONE cterm=NONE
+  hi PmenuSel   guifg=#000000 guibg=#cae682 gui=NONE      ctermfg=16       ctermbg=156
+  hi Search     guifg=NONE    guibg=NONE    gui=underline ctermfg=NONE     ctermbg=NONE cterm=underline
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -161,11 +182,6 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
 " Insert a hash rocket with <c-l>
 imap <c-l> <space>=><space>
 " Can't be bothered to understand ESC vs <c-c> in insert mode
@@ -243,6 +259,8 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_user_command  = 'find %s -type f'
 let g:ctrlp_use_caching   = 0
+let g:ctrlp_extensions = ['funky']
+nnoremap <leader>fu :CtrlPFunky<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OpenChangedFiles COMMAND
