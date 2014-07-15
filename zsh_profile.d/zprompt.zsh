@@ -65,8 +65,25 @@ _basic()               { echo "$(_user_name)$(_colored_path)" }
 _colored_path()        { echo "$(_grey "%c")" }
 _colored_git_branch()  { if [ -n "$(_git_prompt_info)" ]; then echo "($(_git_prompt_color "$(_git_prompt_info)"))"; fi }
 
+_display_current_vim_mode() {
+  if [[ $VIMODE == 'vicmd' ]]; then
+    echo "$(_red "✘")"
+  else
+    echo "$(_green "✔")"
+  fi
+}
+
+function zle-line-init zle-keymap-select {
+  VIMODE=$KEYMAP
+  zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+export KEYTIMEOUT=1
+
 function precmd {
   $(git status 2> /dev/null >! "/tmp/git-status-$$")
 }
 
-PROMPT='$(_basic)$(_colored_git_branch) $(_yellow "$") '
+PROMPT='$(_basic)$(_colored_git_branch) $(_display_current_vim_mode) '
