@@ -78,9 +78,10 @@ set numberwidth=5
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-set guifont=Inconsolata-dz:h13
+set guifont=Monaco:h13
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
+  set linespace=1
 endif
 
 " Normally, Vim messes with iskeyword when you open a shell file. This can
