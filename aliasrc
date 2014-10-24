@@ -15,7 +15,6 @@ alias mkdir='mkdir -p'
 alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
 alias t='tail -f'
 alias vi='vim'
-alias vim='mvim -v'
 
 # Git
 alias aa='add --all'
