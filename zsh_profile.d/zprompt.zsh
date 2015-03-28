@@ -49,7 +49,7 @@ _default_color() {
 }
 
 _user_name() {
-  if [ $USER != "Samuel" ]; then
+  if [ $USER != "Xuncheng" ]; then
     echo "$USER "
   fi
 }
