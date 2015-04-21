@@ -197,13 +197,6 @@ nnoremap <leader><leader> <c-^>
 nnoremap <leader>r :!ruby %<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-snipmate Configuration
-" Use <C-J> to trigger snippets and move to the next placeholder
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:imap <c-j> <Plug>snipMateNextOrTrigger
-:smap <c-j> <Plug>snipMateNextOrTrigger
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Else, do completion.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -297,7 +290,7 @@ nnoremap <leader>D :tabclose<cr>
 map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Add :Rfactory command for spec/factories/*.rb
+" Add :Efactory command for spec/factories/*.rb
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rails_projections = {
   \  "spec/factories/*.rb": {
@@ -308,5 +301,5 @@ let g:rails_projections = {
   \    "test":      "spec/models/%i_spec.rb",
   \    "template":  "FactoryGirl.define do\n  factory :%i do\n  end\nend",
   \    "keywords":  "factory sequence"
-  \    }
-  \  }
+  \  },
+  \  "spec/factories.rb": {"command": "factory"}}
