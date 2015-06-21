@@ -18,18 +18,6 @@ alias t='tail -f'
 alias vi='vim'
 alias so='source ~/.dotfiles/aliasrc'
 
-# Git
-alias aa='add --all'
-alias br='branch'
-alias ca='commit --amend'
-alias ci='commit'
-alias co='checkout'
-alias st='status'
-alias gdc='git diff --cached'
-alias uncommit='reset --soft HEAD^'
-alias unmerge='git reset --hard HEAD'
-alias unstage='reset HEAD'
-
 # Ruby/Rails
 alias be='bundle exec'
 alias fs='foreman start'

@@ -7,13 +7,17 @@
   ui = true
 [alias]
   aa = add --all
-  st = status
-  co = checkout
   br = branch
-  ci = commit
   ca = commit --amend
-  unstage = reset HEAD
+  ci = commit
+  co = checkout
+  di = diff
+  ds = diff --staged
+  pullff = pull --ff-only
+  st = status
   uncommit = reset --soft HEAD^
+  unmerge = reset --hard HEAD
+  unstage = reset HEAD
   # Fancy logging.
   #   h  = head
   #   hp = head with patch
