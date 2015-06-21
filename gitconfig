@@ -9,7 +9,7 @@
   aa = add --all
   br = branch
   ca = commit --amend
-  ci = commit
+  ci = commit --verbose
   co = checkout
   di = diff
   ds = diff --staged
