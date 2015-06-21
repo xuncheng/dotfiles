@@ -116,6 +116,7 @@ augroup vimrcEx
   autocmd FileType python set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
+  autocmd! BufRead,BufNewFile *.jbuilder setfiletype ruby
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
