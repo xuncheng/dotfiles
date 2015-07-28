@@ -11,6 +11,7 @@
   ca = commit --amend
   ci = commit --verbose
   co = checkout
+  cob = checkout -b
   di = diff
   ds = diff --staged
   pullff = pull --ff-only
@@ -32,15 +33,25 @@
   ra   = !git r --all
   l    = "!. ~/.githelpers && pretty_git_log"
   la   = !git l --all
+
+  # Divergence (commits we added and commits remote added)
+  div = divergence
+
+  # Goodness (summary of diff lines added/removed/total)
+  gn = goodness
+  gnc = goodness --cached
 [format]
   pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
 [core]
   editor = vim
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/xuncheng/.gitignore_global
+	quotepath = false
 [credential]
   helper = osxkeychain
 [commit]
   template = ~/.gitmessage
+[merge]
+  tool = vimdiff
 [mergetool]
   keepBackup = true
 [filter "media"]
@@ -48,3 +59,7 @@
   smudge = git-media-smudge %f
 [github]
   user = xuncheng
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
