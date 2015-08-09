@@ -17,6 +17,7 @@ alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp 
 alias t='tail -f'
 alias vi='vim'
 alias so='source ~/.dotfiles/aliasrc'
+alias gfw='proxychains4'
 
 # Ruby/Rails
 alias be='bundle exec'
