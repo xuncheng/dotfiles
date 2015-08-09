@@ -78,7 +78,7 @@ set numberwidth=5
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-set guifont=Monaco:h13
+set guifont=Monaco\ for\ Powerline:h13
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
   set linespace=1
@@ -161,13 +161,7 @@ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 :color grb256
 
 if has("gui_running")
-  :color vividchalk
-  hi Normal     guifg=#E6E1DC guibg=#232323 ctermfg=NONE  ctermbg=NONE     cterm=NONE
-  hi Comment    guifg=#7C7C7C guibg=NONE    gui=NONE      ctermfg=darkgray ctermbg=NONE cterm=NONE
-  hi CursorLine guifg=NONE    guibg=#121212 gui=NONE      ctermfg=NONE     ctermbg=234  cterm=NONE
-  hi Pmenu      guifg=#f6f3e8 guibg=#444444 gui=NONE      ctermfg=NONE     ctermbg=NONE cterm=NONE
-  hi PmenuSel   guifg=#000000 guibg=#cae682 gui=NONE      ctermfg=16       ctermbg=156
-  hi Search     guifg=NONE    guibg=NONE    gui=underline ctermfg=NONE     ctermbg=NONE cterm=underline
+  :color cobalt2
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -263,6 +257,30 @@ let g:ctrlp_user_command  = 'find %s -type f'
 let g:ctrlp_use_caching   = 0
 let g:ctrlp_extensions = ['funky']
 nnoremap <leader>fu :CtrlPFunky<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-airline Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Add buffer tabs on top.
+let g:airline#extensions#tabline#enabled = 1
+" Use Powerline symbols and replace the separator symbols
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OpenChangedFiles COMMAND
