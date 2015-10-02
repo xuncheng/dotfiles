@@ -1,6 +1,7 @@
 ackrc
 agignore
 aliasrc
+bundle
 gemrc
 gitconfig
 githelpers
