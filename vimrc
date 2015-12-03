@@ -116,7 +116,7 @@ augroup vimrcEx
   autocmd FileType python set sw=4 sts=4 et
 
   " For API Blueprint, autoindent with four spaces
-  autocmd FileType apiblueprint set sw=4 sts=4 et
+  autocmd FileType apiblueprint setlocal sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
   autocmd! BufRead,BufNewFile *.jbuilder setfiletype ruby
