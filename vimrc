@@ -111,9 +111,12 @@ augroup vimrcEx
     \   exe "normal g`\"" |
     \ endif
 
-  "for ruby, autoindent with two spaces, always expand tabs
+  " For ruby, autoindent with two spaces, always expand tabs
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
+
+  " For API Blueprint, autoindent with four spaces
+  autocmd FileType apiblueprint set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
   autocmd! BufRead,BufNewFile *.jbuilder setfiletype ruby
