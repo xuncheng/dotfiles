@@ -9,6 +9,7 @@ githelpers
 gitignore
 gitignore_global
 gitmessage
+npmrc
 proxychains
 rspec
 tmux.conf
