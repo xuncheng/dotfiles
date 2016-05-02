@@ -353,13 +353,16 @@ function! SelectaFile(path)
 endfunction
 
 nnoremap <leader>f :call SelectaFile(".")<cr>
+nnoremap <leader>ga :call SelectaFile("api")<cr>
+nnoremap <leader>gt :call SelectaFile("api/templates")<cr>
 nnoremap <leader>gv :call SelectaFile("app/views")<cr>
 nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
 nnoremap <leader>gm :call SelectaFile("app/models")<cr>
 nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
+nnoremap <leader>gs :call SelectaFile("app/services")<cr>
+nnoremap <leader>gj :call SelectaFile("app/frontend/javascripts")<cr>
 nnoremap <leader>gl :call SelectaFile("lib")<cr>
 nnoremap <leader>gp :call SelectaFile("public")<cr>
-nnoremap <leader>gs :call SelectaFile("public/stylesheets")<cr>
 nnoremap <leader>gf :call SelectaFile("features")<cr>
 
 "Fuzzy select
@@ -381,13 +384,14 @@ map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Add :Equery command for app/queries/*.rb
 " Add :Efactory command for spec/factories/*.rb
+" Add :Epresenter command for app/presenters/*.rb
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rails_projections = {
   \  "app/queries/*_query.rb": {
   \    "command":   "query",
   \    "alternate": "app/models/%i.rb",
   \    "related":   "db/schema.rb#%s",
-  \    "test":      "spec/models/%i_spec.rb",
+  \    "test":      "spec/queries/%i_spec.rb",
   \    "template":  "class %SQuery\nend",
   \    "keywords":  "query sequence"
   \  },
@@ -400,4 +404,13 @@ let g:rails_projections = {
   \    "template":  "FactoryGirl.define do\n  factory :%i do\n  end\nend",
   \    "keywords":  "factory sequence"
   \  },
-  \  "spec/factories.rb": {"command": "factory"}}
+  \  "spec/factories.rb": {"command": "factory"},
+  \  "app/presenters/*_presenter.rb": {
+  \    "command":   "presenter",
+  \    "alternate": "app/models/%i.rb",
+  \    "related":   "db/schema.rb#%s",
+  \    "test":      "spec/presenters/%i_spec.rb",
+  \    "template":  "class %SPresenter < BasePresenter\n  presents :%i\nend",
+  \    "keywords":  "presenter sequence"
+  \  },
+  \  "app/presenters/application_presenter.rb": {"command": "presenter"}}
