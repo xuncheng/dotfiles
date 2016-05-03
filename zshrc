@@ -4,6 +4,4 @@ for zsh_source in $HOME/.zsh_profile.d/*.zsh; do
   source $zsh_source
 done
 
-source $HOME/.zsh_profile.d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 export PATH="$HOME/.bin:/usr/local/bin:$PATH"
