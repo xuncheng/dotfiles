@@ -426,6 +426,22 @@ map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
 " Add :Epresenter command for app/presenters/*.rb
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rails_projections = {
+  \  "app/services/*_service.rb": {
+  \    "command":   "service",
+  \    "alertnate": "spec/services/%i_spec.rb",
+  \    "related":   "db/schema.rb#%s",
+  \    "test":      "spec/services/%i_spec.rb",
+  \    "template":  "class %SService\nend",
+  \    "keywords":  "service sequence"
+  \  },
+  \  "app/serializers/*_serializer.rb": {
+  \    "command":   "serializer",
+  \    "alternate": "app/models/%i.rb",
+  \    "related":   "db/schema.rb#%s",
+  \    "test":      "spec/serializers/%i_spec.rb",
+  \    "template":  "class %SSerializer < ActiveModel::Serializer\nend",
+  \    "keywords":  "serializer sequence"
+  \  },
   \  "app/queries/*_query.rb": {
   \    "command":   "query",
   \    "alternate": "app/models/%i.rb",
