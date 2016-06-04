@@ -15,6 +15,9 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 runtime macros/matchit.vim
 
+" When vimrc is edited, reload it
+autocmd! bufwritepost .vimrc source ~/.vimrc
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITTING CONFIGURATION
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -78,10 +81,10 @@ set numberwidth=5
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-set guifont=Monaco\ for\ Powerline:h13
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
   set linespace=1
+  set guifont=Monaco\ for\ Powerline:h16
 endif
 
 " Normally, Vim messes with iskeyword when you open a shell file. This can
@@ -246,10 +249,10 @@ endfunction
 " RSpec.vim Configuration, https://github.com/thoughtbot/vim-rspec
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rspec_runner = "os_x_iterm"
+let g:rspec_command = "!bin/rspec {spec}"
 nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :call RunNearestSpec()<CR>
 nnoremap <Leader>l :call RunLastSpec()<CR>
-nnoremap <Leader>a :call RunAllSpecs()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP Configuration
