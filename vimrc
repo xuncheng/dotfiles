@@ -286,6 +286,42 @@ let g:airline_mode_map = {
     \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tabularize Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if exists(":Tabularize")
+  nmap <Leader>a# :Tabularize/#<CR>
+  vmap <Leader>a# :Tabularize/#<CR>
+  nmap <Leader>ah :Tabularize/=><CR>
+  vmap <Leader>ah :Tabularize/=><CR>
+  " lolvim: the sequence "\@!" apparently means "zero of the thing I just said"
+  nmap <Leader>a= :Tabularize/=>\@!<CR>
+  vmap <Leader>a= :Tabularize/=>\@!<CR>
+
+  nmap <Leader>a; :Tabularize/;<CR>
+  vmap <Leader>a; :Tabularize/;<CR>
+  nmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
+  vmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
+
+  " NOTES:
+  " * \zs is basically a zero-width lookbehind assertion;
+  "   it eats spaces before the comma/colon/whatever.
+  "   See: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+  " * l0c1 is a format specifier that says
+  "   "left, then zero spaces, then [delimiter], then 1 space"
+  "   See: https://raw.github.com/godlygeek/tabular/master/doc/Tabular.txt
+  nmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
+  vmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
+  nmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
+  vmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
+  nmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
+  vmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
+  nmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
+  vmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
+  nmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
+  vmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OpenChangedFiles COMMAND
 " Open a split for each dirty file in git
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
