@@ -13,9 +13,10 @@
   co = checkout
   cob = checkout -b
   di = diff
-  ds = diff --cached
+  dc = diff --cached
   pullff = pull --ff-only
   st = status
+  fa = fetch --all
   uncommit = reset --soft HEAD^
   unmerge = reset --hard HEAD
   unstage = reset HEAD
@@ -63,3 +64,5 @@
 	clean = git lfs clean %f
 	smudge = git lfs smudge %f
 	required = true
+[diff]
+	compactionHeuristic = true
