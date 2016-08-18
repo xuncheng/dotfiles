@@ -84,7 +84,7 @@ set splitright
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
   set linespace=1
-  set guifont=Monaco\ for\ Powerline:h16
+  set guifont=Monaco\ for\ Powerline:h14
 endif
 
 " Normally, Vim messes with iskeyword when you open a shell file. This can
@@ -97,6 +97,8 @@ set modelines=3
 " Turn folding off for real, hopefully
 set foldmethod=manual
 set nofoldenable
+" Save on buffer switch
+:set autowrite
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CUSTOM AUTOCMD
@@ -149,11 +151,20 @@ if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
 
+  let g:ackprg = 'ag --vimgrep'
+
+  cnoreabbrev ag Ack
+  cnoreabbrev aG Ack
+  cnoreabbrev Ag Ack
+  cnoreabbrev AG Ack
+
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
+
+  nnoremap <Leader>ag :Ack<CR>
 endif
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
@@ -246,9 +257,57 @@ endfunction
 :map <leader>p :PromoteToLet<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" EXTRACT VARIABLE (SKETCHY)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! ExtractVariable()
+    let name = input("Variable name: ")
+    if name == ''
+        return
+    endif
+    " Enter visual mode (not sure why this is needed since we're already in
+    " visual mode anyway)
+    normal! gv
+
+    " Replace selected text with the variable name
+    exec "normal c" . name
+    " Define the variable on the line above
+    exec "normal! O" . name . " = "
+    " Paste the original selected text to be the variable value
+    normal! $p
+endfunction
+vnoremap <leader>rv :call ExtractVariable()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" INLINE VARIABLE (SKETCHY)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! InlineVariable()
+    " Copy the variable under the cursor into the 'a' register
+    :let l:tmp_a = @a
+    :normal "ayiw
+    " Delete variable and equals sign
+    :normal 2daW
+    " Delete the expression into the 'b' register
+    :let l:tmp_b = @b
+    :normal "bd$
+    " Delete the remnants of the line
+    :normal dd
+    " Go to the end of the previous line so we can start our search for the
+    " usage of the variable to replace. Doing '0' instead of 'k$' doesn't
+    " work; I'm not sure why.
+    normal k$
+    " Find the next occurence of the variable
+    exec '/\<' . @a . '\>'
+    " Replace that occurence with the text we yanked
+    exec ':.s/\<' . @a . '\>/' . escape(@b, "/")
+    :let @a = l:tmp_a
+    :let @b = l:tmp_b
+endfunction
+nnoremap <leader>ri :call InlineVariable()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RSpec.vim Configuration, https://github.com/thoughtbot/vim-rspec
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:rspec_runner = "os_x_iterm"
+let g:rspec_runner = "os_x_iterm2"
 let g:rspec_command = "!bin/rspec {spec}"
 nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :call RunNearestSpec()<CR>
@@ -261,7 +320,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_user_command  = 'find %s -type f'
 let g:ctrlp_use_caching   = 0
-let g:ctrlp_extensions = ['funky']
+let g:ctrlp_extensions    = ['funky']
 nnoremap <leader>fu :CtrlPFunky<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -291,38 +350,42 @@ let g:airline_mode_map = {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabularize Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if exists(":Tabularize")
-  nmap <Leader>a# :Tabularize/#<CR>
-  vmap <Leader>a# :Tabularize/#<CR>
-  nmap <Leader>ah :Tabularize/=><CR>
-  vmap <Leader>ah :Tabularize/=><CR>
-  " lolvim: the sequence "\@!" apparently means "zero of the thing I just said"
-  nmap <Leader>a= :Tabularize/=>\@!<CR>
-  vmap <Leader>a= :Tabularize/=>\@!<CR>
+nmap <Leader>a# :Tabularize/#<CR>
+vmap <Leader>a# :Tabularize/#<CR>
+nmap <Leader>ah :Tabularize/=><CR>
+vmap <Leader>ah :Tabularize/=><CR>
+" lolvim: the sequence "\@!" apparently means "zero of the thing I just said"
+nmap <Leader>a= :Tabularize/=>\@!<CR>
+vmap <Leader>a= :Tabularize/=>\@!<CR>
 
-  nmap <Leader>a; :Tabularize/;<CR>
-  vmap <Leader>a; :Tabularize/;<CR>
-  nmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
-  vmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
+nmap <Leader>a; :Tabularize/;<CR>
+vmap <Leader>a; :Tabularize/;<CR>
+nmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
+vmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
 
-  " NOTES:
-  " * \zs is basically a zero-width lookbehind assertion;
-  "   it eats spaces before the comma/colon/whatever.
-  "   See: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-  " * l0c1 is a format specifier that says
-  "   "left, then zero spaces, then [delimiter], then 1 space"
-  "   See: https://raw.github.com/godlygeek/tabular/master/doc/Tabular.txt
-  nmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
-  vmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
-  nmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
-  vmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
-  nmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
-  vmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
-  nmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
-  vmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
-  nmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
-  vmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
-endif
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" reek.vim Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:reek_always_show = 0
+let g:reek_on_loading = 0
+
+" NOTES:
+" * \zs is basically a zero-width lookbehind assertion;
+"   it eats spaces before the comma/colon/whatever.
+"   See: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" * l0c1 is a format specifier that says
+"   "left, then zero spaces, then [delimiter], then 1 space"
+"   See: https://raw.github.com/godlygeek/tabular/master/doc/Tabular.txt
+nmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
+vmap <Leader>a: :Tabularize/:\zs /l0c0<CR>
+nmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
+vmap <Leader>a, :Tabularize/,\zs/l0c1<CR>
+nmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
+vmap <Leader>ato :Tabularize/).to\(_not\)\?<CR>:Tabularize/expect(<CR>
+nmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
+vmap <Leader>a( :Tabularize/(\zs/l0c1<CR>:Tabularize/)/l1c0<CR>
+nmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
+vmap <Leader>a[ :Tabularize/[\zs/l0c1<CR>:Tabularize/]/l1c0<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OpenChangedFiles COMMAND
@@ -393,16 +456,18 @@ endfunction
 
 nnoremap <leader>f :call SelectaFile(".")<cr>
 nnoremap <leader>ga :call SelectaFile("api")<cr>
-nnoremap <leader>gt :call SelectaFile("api/templates")<cr>
 nnoremap <leader>gv :call SelectaFile("app/views")<cr>
 nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
 nnoremap <leader>gm :call SelectaFile("app/models")<cr>
 nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
 nnoremap <leader>gs :call SelectaFile("app/services")<cr>
 nnoremap <leader>gj :call SelectaFile("app/frontend/javascripts")<cr>
+nnoremap <leader>gw :call SelectaFile("app/jobs app/workers")<cr>
 nnoremap <leader>gl :call SelectaFile("lib")<cr>
+nnoremap <leader>gt :call SelectaFile("spec")<cr>
 nnoremap <leader>gp :call SelectaFile("public")<cr>
 nnoremap <leader>gf :call SelectaFile("features")<cr>
+nnoremap <leader>gr :call SelectaFile("config")<cr>
 
 "Fuzzy select
 function! SelectaIdentifier()
@@ -444,7 +509,7 @@ let g:rails_projections = {
   \  },
   \  "app/queries/*_query.rb": {
   \    "command":   "query",
-  \    "alternate": "app/models/%i.rb",
+  \    "alertnate": "spec/queries/%i_spec.rb",
   \    "related":   "db/schema.rb#%s",
   \    "test":      "spec/queries/%i_spec.rb",
   \    "template":  "class %SQuery\nend",
