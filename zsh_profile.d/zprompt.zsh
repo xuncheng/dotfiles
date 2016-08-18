@@ -16,7 +16,7 @@ _git_prompt_info() {
 
 _git_status() {
   git_status=$(cat "/tmp/git-status-$$")
-  if [ -n "$(echo $git_status | grep "nothing to commit, working directory clean")" ]; then
+  if [ -n "$(echo $git_status | grep "nothing to commit, working tree clean")" ]; then
     echo "unchanged"
   else
     echo "changed"
@@ -49,7 +49,7 @@ _default_color() {
 }
 
 _user_name() {
-  if [ $USER != "xuncheng" ]; then
+  if [ $USER != "wxuncheng" ]; then
     echo "$USER "
   fi
 }
