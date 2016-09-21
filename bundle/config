@@ -2,3 +2,4 @@
 BUNDLE_BUILD__LIBV8: "--with-system-v8"
 BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"
 BUNDLE_MIRROR__HTTPS://RUBYGEMS__ORG/: https://gems.ruby-china.org
+BUNDLE_JOBS: '8'
