@@ -84,7 +84,7 @@ set splitright
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
   set linespace=1
-  set guifont=Monaco\ for\ Powerline:h14
+  set guifont=Monaco\ for\ Powerline:h16
 endif
 
 " Normally, Vim messes with iskeyword when you open a shell file. This can
@@ -409,13 +409,6 @@ command! OpenChangedFiles :call OpenChangedFiles()
 command! InsertTime :normal a<c-r>=strftime('%F %H:%M:%S.0 %z')<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Diff tab management: open the current git diff in a tab
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! GdiffInTab tabedit %|vsplit|Gdiff
-nnoremap <leader>d :GdiffInTab<cr>
-nnoremap <leader>D :tabclose<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RemoveFancyCharacters COMMAND
 " Remove smart quotes, etc.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -465,7 +458,7 @@ nnoremap <leader>gj :call SelectaFile("app/frontend/javascripts")<cr>
 nnoremap <leader>gw :call SelectaFile("app/jobs app/workers")<cr>
 nnoremap <leader>gl :call SelectaFile("lib")<cr>
 nnoremap <leader>gt :call SelectaFile("spec")<cr>
-nnoremap <leader>gp :call SelectaFile("public")<cr>
+nnoremap <leader>gp :call SelectaFile("app/policies")<cr>
 nnoremap <leader>gf :call SelectaFile("features")<cr>
 nnoremap <leader>gr :call SelectaFile("config")<cr>
 
