@@ -1,5 +1,5 @@
-export NVM_PATH="${HOME}/.nvm"
-source "$(brew --prefix nvm)/nvm.sh" # Load NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Calling `nvm use` automatically in a directory with a `.nvmrc` file
 autoload -U add-zsh-hook
