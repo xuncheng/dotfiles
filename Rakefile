@@ -21,6 +21,11 @@ class Installer
       File.unlink(link)
     end
   end
+
+  def merge(source_file, target_file)
+    %x(cat #{source_file} >> #{target_file})
+    puts "Merging #{source_file} => #{target_file}"
+  end
 end
 
 def pwd; File.dirname(__FILE__); end
@@ -35,6 +40,7 @@ task :install do
   files.each do |file|
     Installer.new.symlink(File.join(pwd, file), target_path(file))
   end
+  Installer.new.merge(File.join(pwd, 'zshrc'), target_path('zshrc'))
 end
 
 desc "Remove all dotfiles"

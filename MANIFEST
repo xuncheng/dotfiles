@@ -6,7 +6,6 @@ bundle
 gemrc
 gitconfig
 githelpers
-gitignore
 gitignore_global
 gitmessage
 npmrc
@@ -16,6 +15,5 @@ tmux.conf
 vimrc
 vimrc.bundles
 vim
-zshrc
 zsh_profile.d
 zshenv
