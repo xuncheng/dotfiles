@@ -4,7 +4,7 @@ tap 'homebrew/services'
 
 # Unix
 brew 'ctags'
-brew 'git'
+brew 'git', args: ['without-completions']
 brew 'openssl'
 brew 'proxychains-ng'
 brew 'reattach-to-user-namespace'
