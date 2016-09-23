@@ -107,10 +107,10 @@ install_dotfiles() {
 }
 
 install_vim_plugins() {
-  if [ ! -d "$HOME/.vim/bundle/vundle" ]; then
+  if ! command -v vundle >/dev/null && [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]; then
     fancy_echo "Installing vim plugins ..."
-    git clone git@github.com:gmarik/Vundle.vim.git ~/.vim/bundle/vundle
-    vundle
+    git clone git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
   fi
 }
 

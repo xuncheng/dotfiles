@@ -1,12 +1,12 @@
 filetype off
 
 " Declare bundles are handled via vundle
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 " Let vundle manage vundle
 " Required!
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " Define bundles via Github repos
 Plugin 'cakebaker/scss-syntax.vim'
