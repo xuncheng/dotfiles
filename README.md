@@ -4,8 +4,6 @@ Xuncheng's dotfiles
 Requirements
 ------------
 
-We support:
-
 * macOS Sierra (10.12)
 
 Older versions may work but aren't regularly tested. Bug reports for older
@@ -18,7 +16,11 @@ Clone and install the dofiles:
 
     git clone git@github.com:xuncheng/dotfiles.git ~/.dotfiles
     cd ~/.dotfiles
+    # export https_proxy=host:port
     ./install.sh
+
+    # Manual copy `zshrc` to `$HOME/.zshrc`
+    cat zshrc << $HOME/.zshrc
 
 What it sets up
 ---------------
