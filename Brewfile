@@ -18,11 +18,12 @@ brew 'vim'
 brew "imagemagick"
 
 # Testing
-brew "qt"
+# This formula either does not compile or function as expected on macOS
+# versions newer than El Capitan due to an upstream incompatibility.
+# brew "qt"
 
 # Programming languages
 brew "libyaml" # should come after openssl
-brew "nvm"
 brew "rbenv"
 brew "ruby-build"
 

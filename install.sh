@@ -65,7 +65,6 @@ update_homebrew_formulaes() {
   brew bundle
 }
 
-
 install_ruby() {
   fancy_echo "Configuring Ruby ..."
   find_latest_ruby() {
@@ -88,15 +87,18 @@ install_ruby() {
 }
 
 install_node() {
-  fancy_echo "Configuring Node ..."
-  nvm install stable
-  nvm alias default stable
-  # shellcheck disable=SC1090
-  . "$(brew --prefix nvm)/nvm.sh"
-  # shellcheck disable=SC2016
-  append_to_zshrc 'export NVM_DIR="$HOME/.nvm"' 1
-  # shellcheck disable=SC2016
-  append_to_zshrc '. "$(brew --prefix nvm)/nvm.sh # This loads nvm"' 1
+  if ! command -v nvm >/dev/null; then
+    fancy_echo "Installing NVM ..."
+      curl -fsS \
+        'https://raw.githubusercontent.com/creationix/nvm/master/install.sh' | bash
+
+      # TODO: install node failed!
+      # fancy_echo "Configuring Node ..."
+      # # shellcheck disable=SC1090
+      # [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
+      # nvm install stable
+      # nvm alias default stable
+  fi
 }
 
 install_dotfiles() {
