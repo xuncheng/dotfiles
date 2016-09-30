@@ -14,10 +14,14 @@ Install
 
 Clone and install the dofiles:
 
+    # Set proxy
+    # export https_proxy=host:port
     git clone git@github.com:xuncheng/dotfiles.git ~/.dotfiles
     cd ~/.dotfiles
-    # export https_proxy=host:port
-    ./install.sh
+
+    # Set up [Vundle](https://github.com/VundleVim/Vundle.vim):
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
 
     # Manual copy `zshrc` to `$HOME/.zshrc`
     cat zshrc << $HOME/.zshrc
