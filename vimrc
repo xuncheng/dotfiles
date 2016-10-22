@@ -327,7 +327,7 @@ nnoremap <leader>fu :CtrlPFunky<cr>
 " vim-airline Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Add buffer tabs on top.
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 " Use Powerline symbols and replace the separator symbols
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#left_sep = ' '
