@@ -13,7 +13,7 @@ proxychains
 rspec
 tmux.conf
 vimrc
-vimrc.bundles
+vimrc.plugs
 vim
 zsh_profile.d
 zshenv

@@ -19,9 +19,8 @@ Clone and install the dofiles:
     git clone git@github.com:xuncheng/dotfiles.git ~/.dotfiles
     cd ~/.dotfiles
 
-    # Set up [Vundle](https://github.com/VundleVim/Vundle.vim):
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    vim +PluginInstall +qall
+    # Install vim plugins
+    vim +PlugInstall +qall
 
     # Manual copy `zshrc` to `$HOME/.zshrc`
     cat zshrc << $HOME/.zshrc

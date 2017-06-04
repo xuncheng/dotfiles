@@ -1,0 +1,46 @@
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'mileszs/ack.vim'
+Plug 'mattn/emmet-vim'
+Plug 'godlygeek/tabular'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vividchalk'
+Plug 'herrbischoff/cobalt2.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kana/vim-textobj-user'
+
+Plug 'scrooloose/nerdtree',            { 'on':  'NERDTree' }
+
+Plug 'posva/vim-vue',                  { 'for': 'vue' }
+Plug 'tpope/vim-jdaddy',               { 'for': 'json' }
+Plug 'junegunn/goyo.vim',              { 'for': 'markdown' }
+Plug 'elixir-lang/vim-elixir',         { 'for': 'elixir' }
+Plug 'kylef/apiblueprint.vim',         { 'for': 'apiblueprint' }
+Plug 'kchmck/vim-coffee-script',       { 'for': 'coffeescript' }
+Plug 'cakebaker/scss-syntax.vim',      { 'for': ['scss', 'sass'] }
+Plug 'dearrrfish/vim-applescript',     { 'for': 'applescript' }
+
+Plug 'tpope/vim-rails',                { 'for': 'ruby' }
+Plug 'ngmy/vim-rubocop',               { 'for': 'ruby' }
+Plug 'vim-ruby/vim-ruby',              { 'for': 'ruby' }
+Plug 'jgdavey/vim-blockle',            { 'for': 'ruby' }
+Plug 'thoughtbot/vim-rspec',           { 'for': 'ruby' }
+Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
+
+" Initialize plugin system
+call plug#end()

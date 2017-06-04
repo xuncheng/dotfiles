@@ -4,10 +4,10 @@
 autocmd!
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vundle Initialization
+" Vim-Plug Initialization
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
+if filereadable(expand("~/.vimrc.plugs"))
+  source ~/.vimrc.plugs
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
