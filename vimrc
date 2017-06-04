@@ -122,6 +122,7 @@ augroup vimrcEx
 
   " For API Blueprint, autoindent with four spaces
   autocmd FileType apiblueprint setlocal sw=4 sts=4 et
+  autocmd FileType applescript setlocal sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
   autocmd! BufRead,BufNewFile *.jbuilder setfiletype ruby
@@ -143,32 +144,6 @@ augroup vimrcEx
   " *.md is markdown
   autocmd! BufNewFile,BufRead *.md setlocal ft=
 augroup END
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  let g:ackprg = 'ag --vimgrep'
-
-  cnoreabbrev ag Ack
-  cnoreabbrev aG Ack
-  cnoreabbrev Ag Ack
-  cnoreabbrev AG Ack
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-
-  nnoremap <Leader>ag :Ack<CR>
-endif
-
-" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
@@ -260,20 +235,20 @@ endfunction
 " EXTRACT VARIABLE (SKETCHY)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ExtractVariable()
-    let name = input("Variable name: ")
-    if name == ''
-        return
-    endif
-    " Enter visual mode (not sure why this is needed since we're already in
-    " visual mode anyway)
-    normal! gv
+  let name = input("Variable name: ")
+  if name == ''
+      return
+  endif
+  " Enter visual mode (not sure why this is needed since we're already in
+  " visual mode anyway)
+  normal! gv
 
-    " Replace selected text with the variable name
-    exec "normal c" . name
-    " Define the variable on the line above
-    exec "normal! O" . name . " = "
-    " Paste the original selected text to be the variable value
-    normal! $p
+  " Replace selected text with the variable name
+  exec "normal c" . name
+  " Define the variable on the line above
+  exec "normal! O" . name . " = "
+  " Paste the original selected text to be the variable value
+  normal! $p
 endfunction
 vnoremap <leader>rv :call ExtractVariable()<cr>
 
@@ -281,28 +256,56 @@ vnoremap <leader>rv :call ExtractVariable()<cr>
 " INLINE VARIABLE (SKETCHY)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! InlineVariable()
-    " Copy the variable under the cursor into the 'a' register
-    :let l:tmp_a = @a
-    :normal "ayiw
-    " Delete variable and equals sign
-    :normal 2daW
-    " Delete the expression into the 'b' register
-    :let l:tmp_b = @b
-    :normal "bd$
-    " Delete the remnants of the line
-    :normal dd
-    " Go to the end of the previous line so we can start our search for the
-    " usage of the variable to replace. Doing '0' instead of 'k$' doesn't
-    " work; I'm not sure why.
-    normal k$
-    " Find the next occurence of the variable
-    exec '/\<' . @a . '\>'
-    " Replace that occurence with the text we yanked
-    exec ':.s/\<' . @a . '\>/' . escape(@b, "/")
-    :let @a = l:tmp_a
-    :let @b = l:tmp_b
+  " Copy the variable under the cursor into the 'a' register
+  :let l:tmp_a = @a
+  :normal "ayiw
+  " Delete variable and equals sign
+  :normal 2daW
+  " Delete the expression into the 'b' register
+  :let l:tmp_b = @b
+  :normal "bd$
+  " Delete the remnants of the line
+  :normal dd
+  " Go to the end of the previous line so we can start our search for the
+  " usage of the variable to replace. Doing '0' instead of 'k$' doesn't
+  " work; I'm not sure why.
+  normal k$
+  " Find the next occurence of the variable
+  exec '/\<' . @a . '\>'
+  " Replace that occurence with the text we yanked
+  exec ':.s/\<' . @a . '\>/' . escape(@b, "/")
+  :let @a = l:tmp_a
+  :let @b = l:tmp_b
 endfunction
 nnoremap <leader>ri :call InlineVariable()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  let g:ackprg = 'ag --vimgrep'
+
+  cnoreabbrev ag Ack
+  cnoreabbrev aG Ack
+  cnoreabbrev Ag Ack
+  cnoreabbrev AG Ack
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+
+  nnoremap <Leader>ag :Ack<CR>
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CTags Configuration, exclude Javascript files
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RSpec.vim Configuration, https://github.com/thoughtbot/vim-rspec
@@ -363,12 +366,6 @@ vmap <Leader>a; :Tabularize/;<CR>
 nmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
 vmap <Leader>a{ :Tabularize/{<CR>:Tabularize/}<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" reek.vim Configuration
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:reek_always_show = 0
-let g:reek_on_loading = 0
-
 " NOTES:
 " * \zs is basically a zero-width lookbehind assertion;
 "   it eats spaces before the comma/colon/whatever.
@@ -426,6 +423,12 @@ endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Add the pry debug line with \bp (or <Space>bp, if you did: map <Space> <Leader> )
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <Leader>vbp o<%= require'pry';binding.pry %><esc>:w<cr>
+map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Selecta Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Run a given vim command on the results of fuzzy selecting from a given shell
@@ -473,15 +476,14 @@ endfunction
 nnoremap <c-g> :call SelectaIdentifier()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Add the pry debug line with \bp (or <Space>bp, if you did: map <Space> <Leader> )
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <Leader>vbp o<%= require'pry';binding.pry %><esc>:w<cr>
-map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Rails.vim Configuration, https://github.com/tpope/vim-rails
+"
+" Add :Eservice command for app/services/*.rb
+" Add :Eserializer command for app/serializers/*.rb
 " Add :Equery command for app/queries/*.rb
 " Add :Efactory command for spec/factories/*.rb
 " Add :Epresenter command for app/presenters/*.rb
+" Add :Epolicy command for app/policies/*.rb
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rails_projections = {
   \  "app/services/*_service.rb": {
