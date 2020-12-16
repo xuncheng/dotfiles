@@ -81,11 +81,6 @@ set numberwidth=5
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-if has("gui_running")
-  set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
-  set linespace=1
-  set guifont=Monaco\ for\ Powerline:h16
-endif
 
 " Normally, Vim messes with iskeyword when you open a shell file. This can
 " leak out, polluting other file types even after a 'set ft=' change. This
@@ -161,6 +156,9 @@ augroup END
 :color grb24bit
 
 if has("gui_running")
+  set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
+  set linespace=1
+  set guifont=Dank\ Mono:h18
   :color cobalt2
 endif
 
@@ -288,7 +286,20 @@ endfunction
 nnoremap <leader>ri :call InlineVariable()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+" CtrlP Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|svn))$'
+let g:ctrlp_user_command  = 'find %s -type f'
+let g:ctrlp_use_caching   = 0
+let g:ctrlp_extensions    = ['funky']
+nnoremap <leader>fu :CtrlPFunky<cr>
+noremap <leader>fm :CtrlP ./app/models/<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use The Silver Searcher
+" https://github.com/ggreer/the_silver_searcher
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
   " Use Ag over Grep
@@ -316,23 +327,14 @@ endif
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RSpec.vim Configuration, https://github.com/thoughtbot/vim-rspec
+" RSpec.vim Configuration
+" https://github.com/thoughtbot/vim-rspec
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rspec_runner = "os_x_iterm2"
 let g:rspec_command = "!bin/rspec {spec}"
 nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :call RunNearestSpec()<CR>
 nnoremap <Leader>l :call RunLastSpec()<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CtrlP Configuration
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_user_command  = 'find %s -type f'
-let g:ctrlp_use_caching   = 0
-let g:ctrlp_extensions    = ['funky']
-nnoremap <leader>fu :CtrlPFunky<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-airline Configuration
@@ -435,6 +437,13 @@ command! RemoveFancyCharacters :call RemoveFancyCharacters()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Leader>vbp o<%= require'pry';binding.pry %><esc>:w<cr>
 map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ALE Configuration
+" https://github.com/dense-analysis/ale
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_fix_on_save = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Selecta Mappings
