@@ -11,3 +11,5 @@ tags
 tmp/**/*
 !tmp/cache/.keep
 zeus.json
+node_modules/
+.vscode

@@ -46,7 +46,7 @@
   pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
 [core]
   editor = vim
-	excludesfile = /Users/xuncheng/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	quotepath = false
 [credential]
   helper = osxkeychain
@@ -62,8 +62,9 @@
 [github]
   user = xuncheng
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
 	required = true
-[diff]
-	compactionHeuristic = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[pull]
+	rebase = false
