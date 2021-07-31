@@ -25,6 +25,11 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kana/vim-textobj-user'
 Plug 'haishanh/night-owl.vim'
 
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim'
+Plug 'jonathanfilip/vim-lucius'
+
 Plug 'scrooloose/nerdtree',            { 'on':  'NERDTree' }
 
 Plug 'posva/vim-vue',                  { 'for': 'vue' }
@@ -43,6 +48,8 @@ Plug 'vim-ruby/vim-ruby',              { 'for': 'ruby' }
 Plug 'jgdavey/vim-blockle',            { 'for': 'ruby' }
 Plug 'thoughtbot/vim-rspec',           { 'for': 'ruby' }
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
+
+Plug 'fatih/vim-go',                   { 'do': ':GoUpdateBinaries' }
 
 " Initialize plugin system
 call plug#end()

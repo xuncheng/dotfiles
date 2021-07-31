@@ -15,5 +15,6 @@ tmux.conf
 vimrc
 vimrc.plugs
 vim
+vim.d
 zsh_profile.d
 zshenv
