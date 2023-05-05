@@ -1,0 +1,38 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- create:
+    - ~/.config
+
+- clean: ["~"]
+
+- link:
+    ~/.dotfiles: ""
+    ~/.bin: bin
+    ~/.bundle: bundle
+    ~/.vim: vim
+    ~/.vimrc: vimrc
+    ~/.ackrc: ackrc
+    ~/.agignore: agignore
+    ~/.gemrc: gemrc
+    ~/.npmrc: npmrc
+    ~/.rspec: rspec
+    ~/.tmux.conf: tmux.conf
+    ~/.gitconfig: git/.gitconfig
+    ~/.githelpers: git/.githelpers
+    ~/.gitignore_global: git/.gitignore_global
+    ~/.gitmessage: git/.gitmessage
+    ~/.zshenv: .config/zsh/.zshenv
+    ~/.config/zsh: .config/zsh
+    ~/.config/nvim: .config/nvim
+    ~/.config/kitty:
+      force: true
+      path: .config/kitty
+    ~/.Brewfile:
+      if: "[ `uname` = Darwin ]"
+      path: macos/Brewfile
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]

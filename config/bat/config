@@ -1,0 +1,5 @@
+#  Run `bat --list-themes` for examples
+--theme="TwoDark"
+
+--italic-text=always
+
