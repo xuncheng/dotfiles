@@ -1,0 +1,40 @@
+# Unix
+alias ...='cd ../..'
+alias ack='ag --color-match=31'
+alias ag='ag --color-match=31'
+alias c='colorize'
+alias cls='clear'
+alias killruby='killall -9 ruby'
+alias ls='ls -G'
+alias l='ls -lFh'
+alias ll='ls -l'
+alias ldot='ls -ld .*'
+alias lS='ls -1FSsh'
+alias lart='ls -1Fcart'
+alias lrt='ls -1Fcrt'
+alias mkdir='mkdir -p'
+alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
+alias t='tail -f'
+alias vi='vim'
+alias so='source ~/.dotfiles/zshrc'
+alias gfw='proxychains4'
+alias ssg='ssh deployer@luxor.jianshu.io'
+alias spr='ssh deployer@newyork.jianshu.io'
+alias cleanup='find . -type d -empty -delete'
+
+# Ruby/Rails
+# alias be='bundle exec'
+# alias fs='foreman start'
+# alias rc='rails console'
+# alias rs='bundle install && rails server -p 3000 -b 0.0.0.0'
+# alias rg='rails generate'
+# alias rgm='rails generate migration'
+# alias rrg='rake routes | ack'
+# alias ss='spring stop'
+# alias sidekiq='bundle exec sidekiq -e development -C ./config/sidekiq.yml'
+
+# alias railstips='subl ~/Dropbox/Documents/rails-tips.txt'
+
+alias gv='gh repo view -w'
+alias python=/opt/homebrew/bin/python3
+
