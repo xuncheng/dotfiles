@@ -4,7 +4,5 @@
 
 vim.g.mapleader = ","
 
--- vim.opt.relativenumber = false
--- vim.opt.clipboard = 'unnamedplus'
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.clipboard = "" -- 'unnamedplus'
+vim.opt.relativenumber = false

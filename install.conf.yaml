@@ -24,12 +24,13 @@
     ~/.githelpers: git/.githelpers
     ~/.gitignore_global: git/.gitignore_global
     ~/.gitmessage: git/.gitmessage
-    ~/.zshenv: .config/zsh/.zshenv
-    ~/.config/zsh: .config/zsh
-    ~/.config/nvim: .config/nvim
+    ~/.zshenv: config/zsh/.zshenv
+    ~/.config/zsh: config/zsh
+    ~/.config/nvim: config/nvim
+    ~/.config/tmux: config/tmux
     ~/.config/kitty:
       force: true
-      path: .config/kitty
+      path: config/kitty
     ~/.Brewfile:
       if: "[ `uname` = Darwin ]"
       path: macos/Brewfile

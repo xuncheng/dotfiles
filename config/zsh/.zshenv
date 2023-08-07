@@ -19,7 +19,6 @@ export LC_ALL=en_GB.UTF-8
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
 export ZSH_HISTORY_PATH=$HOME/.zsh_history
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 
 export CLICOLOR=1 # enable color support for ls.
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -28,6 +27,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
+export DROPBOX_DIR=${HOME}/Dropbox
 export DOTFILES=${HOME}/.dotfiles
 
 # @see: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
