@@ -1,9 +1,32 @@
+alias ez="${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc"
+alias et="${=EDITOR} ${XDG_CONFIG_HOME}/tmux/tmux.conf"
+alias grep='grep --color'
+alias x="exit"
+alias del="rm -rf"
+alias md="mkdir -p"
+alias dots="cd $DOTFILES"
+alias cl='clear'
+alias src="exec $SHELL"
+
+#-------------------------------------------------------------------------------
+#  NEOVIM
+#-------------------------------------------------------------------------------
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+
+#-------------------------------------------------------------------------------
+#  APP ALIASES
+#-------------------------------------------------------------------------------
+(( $+commands[bat] )) && alias cat='bat'
+(( $+commands[kitty] )) && alias icat="kitty +kitten icat"
+(( $+commands[kitty] )) && alias kitty-icon="$DOTFILES/macos/kitty-icon.zsh"
+
 # Unix
 alias ...='cd ../..'
 alias ack='ag --color-match=31'
 alias ag='ag --color-match=31'
 alias c='colorize'
-alias cls='clear'
 alias killruby='killall -9 ruby'
 alias ls='ls -G'
 alias l='ls -lFh'
@@ -12,14 +35,8 @@ alias ldot='ls -ld .*'
 alias lS='ls -1FSsh'
 alias lart='ls -1Fcart'
 alias lrt='ls -1Fcrt'
-alias mkdir='mkdir -p'
 alias retag='ctags -R --exclude=.svn --exclude=.git --exclude=log --exclude=tmp *'
 alias t='tail -f'
-alias vi='vim'
-alias so='source ~/.dotfiles/zshrc'
-alias gfw='proxychains4'
-alias ssg='ssh deployer@luxor.jianshu.io'
-alias spr='ssh deployer@newyork.jianshu.io'
 alias cleanup='find . -type d -empty -delete'
 
 # Ruby/Rails

@@ -3,5 +3,6 @@
 vim/plugged
 bundle/cache
 .zsh_history
+.zsh_sessions
 .zcompdump
 .zcompcache

@@ -4,6 +4,7 @@ return {
   { "goolord/alpha-nvim", enabled = false },
   {
     "akinsho/bufferline.nvim",
+    enabled = false,
     opts = {
       options = {
         show_buffer_close_icons = false,
@@ -196,10 +197,17 @@ return {
     end,
   },
   {
+    "kylechui/nvim-surround",
+    version = "*",
+    keys = { { "s", mode = "v" }, "<C-g>s", "<C-g>S", "ys", "yss", "yS", "cs", "ds" },
+    opts = { move_cursor = true, keymaps = { visual = "s" } },
+  },
+  { "tpope/vim-repeat", event = "VeryLazy" },
+  { "xiyaowong/transparent.nvim" },
+  {
     "rose-pine/neovim",
     name = "rose-pine",
   },
-  { "xiyaowong/transparent.nvim" },
   {
     "NTBBloodbath/doom-one.nvim",
     init = function()

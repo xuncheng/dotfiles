@@ -51,13 +51,13 @@ return {
       local lsp_kinds = as.ui.lsp.highlights
 
       require("neo-tree").setup({
-        sources = { "filesystem", "diagnostics", "document_symbols" },
+        sources = { "filesystem", "diagnostics", "buffers" },
         source_selector = {
           winbar = true,
           separator_active = "",
           sources = {
             { source = "filesystem" },
-            { source = "document_symbols" },
+            { source = "buffers" },
             { source = "diagnostics", display_name = (" %s Diagnostics "):format("") },
           },
         },
@@ -66,26 +66,26 @@ return {
         nesting_rules = {
           ["dart"] = { "freezed.dart", "g.dart" },
         },
-        event_handlers = {
-          {
-            event = "neo_tree_buffer_enter",
-            handler = function()
-              highlight.set("Cursor", { blend = 100 })
-            end,
-          },
-          {
-            event = "neo_tree_buffer_leave",
-            handler = function()
-              highlight.set("Cursor", { blend = 0 })
-            end,
-          },
-          {
-            event = "neo_tree_window_after_close",
-            handler = function()
-              highlight.set("Cursor", { blend = 0 })
-            end,
-          },
-        },
+        -- event_handlers = {
+        --   {
+        --     event = "neo_tree_buffer_enter",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 100 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_buffer_leave",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 0 })
+        --     end,
+        --   },
+        --   {
+        --     event = "neo_tree_window_after_close",
+        --     handler = function()
+        --       highlight.set("Cursor", { blend = 0 })
+        --     end,
+        --   },
+        -- },
         filesystem = {
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
@@ -110,7 +110,7 @@ return {
             folder_open = "",
           },
           name = {
-            highlight_opened_files = true,
+            highlight_opened_files = false,
           },
           document_symbols = {
             follow_cursor = true,
