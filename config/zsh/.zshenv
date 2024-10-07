@@ -27,6 +27,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
+export WORK_DIR=${HOME}/code/work
 export DROPBOX_DIR=${HOME}/Dropbox
 export DOTFILES=${HOME}/.dotfiles
 
@@ -45,6 +46,9 @@ fi
 #
 # NOTE: for signing commits with GPG
 export GPG_TTY=$(tty)
+
+# load work .env file
+# set -a; source "${WORK_DIR}/.env"; set +a
 
 path+=(
   /usr/local/bin

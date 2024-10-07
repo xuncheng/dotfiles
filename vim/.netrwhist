@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/Users/xuncheng/code/backup/work/maleskine'
 let g:netrw_dirhist_3='/Users/xuncheng/code/work/chiwushe/admin/functions/admin-deliver-gift'
 let g:netrw_dirhist_2='/Users/xuncheng/Developer/work/esports-online/admin'
 let g:netrw_dirhist_1='/Users/xuncheng/code/backup/work/maleskine/app/services/access_auth'
