@@ -23,3 +23,6 @@ path=(
 )
 
 export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
+
+# Added by `rbenv init` on Wed  7 Aug 2024 14:45:54 CST
+eval "$(rbenv init - --no-rehash zsh)"
