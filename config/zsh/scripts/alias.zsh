@@ -55,3 +55,9 @@ alias cleanup='find . -type d -empty -delete'
 alias gv='gh repo view -w'
 alias python=/opt/homebrew/bin/python3
 
+# yarn install && avoid node_modules to sync with iCloud
+alias ynm='yarn install --modules-folder ./node_modules.nosync && ln -s node_modules.nosync node_modules'
+
+# delete node_modules folders recursively
+alias rnm='find . -name "node_modules" -type d -prune | xargs du -chs'
+alias dnm='find . -name "node_modules" -type d -prune -exec rm -rf "{}" +'
