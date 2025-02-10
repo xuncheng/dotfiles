@@ -31,6 +31,9 @@
     ~/.config/kitty:
       force: true
       path: config/kitty
+    ~/.config/vscode:
+      force: true
+      path: config/vscode
     ~/.Brewfile:
       if: "[ `uname` = Darwin ]"
       path: macos/Brewfile
