@@ -21,11 +21,12 @@ function RenameFile()
 end
 vim.keymap.set("n", "<leader>n", "<cmd>lua RenameFile()<CR>", {})
 
-local Util = require("lazyvim.util")
-vim.keymap.set("n", "<leader>t", function()
-  Util.float_term(nil, { border = "rounded", size = { width = 1, height = 0.8 } })
-end, { desc = "Terminal (cwd)" })
+-- local Util = require("lazyvim.util")
+-- vim.keymap.set("n", "<leader>t", function()
+--   Util.float_term(nil, { border = "rounded", size = { width = 1, height = 0.8 } })
+-- end, { desc = "Terminal (cwd)" })
 
+-- https://github.com/LazyVim/LazyVim/discussions/4109
 vim.keymap.set("n", "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>")
 vim.keymap.set("n", "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>")
 vim.keymap.set("n", "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>")
