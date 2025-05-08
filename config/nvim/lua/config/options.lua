@@ -4,6 +4,7 @@
 
 vim.g.mapleader = ","
 
+vim.opt.background = "dark"
 vim.opt.clipboard = "" -- 'unnamedplus'
 vim.opt.relativenumber = false
 
