@@ -14,6 +14,16 @@ return {
             },
           },
         },
+        vtsls = {
+          settings = {
+            javascript = {
+              suggestionActions = { enabled = false },
+            },
+            typescript = {
+              suggestionActions = { enabled = false },
+            },
+          },
+        },
       },
     },
   },
