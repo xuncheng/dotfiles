@@ -32,12 +32,12 @@ export DROPBOX_DIR=${HOME}/Dropbox
 export DOTFILES=${HOME}/.dotfiles
 
 # @see: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
-if which rg >/dev/null; then
+if (( $+commands[rg] )); then
   export RIPGREP_CONFIG_PATH=${DOTFILES}/config/rg/.ripgreprc
 fi
 
 # @see: https://github.com/sharkdp/bat#configuration-file
-if which bat >/dev/null; then
+if (( $+commands[bat] )); then
   export BAT_CONFIG_PATH=${DOTFILES}/config/bat/config
 fi
 

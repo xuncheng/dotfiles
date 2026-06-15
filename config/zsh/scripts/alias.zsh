@@ -24,8 +24,6 @@ alias vim='nvim'
 
 # Unix
 alias ...='cd ../..'
-alias ack='ag --color-match=31'
-alias ag='ag --color-match=31'
 alias c='colorize'
 alias killruby='killall -9 ruby'
 alias ls='ls -G'

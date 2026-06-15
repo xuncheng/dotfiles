@@ -1,33 +1,36 @@
-tap "elastic/tap"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
-tap "homebrew/services"
-tap "zurawiki/brews"
-
-brew "bat"
-brew "openssl@1.1"
-brew "ctags"
-brew "fd"
-brew "harfbuzz"
-brew "pango"
-brew "fontforge"
+# Core Unix
 brew "gh"
-brew "imagemagick"
-brew "lazygit"
-brew "neovim"
-brew "pure"
-brew "python@3.10"
-brew "reattach-to-user-namespace"
-brew "redis", restart_service: true
-brew "ripgrep"
-brew "ruby"
-brew "selecta"
-brew "the_silver_searcher"
 brew "tmux"
 brew "tree"
-brew "vim"
 brew "wget"
-brew "yarn"
+brew "ctags"
+
+# Modern CLI tools
+brew "bat"
+brew "fd"
+brew "fzf"
+brew "ripgrep"
+brew "lazygit"
+
+# Shell
 brew "zsh"
 brew "zsh-syntax-highlighting"
+
+# Editor: Neovim + LazyVim deps
+brew "neovim"
+brew "vim"
+brew "luarocks"
+brew "stylua"
+
+# Languages / runtimes
+brew "ruby"
+brew "python@3.13"
+brew "yarn"
+brew "libyaml"
+
+# Services
+brew "redis", restart_service: true
+
+# Apps
+cask "kitty"
+cask "ngrok"
