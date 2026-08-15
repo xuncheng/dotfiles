@@ -3,7 +3,6 @@ brew "gh"
 brew "tmux"
 brew "tree"
 brew "wget"
-brew "ctags"
 
 # Modern CLI tools
 brew "bat"
@@ -12,8 +11,7 @@ brew "fzf"
 brew "ripgrep"
 brew "lazygit"
 
-# Shell
-brew "zsh"
+# Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"
 
 # Editor: Neovim + LazyVim deps
@@ -33,4 +31,3 @@ brew "redis", restart_service: true
 
 # Apps
 cask "kitty"
-cask "ngrok"
