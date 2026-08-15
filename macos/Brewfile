@@ -18,6 +18,7 @@ brew "shellcheck"
 
 # Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"
+brew "zsh-autosuggestions"
 
 # Editor: Neovim + LazyVim deps
 brew "neovim"
