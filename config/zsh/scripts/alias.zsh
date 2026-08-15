@@ -52,7 +52,9 @@ alias cleanup='find . -type d -empty -delete'
 # alias railstips='subl ~/Dropbox/Documents/rails-tips.txt'
 
 alias gv='gh repo view -w'
-alias python=/opt/homebrew/bin/python3
+# Homebrew's python formula only provides `python3`; resolve via PATH so the
+# alias follows whichever version is installed rather than a hardcoded path.
+(( $+commands[python3] )) && alias python='python3'
 
 # yarn install && avoid node_modules to sync with iCloud
 alias ynm='yarn install --modules-folder ./node_modules.nosync && ln -s node_modules.nosync node_modules'
