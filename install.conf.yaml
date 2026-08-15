@@ -5,6 +5,9 @@
 
 - create:
     - ~/.config
+    # Claude Code keeps local state (sessions, projects, history) alongside its
+    # settings, so the directory itself is not linked — only settings.json is.
+    - ~/.claude
 
 - clean: ["~"]
 
@@ -18,6 +21,7 @@
     ~/.gitignore_global: git/.gitignore_global
     ~/.gitmessage: git/.gitmessage
     ~/.zshenv: config/zsh/.zshenv
+    ~/.claude/settings.json: claude/settings.json
     ~/.config/zsh: config/zsh
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
