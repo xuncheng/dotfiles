@@ -6,10 +6,15 @@ brew "wget"
 
 # Modern CLI tools
 brew "bat"
+brew "eza"
 brew "fd"
 brew "fzf"
 brew "ripgrep"
 brew "lazygit"
+brew "git-delta"
+brew "jq"
+brew "httpie"
+brew "shellcheck"
 
 # Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"
