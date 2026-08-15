@@ -15,11 +15,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Prepend to PATH
 export BREW_PREFIX="$(brew --prefix)"
 path=(
-  "$BREW_PREFIX/opt/ruby/bin"
-  "$BREW_PREFIX/lib/ruby/gems/3.0.0/bin"
-  # NOTE: Add coreutils which make commands like ls run as they do on Linux rather than the BSD flavoured variant macos ships with
-  "$BREW_PREFIX/opt/coreutils/libexec/gnubin"
+  # Glob qualifiers match .zshenv: (N-/) skips the entry when ruby is not
+  # installed instead of leaving a dead directory on PATH, and (Nn[-1]-/) picks
+  # the highest installed gems version rather than pinning one.
+  "$BREW_PREFIX"/opt/ruby/bin(N-/)
+  "$BREW_PREFIX"/lib/ruby/gems/*/bin(Nn[-1]-/)
   $path
 )
-
-export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
