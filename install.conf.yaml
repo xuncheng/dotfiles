@@ -22,6 +22,8 @@
     ~/.gitmessage: git/.gitmessage
     ~/.zshenv: config/zsh/.zshenv
     ~/.claude/settings.json: claude/settings.json
+    ~/.claude/rules/common: claude/rules
+    ~/.claude/rules/uchiwu: dotfiles-uchiwu/claude/rules
     ~/.config/zsh: config/zsh
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux

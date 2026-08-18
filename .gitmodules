@@ -2,3 +2,6 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "dotfiles-uchiwu"]
+	path = dotfiles-uchiwu
+	url = https://github.com/xuncheng/dotfiles-uchiwu.git
