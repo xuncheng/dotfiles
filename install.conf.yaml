@@ -19,8 +19,7 @@
 - link:
     ~/.bin: bin
     ~/.vim: vim
-    ~/.vimrc: vimrc
-    ~/.npmrc: npmrc
+    ~/.npmrc: npm/npmrc
     ~/.gitconfig: git/.gitconfig
     ~/.githelpers: git/.githelpers
     ~/.gitignore_global: git/.gitignore_global

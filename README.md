@@ -48,8 +48,9 @@ exec zsh
 | `git/`              | gitconfig, global gitignore, commit template, log helpers       |
 | `claude/`           | Claude Code `settings.json` + `rules/` (into `~/.claude/`)      |
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)               |
+| `npm/`              | `npmrc` (linked to `~/.npmrc`)                                  |
 | `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and macOS-only helpers     |
-| `vim/`, `vimrc`     | legacy Vim config, superseded by `config/nvim`                  |
+| `vim/`              | legacy Vim config, read as `~/.vim/vimrc` (Vim 8+)              |
 
 ## zsh
 
