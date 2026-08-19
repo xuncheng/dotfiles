@@ -13,6 +13,8 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # 3. Clone — the path matters, $DOTFILES is hardcoded to ~/.dotfiles
+# (`dotfiles-uchiwu` is a private submodule; without access to it the clone
+# still works and `./install` just skips the rules it carries)
 git clone --recurse-submodules https://github.com/xuncheng/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
@@ -35,6 +37,7 @@ exec zsh
 | `install.conf.yaml` | dotbot manifest: the source-of-truth list of every symlink      |
 | `install`           | dotbot entry point (syncs the submodule, then applies the yaml) |
 | `dotbot/`           | git submodule                                                   |
+| `dotfiles-uchiwu/`  | private git submodule: work-only Claude Code rules              |
 | `config/zsh/`       | zsh config, linked to `~/.config/zsh` (`$ZDOTDIR`)              |
 | `config/nvim/`      | Neovim config (LazyVim based)                                   |
 | `config/tmux/`      | tmux config                                                     |
@@ -43,7 +46,7 @@ exec zsh
 | `config/rg/`        | ripgrep config (`$RIPGREP_CONFIG_PATH`)                         |
 | `config/vscode/`    | VS Code custom CSS                                              |
 | `git/`              | gitconfig, global gitignore, commit template, log helpers       |
-| `claude/`           | Claude Code `settings.json` (linked into `~/.claude/`)          |
+| `claude/`           | Claude Code `settings.json` + `rules/` (into `~/.claude/`)      |
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)               |
 | `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and macOS-only helpers     |
 | `vim/`, `vimrc`     | legacy Vim config, superseded by `config/nvim`                  |
@@ -88,10 +91,11 @@ friends are pretty-log aliases implemented in `git/.githelpers`. `git div` and
 
 ## Claude Code
 
-Only `~/.claude/settings.json` is managed. The rest of `~/.claude` is local
-state — `sessions/`, `projects/`, `history.jsonl`, `shell-snapshots/` — and is
-deliberately left alone, which is why `install.conf.yaml` links the single file
-rather than the directory.
+Two things are managed: `~/.claude/settings.json` and the rule files under
+`~/.claude/rules/`. The rest of `~/.claude` is local state — `sessions/`,
+`projects/`, `history.jsonl`, `shell-snapshots/` — and is deliberately left
+alone, which is why `install.conf.yaml` links individual paths rather than the
+directory.
 
 This is the *user* scope, the lowest precedence Claude Code reads. Anything in
 a project's `.claude/settings.json` (team-shared) or `.claude/settings.local.json`
@@ -100,6 +104,25 @@ a project's `.claude/settings.json` (team-shared) or `.claude/settings.local.jso
 
 > Keep secrets out of `settings.json` — it is committed. Anything sensitive
 > (API keys, an `env` block with tokens) goes in `settings.local.json`.
+
+### Rules
+
+Claude Code reads every `.md` under `~/.claude/rules/` as global instructions,
+so the directory is assembled from two sources:
+
+| Link                     | Source                          | Repo              |
+| ------------------------ | ------------------------------- | ----------------- |
+| `~/.claude/rules/common` | `claude/rules/`                 | this repo, public |
+| `~/.claude/rules/uchiwu` | `dotfiles-uchiwu/claude/rules/` | private submodule |
+
+Keep anything work-specific — client and project names, environment IDs,
+internal conventions — in the private submodule. The public `claude/rules/`
+holds only general engineering habits.
+
+The `uchiwu` link is guarded by an `if:` in `install.conf.yaml`, so a machine
+without access to the private repo installs everything else and skips it,
+instead of failing. `install.conf.yaml` inits submodules *before* the link
+step, so a fresh clone is fully set up in a single `./install` run.
 
 ## Keeping Brewfile in sync
 
