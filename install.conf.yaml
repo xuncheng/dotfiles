@@ -9,7 +9,12 @@
     # settings, so the directory itself is not linked — only settings.json is.
     - ~/.claude
 
-- clean: ["~"]
+- clean: ["~", "~/.claude/rules"]
+
+- shell:
+    # The private submodule fails to clone without access; that is not an
+    # error, just skip it
+    - [git submodule update --init --recursive || true, Installing submodules]
 
 - link:
     ~/.bin: bin
@@ -23,7 +28,11 @@
     ~/.zshenv: config/zsh/.zshenv
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/rules/common: claude/rules
-    ~/.claude/rules/uchiwu: dotfiles-uchiwu/claude/rules
+    # Private submodule: skipped on a machine without access rather than
+    # failing the whole install
+    ~/.claude/rules/uchiwu:
+      if: "[ -e dotfiles-uchiwu/claude/rules ]"
+      path: dotfiles-uchiwu/claude/rules
     ~/.config/zsh: config/zsh
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux
@@ -36,6 +45,3 @@
     ~/.Brewfile:
       if: "[ `uname` = Darwin ]"
       path: macos/Brewfile
-
-- shell:
-    - [git submodule update --init --recursive, Installing submodules]
