@@ -32,10 +32,7 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 - If you notice unrelated dead code, mention it - don't delete it.
 - Remove imports/variables/functions that YOUR changes made unused; don't remove pre-existing dead code unless asked.
 - The test: every changed line should trace directly to the user's request.
-
-本项目的两条具体延伸：
-- **前后端分工**：不改前端 `src/` 代码（`admin/src/`、`app/src/`、`miniprogram/src/` 等），JSDoc/注释也不动。需要前端配合时只在回复里写清调用方式（参数名、取值、契约），由用户自己接入。
-- **改动的连带影响**：修改共享工具函数的返回结构（加字段/改名/语义变化）时，先 grep 所有 caller 逐个同步，不能只改被提到的那个。推荐 caller 用 `...obj` 展开整个返回对象、而非解构单独字段，util 加字段时 caller 自动跟上。
+- 改动的连带影响：修改共享工具函数的返回结构（加字段/改名/语义变化）时，先 grep 所有 caller 逐个同步，不能只改被提到的那个。推荐 caller 用 `...obj` 展开整个返回对象、而非解构单独字段，util 加字段时 caller 自动跟上。
 
 ## 4. Goal-Driven Execution
 **Define success criteria. Loop until verified.**
