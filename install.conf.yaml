@@ -30,9 +30,9 @@
     ~/.claude/rules/common: claude/rules
     # Private submodule: skipped on a machine without access rather than
     # failing the whole install
-    ~/.claude/rules/uchiwu:
-      if: "[ -e dotfiles-uchiwu/claude/rules ]"
-      path: dotfiles-uchiwu/claude/rules
+    ~/.claude/rules/private:
+      if: "[ -e dotfiles-private/claude/rules ]"
+      path: dotfiles-private/claude/rules
     ~/.config/zsh: config/zsh
     ~/.config/nvim: config/nvim
     ~/.config/tmux: config/tmux

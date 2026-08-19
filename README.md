@@ -13,7 +13,7 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # 3. Clone — the path matters, $DOTFILES is hardcoded to ~/.dotfiles
-# (`dotfiles-uchiwu` is a private submodule; without access to it the clone
+# (`dotfiles-private` is a private submodule; without access to it the clone
 # still works and `./install` just skips the rules it carries)
 git clone --recurse-submodules https://github.com/xuncheng/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
@@ -37,7 +37,7 @@ exec zsh
 | `install.conf.yaml` | dotbot manifest: the source-of-truth list of every symlink      |
 | `install`           | dotbot entry point (syncs the submodule, then applies the yaml) |
 | `dotbot/`           | git submodule                                                   |
-| `dotfiles-uchiwu/`  | private git submodule: work-only Claude Code rules              |
+| `dotfiles-private/` | private git submodule: machine-local, non-public config         |
 | `config/zsh/`       | zsh config, linked to `~/.config/zsh` (`$ZDOTDIR`)              |
 | `config/nvim/`      | Neovim config (LazyVim based)                                   |
 | `config/tmux/`      | tmux config                                                     |
@@ -110,16 +110,17 @@ a project's `.claude/settings.json` (team-shared) or `.claude/settings.local.jso
 Claude Code reads every `.md` under `~/.claude/rules/` as global instructions,
 so the directory is assembled from two sources:
 
-| Link                     | Source                          | Repo              |
-| ------------------------ | ------------------------------- | ----------------- |
-| `~/.claude/rules/common` | `claude/rules/`                 | this repo, public |
-| `~/.claude/rules/uchiwu` | `dotfiles-uchiwu/claude/rules/` | private submodule |
+| Link                      | Source                           | Repo              |
+| ------------------------- | -------------------------------- | ----------------- |
+| `~/.claude/rules/common`  | `claude/rules/`                  | this repo, public |
+| `~/.claude/rules/private` | `dotfiles-private/claude/rules/` | private submodule |
 
-Keep anything work-specific — client and project names, environment IDs,
-internal conventions — in the private submodule. The public `claude/rules/`
-holds only general engineering habits.
+Anything that should not be public — client and project names, environment IDs,
+internal conventions — goes in the private submodule; the public `claude/rules/`
+holds only general engineering habits. Real credentials belong in neither: the
+private repo is still hosted on GitHub.
 
-The `uchiwu` link is guarded by an `if:` in `install.conf.yaml`, so a machine
+The `private` link is guarded by an `if:` in `install.conf.yaml`, so a machine
 without access to the private repo installs everything else and skips it,
 instead of failing. `install.conf.yaml` inits submodules *before* the link
 step, so a fresh clone is fully set up in a single `./install` run.
