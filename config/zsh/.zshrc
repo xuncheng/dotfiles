@@ -30,9 +30,14 @@ for ZSH_FILE in "${ZDOTDIR:-$HOME}"/scripts/*.zsh(N); do
 done
 
 #-------------------------------------------------------------------------------
+#  RUBY
+#-------------------------------------------------------------------------------
+# rbenv owns the ruby version; without this its shims never land on PATH and
+# `ruby` silently falls back to the EOL system 2.6.
+exists rbenv && eval "$(rbenv init - --no-rehash zsh)"
+
+#-------------------------------------------------------------------------------
 #  Syntax Highlighting
 #-------------------------------------------------------------------------------
 # NOTE: syntax highlighting must load after all the zsh widgets are setup
 source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-export PATH="$HOME/.local/bin:$PATH"

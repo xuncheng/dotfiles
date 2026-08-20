@@ -60,11 +60,10 @@ Startup is split across three files by role:
 - **`.zshenv`** — read by every zsh, login or not. Environment variables and
   `$PATH`. Sets `ZDOTDIR=~/.config/zsh`, which is why the rest of the config
   lives under `~/.config` instead of `$HOME`.
-- **`.zprofile`** — login shells only. Runs `brew shellenv`, then prepends
-  Homebrew's ruby and its gem bin directory to `$PATH` (must come after brew is
-  on the path, hence not in `.zshenv`).
-- **`.zshrc`** — interactive shells. Sources every `scripts/*.zsh`, then loads
-  zsh-syntax-highlighting last.
+- **`.zprofile`** — login shells only. Runs `brew shellenv` and caches
+  `$BREW_PREFIX` (must come after brew is on the path, hence not in `.zshenv`).
+- **`.zshrc`** — interactive shells. Sources every `scripts/*.zsh`, then
+  initialises rbenv, then loads zsh-syntax-highlighting last.
 
 Add new shell config as a file in `config/zsh/scripts/` — it is picked up
 automatically, no `source` line needed. Syntax highlighting must stay last in

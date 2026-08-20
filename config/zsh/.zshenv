@@ -50,17 +50,11 @@ export GPG_TTY=$(tty)
 # load work .env file
 # set -a; source "${WORK_DIR}/.env"; set +a
 
-path+=(
-  /usr/local/bin
-  ${HOME}/.npm/bin(N-/)
+export VOLTA_HOME="$HOME/.volta"
+
+path=(
+  ${VOLTA_HOME}/bin(N-/)
   ${HOME}/.bin(N-/)
   ${HOME}/.local/bin(N-/)
-  # Add local build of neovim to path for development
-  ${HOME}/nvim/bin(N-/)
-  ${HOME}/.rvm/bin(N-/)
-  ${HOME}/.volta/bin(N-/)
-  # package manager for neovim
-  ${HOME}/.local/share/bob/nvim-bin(N-/)
+  $path
 )
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"

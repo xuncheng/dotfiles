@@ -26,9 +26,7 @@ alias vim='nvim'
 
 # Unix
 alias ...='cd ../..'
-alias c='colorize'
 alias killruby='killall -9 ruby'
-alias ls='ls -G'
 alias l='ls -lFh'
 alias ll='ls -l'
 alias ldot='ls -ld .*'
@@ -56,9 +54,8 @@ alias gv='gh repo view -w'
 # alias follows whichever version is installed rather than a hardcoded path.
 (( $+commands[python3] )) && alias python='python3'
 
-# yarn install && avoid node_modules to sync with iCloud
-alias ynm='yarn install --modules-folder ./node_modules.nosync && ln -s node_modules.nosync node_modules'
-
-# delete node_modules folders recursively
-alias rnm='find . -name "node_modules" -type d -prune | xargs du -chs'
-alias dnm='find . -name "node_modules" -type d -prune -exec rm -rf "{}" +'
+# List / delete node_modules folders recursively.
+# -I is required: node_modules is normally gitignored and fd honours that by
+# default, which would silently match nothing.
+alias rnm="fd -HI -t d --prune '^node_modules\$' -X du -chs"
+alias dnm="fd -HI -t d --prune '^node_modules\$' -X rm -rf"
