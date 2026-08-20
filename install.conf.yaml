@@ -15,12 +15,28 @@
     # The private submodule fails to clone without access; that is not an
     # error, just skip it
     - [git submodule update --init --recursive || true, Installing submodules]
+    # By design Dropbox does not sync its own ignore rules, so every machine
+    # needs a copy of its own. Distributed from here, in place at ./install
+    # time, ahead of any yarn install.
+    # It has to be a copy rather than a symlink: Dropbox does not honour the
+    # symlinked form and uploads node_modules regardless.
+    - ["[ -d ~/Dropbox ] && cp dropbox/rules.dropboxignore ~/Dropbox/rules.dropboxignore || true", Installing Dropbox ignore rules]
 
 - link:
-    ~/.bin: bin
+    # force: these paths often already exist as real files or directories,
+    # created by another installer on a new machine or by hand. dotbot's
+    # relink only replaces symlinks and aborts on a real file; force lets it
+    # remove and recreate. These paths belong to the dotfiles anyway, so
+    # overwriting is the intended behaviour.
+    ~/.bin:
+      force: true
+      path: bin
     ~/.vim: vim
     ~/.npmrc: npm/npmrc
-    ~/.gitconfig: git/.gitconfig
+    # Any single `git config --global` turns this into a real file
+    ~/.gitconfig:
+      force: true
+      path: git/.gitconfig
     ~/.githelpers: git/.githelpers
     ~/.gitignore_global: git/.gitignore_global
     ~/.gitmessage: git/.gitmessage
@@ -33,7 +49,10 @@
       if: "[ -e dotfiles-private/claude/rules ]"
       path: dotfiles-private/claude/rules
     ~/.config/zsh: config/zsh
-    ~/.config/nvim: config/nvim
+    # LazyVim's starter is usually cloned straight into this path
+    ~/.config/nvim:
+      force: true
+      path: config/nvim
     ~/.config/tmux: config/tmux
     ~/.config/kitty:
       force: true

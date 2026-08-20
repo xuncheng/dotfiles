@@ -49,6 +49,7 @@ exec zsh
 | `claude/`           | Claude Code `settings.json` + `rules/` (into `~/.claude/`)      |
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)               |
 | `npm/`              | `npmrc` (linked to `~/.npmrc`)                                  |
+| `dropbox/`          | `rules.dropboxignore`, **copied** into `~/Dropbox` by `install`  |
 | `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and macOS-only helpers     |
 | `vim/`              | legacy Vim config, read as `~/.vim/vimrc` (Vim 8+)              |
 
