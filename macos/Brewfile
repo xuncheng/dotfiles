@@ -6,30 +6,25 @@ brew "wget"
 
 # Modern CLI tools
 brew "bat"
-brew "eza"
 brew "fd"
 brew "fzf"
 brew "ripgrep"
-brew "lazygit"
 brew "git-delta"
+brew "git-lfs"
 brew "jq"
-brew "httpie"
 brew "shellcheck"
 
 # Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"
-brew "zsh-autosuggestions"
 
-# Editor: Neovim + LazyVim deps
+# Editors: Neovim + LazyVim deps, plus Vim for the legacy vim/ config
 brew "neovim"
 brew "vim"
-brew "luarocks"
 brew "stylua"
 
-# Languages / runtimes
-brew "ruby"
-brew "python@3.14"
-brew "yarn"
+# Languages / runtimes (Ruby via rbenv; system ruby is EOL 2.6)
+brew "rbenv"
+brew "ruby-build"
 brew "libyaml"
 
 # Services
@@ -37,3 +32,4 @@ brew "redis", restart_service: true
 
 # Apps
 cask "kitty"
+cask "easydict"
