@@ -1,5 +1,6 @@
 {
   "model": "opus",
+  "outputStyle": "Concise",
   "tui": "fullscreen",
   "theme": "dark",
   "attribution": {
