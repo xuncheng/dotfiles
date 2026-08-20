@@ -46,8 +46,14 @@
   pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
 [core]
   editor = vim
+  pager = delta
 	excludesfile = ~/.gitignore_global
 	quotepath = false
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  line-numbers = true
 [credential]
   helper = osxkeychain
 [commit]
@@ -56,9 +62,6 @@
   tool = vimdiff
 [mergetool]
   keepBackup = true
-[filter "media"]
-  clean = git-media-clean %f
-  smudge = git-media-smudge %f
 [github]
   user = xuncheng
 [filter "lfs"]
