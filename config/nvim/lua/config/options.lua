@@ -7,6 +7,9 @@ vim.g.mapleader = ","
 vim.opt.background = "dark"
 vim.opt.clipboard = "" -- 'unnamedplus'
 vim.opt.relativenumber = false
+-- LazyVim defaults to 2, which hides markdown markers such as ` and * — and
+-- only on lines away from the cursor, so they flicker as you move
+vim.opt.conceallevel = 0
 
 -- Enable the option to require a Prettier config file
 -- If no prettier config file is found, the formatter will not be used

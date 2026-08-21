@@ -24,3 +24,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = search_hl,
 })
 search_hl()
+
+-- Undo the spell check and wrapping LazyVim forces on for markdown, text and
+-- gitcommit (see the wrap_spell group in lazyvim/config/autocmds.lua)
+pcall(vim.api.nvim_del_augroup_by_name, "lazyvim_wrap_spell")
