@@ -45,7 +45,7 @@
 [format]
   pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
 [core]
-  editor = vim
+  editor = nvim
   pager = delta
 	excludesfile = ~/.gitignore_global
 	quotepath = false
@@ -58,8 +58,10 @@
   helper = osxkeychain
 [commit]
   template = ~/.gitmessage
+[diff]
+  tool = nvimdiff
 [merge]
-  tool = vimdiff
+  tool = nvimdiff
 [mergetool]
   keepBackup = true
 [github]

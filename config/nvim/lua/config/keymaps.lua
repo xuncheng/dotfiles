@@ -29,14 +29,13 @@ map("n", "<leader>n", "<cmd>lua RenameFile()<CR>", {})
 -- end, { desc = "Terminal (cwd)" })
 
 -- https://github.com/LazyVim/LazyVim/discussions/4109
-map("n", "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>")
-map("n", "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>")
-map("n", "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>")
-map("n", "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>")
-map("n", "<C-\\>", "<cmd>NvimTmuxNavigateLastActive<CR>")
-
--- Override LazyVim's default keymaps
--- map("n", "<leader>e", function() Snacks.explorer() end, { desc = "Explorer Snacks (cwd)" })
--- map("n", "<leader>E", function() Snacks.explorer({ cwd = LazyVim.root() }) end, { desc = "Explorer Snacks (root dir)" })
--- map("n", "<leader>ff", function() Snacks.picker.files({ root = false }) end, { desc = "Find Files (cwd)" })
--- map("n", "<leader>fF", function() Snacks.picker.files() end, { desc = "Find Files (root Dir)" })
+-- Both sides have to override LazyVim's default <C-w>hjkl bindings
+if vim.g.vscode then
+  require("config.vscode")
+else
+  map("n", "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>")
+  map("n", "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>")
+  map("n", "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>")
+  map("n", "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>")
+  map("n", "<C-\\>", "<cmd>NvimTmuxNavigateLastActive<CR>")
+end

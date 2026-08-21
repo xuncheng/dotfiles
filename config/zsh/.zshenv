@@ -18,6 +18,7 @@ typeset -U path # ensure unique paths within PATH
 export LC_ALL=en_GB.UTF-8
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
+export VISUAL="$EDITOR"
 export ZSH_HISTORY_PATH=$HOME/.zsh_history
 
 export CLICOLOR=1 # enable color support for ls.
