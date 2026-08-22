@@ -13,6 +13,17 @@ return {
     enabled = false,
   },
   { "NTBBloodbath/doom-one.nvim", lazy = false },
+  -- A faithful port of Atom One Dark. doom-one is from the same One Dark
+  -- family and shares the #282c34 background, but swaps the keyword and
+  -- function colours (keywords blue #51afef, functions purple #c678dd).
+  -- This one keeps the original mapping: keywords purple #c678dd, functions
+  -- blue #61afef, variables salmon #e06c75.
+  -- Not the default; try it with :colorscheme onedark.
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    opts = { style = "dark" },
+  },
   {
     "catppuccin/nvim",
     name = "catppuccin",
