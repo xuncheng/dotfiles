@@ -1,8 +1,4 @@
 {
-  "model": "opus",
-  "outputStyle": "Concise",
-  "tui": "fullscreen",
-  "theme": "dark",
   "attribution": {
     "commit": "",
     "pr": ""
@@ -22,10 +18,6 @@
       "Bash(npm test *)",
       "Bash(npm run lint*)",
       "Bash(node --version)"
-    ],
-    "ask": [
-      "Bash(git push *)",
-      "Bash(gh pr create *)"
     ],
     "deny": [
       "Bash(sudo*)",
@@ -66,15 +58,17 @@
       "Read(~/.config/gcloud/**)",
       "Read(~/.config/gh/**)",
       "Read(~/.claude/.credentials.json)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh pr create *)"
     ]
   },
+  "model": "opus",
+  "outputStyle": "Concise",
+  "tui": "fullscreen",
+  "theme": "dark",
   "autoMode": {
-    "environment": [
-      "$defaults",
-      "Cloud provider(s): Tencent Cloud. Cloud functions and static hosting run on Tencent CloudBase. The `@cloudbase/cli` package installs two equivalent entry points, `tcb` and `cloudbase`, and is also invoked as `npx @cloudbase/cli`; npm scripts, Makefile targets, and shell scripts wrap the same commands.",
-      "Sensitive remote targets: CloudBase production environments. The primary mechanism is the `--mode <mode>` flag, which selects the `.env.<mode>` file that supplies the env ID; a target can also be named directly with `-e`/`--env-id`, or by an inline `TCB_ENV_ID=`, and an explicit env ID wins over the mode file. Env IDs follow an `<environment>-<suffix>` convention, so an ID beginning `prod-` is production, while `test-` and `stage-` are not: in this setup `stage` is a second test environment rather than a pre-production mirror, and neither it nor `test` holds production data. A setup where `stage` mirrors production must drop `stage` from that list here and from the allow rule below. An env ID that follows no such convention is treated as production until the user says otherwise.",
-      "Additional context: a project may span several repos, each carrying its own cloudbaserc.json whose values are `{{env.X}}` placeholders resolved from the selected `.env.<mode>`. In practice targets are pinned with `--mode` alone; `-e`/`--env-id` is rarely typed here, since env IDs are awkward to remember, but it overrides the mode file when present. A command carrying neither is unpinned: the bare `.env` is conventionally the test environment but that is not guaranteed, can be stale, and can be overridden locally, so an unpinned write has an unverifiable target."
-    ],
     "allow": [
       "$defaults",
       "Routine CloudBase development, in two parts. First: `tcb login` without credential flags, `logout`, `docs`, `--help`, `fn run` (local execution only), and the read-only listings (`env list`, `env usage`, `fn list`, `fn detail`, `fn log`, `logs`, `hosting list`) are routine regardless of pinning, except against a production target, where they stay subject to the production-read rules. Second: deploy, update, invoke, and delete commands are routine only when the target is visibly pinned to a non-production environment, meaning `--mode test`, `--mode stage`, or an `-e`/`--env-id` value beginning `test-` or `stage-`, and the command carries no second target marker naming anything else: if a `--mode`, an `-e`/`--env-id`, or an inline `TCB_ENV_ID=` anywhere in the command names a production or unrecognized environment, the command is not pinned to a non-production target and this exception does not apply at all. Test and stage are disposable environments holding no production data, so destroying and redeploying resources in them is ordinary iteration. Deleting an entire environment is never covered by this exception, and `storage download` is judged on its own terms because it moves stored user data out. Within that non-production scope, `--force` on `tcb fn deploy` and `--all` are ordinary redeploy semantics rather than safety-guard bypasses: `--force` means overwrite a function of the same name, which is how an existing function is redeployed, and `--all` deploys every function listed in cloudbaserc.json. Otherwise this exception blesses the target environment and nothing else: content, credential, and the remaining force-flag rules judge the command exactly as if no exception existed."
@@ -84,6 +78,13 @@
       "Block any CloudBase command that changes remote state, invokes deployed code, or moves stored data out, when its target environment is not visibly pinned to a non-production one in the command itself. This covers the `tcb` and `cloudbase` binaries, `npx @cloudbase/cli`, and any npm script, Makefile target, or shell script wrapping them. In scope: `deploy`; `fn deploy|code update|code download|config update|delete|invoke|copy|publish-version|config-route|set-provisioned-concurrency|trigger|layer`, plus `config update fn`, which is the current spelling of the same configuration change that `fn config update` performs; `hosting deploy|delete`; `storage upload|delete|download`; `env create|modify|renew|rename|delete`; mutations under `cloudrun`, `app`, `config`, `db`, `user`, `policy`, `role`, `cors`, `routes`, and `domains`; and the two catch-alls `tcb api` (arbitrary Tencent Cloud API calls) and `tcb secrets` (temporary credentials), which reach any resource regardless of the subcommand list above. Out of scope: `login`, `logout`, `docs`, `--help`, `fn run` (local execution only), and the read-only listings `env list`, `env usage`, `fn list`, `fn detail`, `fn log`, `logs`, and `hosting list`. Five cases block: no target pin at all, with neither `--mode` nor `-e`/`--env-id`; an explicitly production target, meaning `--mode prod`, `--mode production`, or an env ID beginning `prod-`; any other `--mode` value that is not `test` or `stage`, since the `.env.<mode>` file it resolves is unreadable and the env ID behind it therefore unverifiable; a non-production `--mode` combined with an `-e`/`--env-id` or inline `TCB_ENV_ID=` that names a production env, since the explicit env ID wins over the mode file; and a wrapper script whose resolved invocation the agent has not read in this session, which is unpinned by definition. Clears when the user's own message names the target environment or the exact env ID for that specific command, or confirms a proposal that named it. A general instruction to deploy, or a stated intent the command does not actually carry, does not clear it.",
       "Block `tcb env delete` and any other command that deletes an entire CloudBase environment, which destroys every function, database, and stored file in it at once. Clears only when the user names the exact env ID being deleted in that same request.",
       "Block `tcb login` when it carries credentials on the command line — `--apiKeyId`, `--apiKey`, `--token`, or `--cloudbase-api-key` — since that puts a live Tencent Cloud or CloudBase credential into the shell command and the transcript. The interactive device or web login flow is fine."
+    ],
+    "environment": [
+      "$defaults",
+      "Cloud provider(s): Tencent Cloud. Cloud functions and static hosting run on Tencent CloudBase. The `@cloudbase/cli` package installs two equivalent entry points, `tcb` and `cloudbase`, and is also invoked as `npx @cloudbase/cli`; npm scripts, Makefile targets, and shell scripts wrap the same commands.",
+      "Sensitive remote targets: CloudBase production environments. The primary mechanism is the `--mode <mode>` flag, which selects the `.env.<mode>` file that supplies the env ID; a target can also be named directly with `-e`/`--env-id`, or by an inline `TCB_ENV_ID=`, and an explicit env ID wins over the mode file. Env IDs follow an `<environment>-<suffix>` convention, so an ID beginning `prod-` is production, while `test-` and `stage-` are not: in this setup `stage` is a second test environment rather than a pre-production mirror, and neither it nor `test` holds production data. A setup where `stage` mirrors production must drop `stage` from that list here and from the allow rule below. An env ID that follows no such convention is treated as production until the user says otherwise.",
+      "Additional context: a project may span several repos, each carrying its own cloudbaserc.json whose values are `{{env.X}}` placeholders resolved from the selected `.env.<mode>`. In practice targets are pinned with `--mode` alone; `-e`/`--env-id` is rarely typed here, since env IDs are awkward to remember, but it overrides the mode file when present. A command carrying neither is unpinned: the bare `.env` is conventionally the test environment but that is not guaranteed, can be stale, and can be overridden locally, so an unpinned write has an unverifiable target."
     ]
-  }
+  },
+  "agentPushNotifEnabled": true
 }
