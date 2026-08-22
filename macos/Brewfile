@@ -1,4 +1,6 @@
 # Core Unix
+brew "git"
+brew "curl"
 brew "gh"
 brew "tmux"
 brew "tree"
