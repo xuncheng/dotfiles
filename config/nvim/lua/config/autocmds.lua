@@ -28,3 +28,15 @@ search_hl()
 -- Undo the spell check and wrapping LazyVim forces on for markdown, text and
 -- gitcommit (see the wrap_spell group in lazyvim/config/autocmds.lua)
 pcall(vim.api.nvim_del_augroup_by_name, "lazyvim_wrap_spell")
+
+-- A Brewfile is Homebrew's DSL, not Ruby code. nvim detects it as ft=ruby,
+-- LazyVim's ruby extra then formats it with rubocop on save, and the double
+-- quotes Homebrew writes (`brew bundle dump`) become rubocop's single quotes.
+-- Turn autoformat off for this buffer so the file keeps Homebrew's style.
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("custom_brewfile_noformat", { clear = true }),
+  pattern = { "Brewfile", "*.Brewfile", "Brewfile.*" },
+  callback = function(ev)
+    vim.b[ev.buf].autoformat = false
+  end,
+})
