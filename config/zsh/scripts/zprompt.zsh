@@ -123,14 +123,12 @@ function __prompt_eval() {
   echo $top$'\n'$bottom
 }
 # NOTE: VERY IMPORTANT: the type of quotes used matters greatly. Single quotes MUST be used for these variables
-export PROMPT='$(__prompt_eval)'
+# The leading blank line separates each prompt, replacing the full-width rule
+export PROMPT=$'\n''$(__prompt_eval)'
 # Right prompt
-export RPROMPT='%F{yellow}%{$__DOTS[ITALIC_ON]%}${cmd_exec_time}%{$__DOTS[ITALIC_OFF]%}%f %F{240}%*%f'
+export RPROMPT='%F{yellow}%{$__DOTS[ITALIC_ON]%}${cmd_exec_time}%{$__DOTS[ITALIC_OFF]%}%f'
 # Correction prompt
 # export SPROMPT="correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%u%bo, %B%Ue%u%bdit, %B%Ua%u%bbort]? "
-# Add a continuous line following every prompt
-# see: https://superuser.com/a/846133
-export PS1=$'%F{black}${(r:$COLUMNS::\u2500:)}'$PS1
 
 #-------------------------------------------------------------------------------
 #           Execution time
@@ -230,16 +228,6 @@ __async_vcs_info_done() {
   # remove the handler and close the file descriptor
   zle -F "$1"
   exec {1}<&-
-  zle && zle reset-prompt
-}
-
-# When the terminal is resized, the shell receives a SIGWINCH signal.
-# So redraw the prompt in a trap.
-# https://unix.stackexchange.com/questions/360600/reload-zsh-when-resizing-terminator-window
-#
-# Resource: [TRAP functions]
-# http://zsh.sourceforge.net/Doc/Release/Functions.html#Trap-Functions
-function TRAPWINCH () {
   zle && zle reset-prompt
 }
 
