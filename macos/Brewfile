@@ -32,6 +32,9 @@ brew "libyaml"
 # Services
 brew "redis", restart_service: true
 
+# Fonts
+cask "font-symbols-only-nerd-font"
+
 # Apps
 cask "kitty"
 cask "easydict"

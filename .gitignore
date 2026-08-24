@@ -7,3 +7,4 @@ bundle/cache
 .zsh_sessions
 .zcompdump
 .zcompcache
+config/kitty/kitty.d
