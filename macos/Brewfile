@@ -33,7 +33,15 @@ brew "libyaml"
 brew "redis", restart_service: true
 
 # Fonts
-cask "font-symbols-only-nerd-font"
+# This cask installs both the Mono and the non-Mono variant. The non-Mono
+# glyphs are not one cell wide, so anything the font fallback hands to them is
+# misaligned — the prompt's ❯ first of all — and the cask cannot install just
+# one of the two.
+# postinstall runs only on a real install or upgrade, which is exactly when the
+# file comes back. It also clears the Caskroom link pointing at it, so no
+# dangling symlink is left behind.
+cask "font-symbols-only-nerd-font",
+     postinstall: "rm -f ~/Library/Fonts/SymbolsNerdFont-Regular.ttf \"$(brew --prefix)\"/Caskroom/font-symbols-only-nerd-font/*/SymbolsNerdFont-Regular.ttf"
 
 # Apps
 cask "kitty"

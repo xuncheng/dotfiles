@@ -44,7 +44,7 @@ function +vi-git-untracked() {
 }
 
 function +vi-git-stash() {
-  local stash_icon=""
+  local stash_icon=""
   emulate -L zsh
   if __in_git; then
     if [[ -n $(git rev-list --walk-reflogs --count refs/stash 2> /dev/null) ]]; then
