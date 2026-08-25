@@ -5,29 +5,22 @@
 
 - create:
     - ~/.config
-    # Claude Code keeps local state (sessions, projects, history) alongside its
-    # settings, so the directory itself is not linked — only settings.json is.
+    # Only settings.json is linked: ~/.claude also holds local state
     - ~/.claude
 
 - clean: ["~", "~/.claude/rules"]
 
 - shell:
-    # The private submodule fails to clone without access; that is not an
-    # error, just skip it
+    # The private submodule fails to clone without access — not an error
     - [git submodule update --init --recursive || true, Installing submodules]
-    # By design Dropbox does not sync its own ignore rules, so every machine
-    # needs a copy of its own. Distributed from here, in place at ./install
-    # time, ahead of any yarn install.
-    # It has to be a copy rather than a symlink: Dropbox does not honour the
-    # symlinked form and uploads node_modules regardless.
+    # Dropbox's own ignore rules
+    # Not synced by Dropbox, so every machine needs its own copy
+    # Must be a copy, not a symlink: Dropbox ignores the symlinked form
     - ["[ -d ~/Dropbox ] && cp dropbox/rules.dropboxignore ~/Dropbox/rules.dropboxignore || true", Installing Dropbox ignore rules]
 
 - link:
-    # force: these paths often already exist as real files or directories,
-    # created by another installer on a new machine or by hand. dotbot's
-    # relink only replaces symlinks and aborts on a real file; force lets it
-    # remove and recreate. These paths belong to the dotfiles anyway, so
-    # overwriting is the intended behaviour.
+    # force is needed: these often exist as real files already, and relink
+    # aborts on those rather than replacing them
     ~/.bin:
       force: true
       path: bin
@@ -43,8 +36,7 @@
     ~/.zshenv: config/zsh/.zshenv
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/rules/common: claude/rules
-    # Private submodule: skipped on a machine without access rather than
-    # failing the whole install
+    # Private submodule: skipped without access, never fails the install
     ~/.claude/rules/private:
       if: "[ -e dotfiles-private/claude/rules ]"
       path: dotfiles-private/claude/rules

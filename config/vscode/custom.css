@@ -1,6 +1,5 @@
 /* ------------ Reset Font Family ------------ */
-/* Cartograph CF ships ligatures, and editor.fontLigatures only reaches the
-   editor body, not the surrounding UI, so switch them off again here. */
+/* editor.fontLigatures reaches the editor body only, not the UI shell */
 .mac,
 .windows,
 .linux {
@@ -8,9 +7,8 @@
   font-variant-ligatures: none;
 }
 
-/* Form controls do not inherit font properties: the UA stylesheet's font
-   shorthand resets font-variant to normal, so the rule above never reaches
-   them and the elements have to be targeted directly. */
+/* Form controls need targeting directly: the UA stylesheet's font shorthand
+   resets font-variant, so the rule above never reaches them */
 input,
 textarea {
   font-variant-ligatures: none;

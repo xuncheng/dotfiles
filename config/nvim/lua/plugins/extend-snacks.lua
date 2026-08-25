@@ -1,9 +1,7 @@
--- Switch off the more modern UI modules in snacks and add directory filtering
--- to the picker. The parts that do real work — picker, explorer, bigfile,
--- quickfile — stay.
+-- Keep picker, explorer, bigfile and quickfile; drop the decorative modules
 
--- Dependency directories and build output, shared by the files, grep and
--- explorer sources
+-- Dependency directories and build output, shared by files/grep/explorer
+-- Each entry becomes fd's -E or rg's -g !
 local exclude = {
   "node_modules",
   "miniprogram_npm",
@@ -21,13 +19,17 @@ local exclude = {
 return {
   "folke/snacks.nvim",
   opts = {
-    dashboard = { enabled = false }, -- start screen
-    indent = { enabled = false }, -- indent guides and scope highlighting
-    scroll = { enabled = false }, -- smooth scrolling
-    notifier = { enabled = false }, -- corner toasts (messages fall back to :messages)
-    words = { enabled = false }, -- highlight references under the cursor (also drops ]] [[ <A-n> <A-p>)
+    -- dashboard  start screen
+    -- indent     indent guides and scope highlighting
+    -- scroll     smooth scrolling
+    -- notifier   corner toasts; messages fall back to :messages
+    -- words      references under the cursor; also drops ]] [[ <A-n> <A-p>
+    dashboard = { enabled = false },
+    indent = { enabled = false },
+    scroll = { enabled = false },
+    notifier = { enabled = false },
+    words = { enabled = false },
 
-    -- becomes fd's -E or rg's -g !
     picker = {
       sources = {
         files = { exclude = exclude },

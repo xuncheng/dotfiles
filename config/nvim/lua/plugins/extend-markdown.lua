@@ -3,17 +3,16 @@ return {
   -- Heading blocks, table borders, code block backgrounds and the like
   { "MeanderingProgrammer/render-markdown.nvim", enabled = false },
 
-  -- Browser preview stays: GitHub styling built in, toggled with <leader>cp,
-  -- lazy-loaded by command so it costs nothing until used
+  -- Browser preview, GitHub styling, toggled with <leader>cp
   {
     "iamcco/markdown-preview.nvim",
     init = function()
-      vim.g.mkdp_theme = "light" -- matches github.com; "dark" for the dark one
+      -- Matches github.com; "dark" for the dark one
+      vim.g.mkdp_theme = "light"
     end,
   },
 
-  -- markdownlint's style rules such as MD013 are too noisy; keep only the
-  -- diagnostics from the LSP (marksman)
+  -- Diagnostics from marksman only; markdownlint's style rules are noise
   {
     "mfussenegger/nvim-lint",
     opts = {

@@ -3,8 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       inlay_hints = { enabled = false },
-      -- No diagnostic text at the end of the line, only the gutter icon
-      -- (<leader>cd shows the detail for the current line)
+      -- Gutter icon only, no text at end of line (<leader>cd for detail)
       diagnostics = { virtual_text = false },
       servers = {
         css_variables = {

@@ -4,14 +4,6 @@
 
 vim.g.mapleader = ","
 
--- The values below come from the old vimrc (vim/vimrc lines 81-161), keeping
--- the same feel as MacVim. Two of them were left alone because LazyVim's
--- choices are deliberate and reverting them is worse:
---   laststatus = 3 (one global status line; the old 2 was one per window)
---   timeoutlen = 300 (which-key's popup speed depends on it; 1000 feels slow)
--- foldmethod=manual was not carried over either: LazyVim sets treesitter's
--- foldexpr per window on BufReadPost, which overrides the global value, and
--- folding is switched off by foldenable=false below.
 vim.opt.listchars = { tab = "»·", trail = "·" }
 vim.opt.foldenable = false
 vim.opt.showmatch = true
@@ -25,12 +17,10 @@ vim.opt.wildmode = "longest,list"
 vim.opt.writebackup = false
 vim.opt.modelines = 3
 vim.opt.ttimeoutlen = 100
-
 vim.opt.background = "dark"
-vim.opt.clipboard = "" -- 'unnamedplus'
+vim.opt.clipboard = ""
 vim.opt.relativenumber = false
--- LazyVim defaults to 2, which hides markdown markers such as ` and * — and
--- only on lines away from the cursor, so they flicker as you move
+-- Show text as written, nothing hidden
 vim.opt.conceallevel = 0
 
 -- Enable the option to require a Prettier config file

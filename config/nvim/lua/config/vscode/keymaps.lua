@@ -1,17 +1,13 @@
 -- Keymaps under VSCode
 --
--- LazyVim's vscode extra trims plugins down to an allowlist: snacks' picker
--- and explorer, nvim-tmux-navigation and others never load, and the LazyVim
--- defaults that depend on them stop working.
--- The ones in daily use are wired to VSCode's own commands here, so the feel
--- matches terminal nvim.
+-- The vscode extra allowlists plugins, so snacks' picker, explorer and
+-- nvim-tmux-navigation never load and their keys die with them
 
 local vscode = require("vscode")
 local map = vim.keymap.set
 
--- View navigation: stands in for nvim-tmux-navigation in the terminal
--- VSCode's navigate* moves focus between editor groups, the sidebar and the
--- bottom panel
+-- View navigation: stands in for nvim-tmux-navigation
+-- navigate* moves focus across editor groups, sidebar and panel
 map("n", "<C-h>", function()
   vscode.action("workbench.action.navigateLeft")
 end)
