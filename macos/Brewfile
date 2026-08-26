@@ -15,6 +15,7 @@ brew "git-delta"
 brew "git-lfs"
 brew "jq"
 brew "shellcheck"
+brew "terminal-notifier"
 
 # Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"

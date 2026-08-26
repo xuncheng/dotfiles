@@ -13,3 +13,9 @@ git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+
+PRIVATE_DIR="dotfiles-private"
+if [ -f "${BASEDIR}/${PRIVATE_DIR}/${CONFIG}" ]; then
+  "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" \
+    -d "${BASEDIR}/${PRIVATE_DIR}" -c "${BASEDIR}/${PRIVATE_DIR}/${CONFIG}" "${@}"
+fi

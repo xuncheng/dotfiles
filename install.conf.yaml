@@ -36,10 +36,6 @@
     ~/.zshenv: config/zsh/.zshenv
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/rules/common: claude/rules
-    # Private submodule: skipped without access, never fails the install
-    ~/.claude/rules/private:
-      if: "[ -e dotfiles-private/claude/rules ]"
-      path: dotfiles-private/claude/rules
     ~/.config/zsh: config/zsh
     # LazyVim's starter is usually cloned straight into this path
     ~/.config/nvim:
