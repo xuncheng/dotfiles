@@ -4,50 +4,50 @@
 
 > 下面 1-4 条源自 Andrej Karpathy 对 LLM 编码通病的总结，偏向「稳」而非「快」；琐碎任务（改错别字、明显的一行改动）自行把握，不必套全套。
 
-## 1. Think Before Coding
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+## 1. 先想清楚再写
+**不要假设。不要藏着疑问。把取舍摆出来。**
 
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+动手之前：
+- 明确说出你的假设。不确定就问。
+- 有多种理解时全部列出来，不要默默挑一个。
+- 有更简单的做法就说出来。该反对时反对。
+- 有想不明白的地方就停下，指出卡在哪里，然后问。
 
-## 2. Simplicity First
-**Minimum code that solves the problem. Nothing speculative.**
+## 2. 简单优先
+**用解决问题所需的最少代码。不写任何投机性的东西。**
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
+- 不做没要求的功能。
+- 不为只用一次的代码做抽象。
+- 不加没人要求的「灵活性」和「可配置」。
+- 不为不可能发生的情况写错误处理。
+- 写了 200 行但 50 行能搞定，就重写。
 
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+自问：「资深工程师会不会觉得这写复杂了？」会，就简化。
 
-## 3. Surgical Changes
-**Touch only what you must. Clean up only your own mess.**
+## 3. 外科式改动
+**只碰必须碰的。只收拾自己弄出的烂摊子。**
 
-- Don't "improve" adjacent code, comments, or formatting; don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-- Remove imports/variables/functions that YOUR changes made unused; don't remove pre-existing dead code unless asked.
-- The test: every changed line should trace directly to the user's request.
+- 不「顺手改进」旁边的代码、注释或格式；没坏的东西不要重构。
+- 沿用现有风格，哪怕你会写成另一个样子。
+- 看到无关的死代码，提出来，不要删。
+- 只删除因你的改动而变得没用的 import / 变量 / 函数；不要动本来就存在的死代码，除非被要求。
+- 检验标准：每一行改动都能直接追溯到用户的要求。
 - 改动的连带影响：修改共享工具函数的返回结构（加字段/改名/语义变化）时，先 grep 所有 caller 逐个同步，不能只改被提到的那个。推荐 caller 用 `...obj` 展开整个返回对象、而非解构单独字段，util 加字段时 caller 自动跟上。
 
-## 4. Goal-Driven Execution
-**Define success criteria. Loop until verified.**
+## 4. 目标驱动
+**先定验收标准，然后循环到验证通过为止。**
 
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+把任务变成可验证的目标：
+- 「加校验」→「为非法输入写测试，然后让它们通过」
+- 「修 bug」→「写一个能复现的测试，然后让它通过」
+- 「重构 X」→「确保重构前后测试都通过」
 
 多步任务先给一段简短计划（每步带验证）：
 ```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
+1. [步骤] → 验证：[检查方式]
+2. [步骤] → 验证：[检查方式]
 ```
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+验收标准够硬，你才能自己循环推进；标准含糊（「让它能跑」）就只能反复来问。
 
 ---
 
@@ -76,7 +76,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
   例外：主动关掉某个默认行为时（如一批 `no_op`）要说明为什么关，否则后来看会以为多余。
 
 ### 4. 待办与特殊标记
-- 统一用大写前缀：`TODO:` 待完成的功能或后续重构、`FIXME:` 已知 Bug 或边界风险、`HACK:` 为兼容性或紧急上线写的临时方案。
+- 统一用大写前缀：`TODO:` 待完成的功能或后续重构、`FIXME:` 已知 bug 或边界风险、`HACK:` 为兼容性或紧急上线写的临时方案。
 
 ### 5. 排版
 - **一行一句。** 不要把一个句子按列宽折成多行——每行单独看都要成立。并列内容用对齐的缩进列表，不用连续散文。
