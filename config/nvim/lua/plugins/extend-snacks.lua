@@ -32,9 +32,11 @@ return {
 
     picker = {
       sources = {
-        files = { exclude = exclude },
-        grep = { exclude = exclude },
-        explorer = { exclude = exclude },
+        -- hidden: dotfiles are ordinary files in a dotfiles-heavy tree
+        -- ignored stays off, so .gitignore keeps node_modules and build output out
+        files = { exclude = exclude, hidden = true },
+        grep = { exclude = exclude, hidden = true },
+        explorer = { exclude = exclude, hidden = true },
       },
     },
   },
