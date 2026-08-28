@@ -24,7 +24,13 @@ cd ~/.dotfiles
 # 5. Install the packages (reads the ~/.Brewfile symlink created in step 4)
 brew bundle --global
 
-# 6. Restart the shell
+# 6. Install the casks that have to stay on an old version
+./macos/pinned-casks.sh
+
+# 7. Apply the macOS system preferences (asks for sudo once, up front)
+./macos/defaults.sh
+
+# 8. Restart the shell
 exec zsh
 ```
 
@@ -50,7 +56,7 @@ exec zsh
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)               |
 | `npm/`              | `npmrc` (linked to `~/.npmrc`)                                  |
 | `dropbox/`          | `rules.dropboxignore`, **copied** into `~/Dropbox` by `install`  |
-| `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and `defaults.sh`          |
+| `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and the macOS setup scripts |
 | `vim/`              | legacy Vim config, read as `~/.vim/vimrc` (Vim 8+)              |
 
 ## zsh
@@ -143,12 +149,35 @@ Finder and Dock. Run it once per machine. It asks for `sudo` up front (only
 `mdutil` needs it), and the keyboard, text and hotkey settings take effect on
 the next login.
 
+## Version-pinned casks
+
+```sh
+./macos/pinned-casks.sh
+```
+
+Four apps have to stay on an old release — CleanShot X, Keyboard Maestro,
+RunJS and the WeChat DevTools. A Brewfile has no way to say which version of a
+cask it wants, so those four are left out of `macos/Brewfile` and installed
+here instead, each from the homebrew-cask definition at the commit that
+shipped its version.
+
+All four ship their own updater, so after installing, turn auto-update off
+inside each app; otherwise it walks straight back to the latest release and the
+pin is meaningless. `brew upgrade` leaves them alone (they are `auto_updates`
+casks), but `brew upgrade --greedy` would not.
+
 ## Keeping Brewfile in sync
 
 ```sh
-brew bundle dump --global --force   # overwrite ~/.Brewfile from what's installed
-brew bundle cleanup --global        # list installed packages not in the Brewfile
+brew bundle dump --file=-      # print the installed state; writes nothing
+brew bundle cleanup --global   # prompts, then UNINSTALLS anything not listed
 ```
 
-The checked-in `macos/Brewfile` is hand-curated and grouped by purpose, so
-prefer editing it by hand over `dump`, which flattens the grouping.
+`macos/Brewfile` is edited by hand. It is grouped by purpose, and it leaves out
+the four casks `pinned-casks.sh` holds at an old version — neither survives a
+`brew bundle dump --force`, which flattens the grouping and writes those four
+back unpinned. Diff against `--file=-` instead. (`--global` and `--file` can't
+be combined; `--file=-` alone reads the installed state and prints it.)
+
+`cleanup` uninstalls, it doesn't list, and it counts those same four casks as
+unlisted. Read its prompt before answering it.

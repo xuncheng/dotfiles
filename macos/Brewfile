@@ -29,6 +29,8 @@ brew "stylua"
 brew "rbenv"
 brew "ruby-build"
 brew "libyaml"
+# Node, kept here because .zshenv already puts $VOLTA_HOME/bin on the path
+brew "volta"
 
 # Services
 brew "redis", restart_service: true
@@ -38,6 +40,31 @@ brew "redis", restart_service: true
 cask "font-symbols-only-nerd-font",
      postinstall: "rm -f ~/Library/Fonts/SymbolsNerdFont-Regular.ttf \"$(brew --prefix)\"/Caskroom/font-symbols-only-nerd-font/*/SymbolsNerdFont-Regular.ttf"
 
-# Apps
+# Apps: terminal, launcher and desktop utilities
 cask "kitty"
+cask "raycast"
 cask "easydict"
+cask "popclip"
+cask "jordanbaird-ice"
+cask "menubarx"
+cask "1password"
+cask "dropbox"
+
+# Apps: GUI editors and dev tools
+cask "visual-studio-code"
+cask "sublime-text"
+cask "macvim"
+cask "github"
+
+# Apps: browsers and communication
+cask "google-chrome"
+cask "wechat"
+cask "wechatwork"
+
+# The suite ships as one installer pkg, so Word, Excel and friends all arrive
+# from this single cask
+cask "microsoft-office"
+
+# cleanshot, keyboard-maestro, runjs and wechatwebdevtools are deliberately
+# absent: they have to stay on an old version, which a Brewfile can't express.
+# macos/pinned-casks.sh installs those four.
