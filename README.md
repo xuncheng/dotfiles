@@ -50,7 +50,7 @@ exec zsh
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)               |
 | `npm/`              | `npmrc` (linked to `~/.npmrc`)                                  |
 | `dropbox/`          | `rules.dropboxignore`, **copied** into `~/Dropbox` by `install`  |
-| `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and macOS-only helpers     |
+| `macos/`            | `Brewfile` (linked to `~/.Brewfile`) and `defaults.sh`          |
 | `vim/`              | legacy Vim config, read as `~/.vim/vimrc` (Vim 8+)              |
 
 ## zsh
@@ -125,6 +125,23 @@ The `private` link is guarded by an `if:` in `install.conf.yaml`, so a machine
 without access to the private repo installs everything else and skips it,
 instead of failing. `install.conf.yaml` inits submodules *before* the link
 step, so a fresh clone is fully set up in a single `./install` run.
+
+## macOS system defaults
+
+```sh
+./macos/defaults.sh
+```
+
+Every line is a deviation from the macOS factory defaults — key repeat and
+press-and-hold, text substitution, tap to click, Finder view and search scope,
+Spotlight, Dock. Anything the factory already gets right is deliberately
+absent, so the file stays a diff rather than a dump.
+
+Deliberately *not* wired into `install.conf.yaml`: `./install` is a symlink
+sync meant to be re-run any time, while this mutates system state and restarts
+Finder and Dock. Run it once per machine. It asks for `sudo` up front (only
+`mdutil` needs it), and the keyboard, text and hotkey settings take effect on
+the next login.
 
 ## Keeping Brewfile in sync
 
