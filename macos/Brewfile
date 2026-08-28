@@ -29,7 +29,6 @@ brew "stylua"
 brew "rbenv"
 brew "ruby-build"
 brew "libyaml"
-# Node, kept here because .zshenv already puts $VOLTA_HOME/bin on the path
 brew "volta"
 
 # Services
