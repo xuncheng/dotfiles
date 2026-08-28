@@ -3,6 +3,7 @@
   email = w.xun.cheng@gmail.com
 [push]
   default = current
+  autoSetupRemote = true
 [color]
   ui = true
 [alias]
@@ -62,6 +63,8 @@
   tool = nvimdiff
 [merge]
   tool = nvimdiff
+  # Show the common ancestor alongside both sides of a conflict
+  conflictStyle = zdiff3
 [mergetool]
   keepBackup = true
 [github]
@@ -71,6 +74,8 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[fetch]
+  prune = true
 [pull]
 	rebase = false
 [init]
