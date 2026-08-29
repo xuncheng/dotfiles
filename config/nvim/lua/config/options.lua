@@ -16,6 +16,9 @@ vim.opt.showtabline = 2
 vim.opt.wildmode = "longest,list"
 vim.opt.writebackup = false
 vim.opt.modelines = 3
+-- Load a .nvim.lua sitting in the directory nvim starts in
+-- Nothing runs until that exact file is confirmed with :trust
+vim.opt.exrc = true
 vim.opt.ttimeoutlen = 100
 vim.opt.background = "dark"
 vim.opt.clipboard = ""

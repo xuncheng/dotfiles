@@ -42,11 +42,6 @@ function RenameFile()
 end
 map("n", "<leader>n", "<cmd>lua RenameFile()<CR>", {})
 
--- local Util = require("lazyvim.util")
--- vim.keymap.set("n", "<leader>t", function()
---   Util.float_term(nil, { border = "rounded", size = { width = 1, height = 0.8 } })
--- end, { desc = "Terminal (cwd)" })
-
 -- https://github.com/LazyVim/LazyVim/discussions/4109
 -- Both sides have to override LazyVim's default <C-w>hjkl bindings
 if vim.g.vscode then
@@ -57,4 +52,18 @@ else
   map("n", "<C-k>", "<cmd>NvimTmuxNavigateUp<CR>")
   map("n", "<C-l>", "<cmd>NvimTmuxNavigateRight<CR>")
   map("n", "<C-\\>", "<cmd>NvimTmuxNavigateLastActive<CR>")
+end
+
+-- <leader>j jumps to a directory the project layout guarantees, so the path
+-- never has to be typed; the picker still fuzzy-matches within it
+-- The letters come from the old vimrc, where selecta filled this role
+-- A directory the project does not have simply comes up empty
+local jump_dirs = {
+  a = { "admin/functions" },
+  b = { "backend" },
+}
+for key, dirs in pairs(jump_dirs) do
+  map("n", "<leader>j" .. key, function()
+    Snacks.picker.files({ dirs = dirs })
+  end, { desc = table.concat(dirs, " ") })
 end
