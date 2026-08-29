@@ -6,7 +6,6 @@ return {
         ["typescript"] = { "prettier" },
         ["markdown"] = { "prettier" },
         ["yaml"] = { "prettier" },
-        ["svelte"] = { "prettier" },
         ["html"] = { "prettier" },
       },
     },

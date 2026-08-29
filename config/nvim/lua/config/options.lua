@@ -6,7 +6,7 @@ vim.g.mapleader = ","
 
 vim.opt.listchars = { tab = "»·", trail = "·" }
 vim.opt.foldenable = false
-vim.opt.showmatch = true
+vim.opt.showmatch = false
 vim.opt.softtabstop = 2
 vim.opt.scrolloff = 3
 vim.opt.numberwidth = 5

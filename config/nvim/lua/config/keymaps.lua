@@ -12,6 +12,25 @@ map("n", "<CR>", ":nohlsearch<CR>:<CR>", { noremap = true, silent = true })
 
 map("i", "<C-l>", "<space>=><space>", {})
 
+-- Tab completes rather than a popup opening on its own, as the old vimrc did
+-- nvim sets omnifunc only for servers that can complete, so an empty one means
+-- <C-x><C-o> has nothing behind it and <C-p> keyword completion stands in
+-- Accept with <C-y>, dismiss with <C-e>
+map("i", "<Tab>", function()
+  if vim.fn.pumvisible() == 1 then
+    return "<C-n>"
+  end
+  local col = vim.fn.col(".") - 1
+  if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+    return "<Tab>"
+  end
+  return vim.bo.omnifunc ~= "" and "<C-x><C-o>" or "<C-p>"
+end, { expr = true })
+
+map("i", "<S-Tab>", function()
+  return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
+end, { expr = true })
+
 -- <leader>n renames the file
 function RenameFile()
   local old_name = vim.fn.expand("%")

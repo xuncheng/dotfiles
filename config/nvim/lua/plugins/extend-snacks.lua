@@ -36,7 +36,24 @@ return {
         -- ignored stays off, so .gitignore keeps node_modules and build output out
         files = { exclude = exclude, hidden = true },
         grep = { exclude = exclude, hidden = true },
-        explorer = { exclude = exclude, hidden = true },
+        -- o mirrors <CR>, which toggles a directory and opens a file
+        -- snacks binds o to explorer_open, handing the path to the OS opener
+        explorer = {
+          exclude = exclude,
+          hidden = true,
+          win = {
+            list = {
+              keys = {
+                ["o"] = "confirm",
+                -- Both of these swap the tree root, <BS> for the parent and
+                -- . for the directory under the cursor, and neither can be undone
+                -- Both keys are reflexes elsewhere, so they get hit by accident
+                ["<BS>"] = false,
+                ["."] = false,
+              },
+            },
+          },
+        },
       },
     },
   },
