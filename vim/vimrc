@@ -248,8 +248,6 @@ function! MapCR()
 endfunction
 call MapCR()
 nnoremap <leader><leader> <c-^>
-" Execute ruby code
-nnoremap <leader>r :!ruby %<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
@@ -360,27 +358,28 @@ nnoremap <leader>fu :CtrlPFunky<cr>
 noremap <leader>fm :CtrlP ./app/models/<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use The Silver Searcher
-" https://github.com/ggreer/the_silver_searcher
+" Use ripgrep
+" https://github.com/BurntSushi/ripgrep
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
+if executable('rg')
+  " --vimgrep emits a column, which the default grepformat does not expect
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepformat=%f:%l:%c:%m
 
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'rg --vimgrep --no-heading --smart-case'
 
-  cnoreabbrev ag Ack
-  cnoreabbrev aG Ack
-  cnoreabbrev Ag Ack
-  cnoreabbrev AG Ack
+  cnoreabbrev rg Ack
+  cnoreabbrev rG Ack
+  cnoreabbrev Rg Ack
+  cnoreabbrev RG Ack
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " --files lists paths rather than searching them, and .gitignore is honoured
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 
-  " ag is fast enough that CtrlP doesn't need to cache
+  " rg is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 
-  nnoremap <Leader>ag :Ack<CR>
+  nnoremap <Leader>rg :Ack<CR>
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -392,11 +391,14 @@ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 " RSpec.vim Configuration
 " https://github.com/thoughtbot/vim-rspec
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:rspec_runner = "os_x_iterm2"
-let g:rspec_command = "!bin/rspec {spec}"
-nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>l :call RunLastSpec()<CR>
+" rspec lives in the project's bundle, so a Gemfile is what says it is there
+if filereadable('Gemfile')
+  let g:rspec_runner = "os_x_iterm2"
+  let g:rspec_command = "!bin/rspec {spec}"
+  nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
+  nnoremap <Leader>s :call RunNearestSpec()<CR>
+  nnoremap <Leader>l :call RunLastSpec()<CR>
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-airline Configuration
@@ -510,49 +512,51 @@ let g:ale_fix_on_save = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Selecta Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Run a given vim command on the results of fuzzy selecting from a given shell
-" command. See usage below.
-function! SelectaCommand(choice_command, selecta_args, vim_command)
-  try
-    let selection = system(a:choice_command . " | selecta " . a:selecta_args)
-  catch /Vim:Interrupt/
-    " Swallow the ^C so that the redraw below happens; otherwise there will be
-    " leftovers from selecta on the screen
+if executable('selecta')
+  " Run a given vim command on the results of fuzzy selecting from a given shell
+  " command. See usage below.
+  function! SelectaCommand(choice_command, selecta_args, vim_command)
+    try
+      let selection = system(a:choice_command . " | selecta " . a:selecta_args)
+    catch /Vim:Interrupt/
+      " Swallow the ^C so that the redraw below happens; otherwise there will be
+      " leftovers from selecta on the screen
+      redraw!
+      return
+    endtry
     redraw!
-    return
-  endtry
-  redraw!
-  exec a:vim_command . " " . selection
-endfunction
+    exec a:vim_command . " " . selection
+  endfunction
 
-function! SelectaFile(path)
-  call SelectaCommand("find " . a:path . "/* -type f", "", ":e")
-endfunction
+  function! SelectaFile(path)
+    call SelectaCommand("find " . a:path . "/* -type f", "", ":e")
+  endfunction
 
-nnoremap <leader>f :call SelectaFile(".")<cr>
-nnoremap <leader>ga :call SelectaFile("api")<cr>
-nnoremap <leader>gv :call SelectaFile("app/views")<cr>
-nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
-nnoremap <leader>gm :call SelectaFile("app/models")<cr>
-nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
-nnoremap <leader>gs :call SelectaFile("app/services")<cr>
-nnoremap <leader>gj :call SelectaFile("app/frontend/javascripts")<cr>
-nnoremap <leader>gw :call SelectaFile("app/jobs app/workers")<cr>
-nnoremap <leader>gl :call SelectaFile("lib")<cr>
-nnoremap <leader>gt :call SelectaFile("spec")<cr>
-nnoremap <leader>gp :call SelectaFile("app/policies")<cr>
-nnoremap <leader>gf :call SelectaFile("features")<cr>
-nnoremap <leader>gr :call SelectaFile("config")<cr>
+  nnoremap <leader>f :call SelectaFile(".")<cr>
+  nnoremap <leader>ga :call SelectaFile("api")<cr>
+  nnoremap <leader>gv :call SelectaFile("app/views")<cr>
+  nnoremap <leader>gc :call SelectaFile("app/controllers")<cr>
+  nnoremap <leader>gm :call SelectaFile("app/models")<cr>
+  nnoremap <leader>gh :call SelectaFile("app/helpers")<cr>
+  nnoremap <leader>gs :call SelectaFile("app/services")<cr>
+  nnoremap <leader>gj :call SelectaFile("app/frontend/javascripts")<cr>
+  nnoremap <leader>gw :call SelectaFile("app/jobs app/workers")<cr>
+  nnoremap <leader>gl :call SelectaFile("lib")<cr>
+  nnoremap <leader>gt :call SelectaFile("spec")<cr>
+  nnoremap <leader>gp :call SelectaFile("app/policies")<cr>
+  nnoremap <leader>gf :call SelectaFile("features")<cr>
+  nnoremap <leader>gr :call SelectaFile("config")<cr>
 
-"Fuzzy select
-function! SelectaIdentifier()
-  " Yank the word under the cursor into the z register
-  normal "zyiw
-  " Fuzzy match files in the current directory, starting with the word under
-  " the cursor
-  call SelectaCommand("find * -type f", "-s " . @z, ":e")
-endfunction
-nnoremap <c-g> :call SelectaIdentifier()<cr>
+  "Fuzzy select
+  function! SelectaIdentifier()
+    " Yank the word under the cursor into the z register
+    normal "zyiw
+    " Fuzzy match files in the current directory, starting with the word under
+    " the cursor
+    call SelectaCommand("find * -type f", "-s " . @z, ":e")
+  endfunction
+  nnoremap <c-g> :call SelectaIdentifier()<cr>
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Rails.vim Configuration, https://github.com/tpope/vim-rails
