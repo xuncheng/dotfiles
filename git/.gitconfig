@@ -1,6 +1,6 @@
 [user]
   name = Xuncheng Wang
-  email = w.xun.cheng@gmail.com
+  email = 1650860+xuncheng@users.noreply.github.com
 [push]
   default = current
   autoSetupRemote = true
@@ -82,3 +82,11 @@
 	defaultBranch = main
 [submodule]
 	recurse = true
+[gpg]
+  format = ssh
+[user]
+  signingkey = ~/.ssh/id_ed25519_signing.pub
+[commit]
+  gpgsign = true
+[tag]
+  gpgsign = true
