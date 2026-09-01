@@ -111,14 +111,18 @@ one revocation on GitHub instead of a new identity. It is also separate from
 any authentication key, so the two can be revoked independently.
 
 ```sh
-# 1. Generate — the comment is what names the key in GitHub's list
+# 1. A passphrase, asked for twice in step 2 and once in step 3. Copy it from
+#    the output — the clipboard is not safe here, pasting the commands clobbers it
+openssl rand -base64 24
+
+# 2. Generate — the comment is what names the key in GitHub's list
 ssh-keygen -t ed25519 -C "git signing $(hostname -s)" \
   -f ~/.ssh/id_ed25519_signing
 
-# 2. Store the passphrase in the login keychain and load the key into ssh-agent
+# 3. Store the passphrase in the login keychain and load the key into ssh-agent
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519_signing
 
-# 3. Copy the public key
+# 4. Copy the public key
 pbcopy < ~/.ssh/id_ed25519_signing.pub
 ```
 
@@ -128,7 +132,7 @@ Verified badge. Then commit and confirm GitHub shows **Verified**.
 
 > [!NOTE]
 > The filename is fixed at `id_ed25519_signing`, since `user.signingkey` in
-> `git/.gitconfig` points at that path. Step 2 is needed once per key: it is
+> `git/.gitconfig` points at that path. Step 3 is needed once per key: it is
 > what puts the passphrase in the keychain. ssh-agent starts empty after a
 > reboot, and `ssh-keygen -Y sign` consults neither `ssh_config` nor the
 > keychain, so `config/zsh/scripts/ssh-agent.zsh` reloads the keychain's keys
