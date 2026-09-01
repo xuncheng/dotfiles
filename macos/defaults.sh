@@ -28,10 +28,6 @@ sudo -v
 # repeats the way it does on every other system
 defaults write -g ApplePressAndHoldEnabled -bool false
 
-# The fastest notch the System Settings slider reaches
-defaults write -g KeyRepeat -int 2
-defaults write -g InitialKeyRepeat -int 15
-
 ################################################################################
 # Text substitution
 ################################################################################

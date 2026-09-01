@@ -137,9 +137,9 @@ step, so a fresh clone is fully set up in a single `./install` run.
 ./macos/defaults.sh
 ```
 
-Every line is a deviation from the macOS factory defaults — key repeat and
-press-and-hold, text substitution, tap to click, Finder view and search scope,
-Spotlight, Dock. Anything the factory already gets right is deliberately
+Every line is a deviation from the macOS factory defaults — press-and-hold,
+text substitution, tap to click, Finder view and search scope, Spotlight,
+Dock. Anything the factory already gets right is deliberately
 absent, so the file stays a diff rather than a dump.
 
 Deliberately _not_ wired into `install.conf.yaml`: `./install` is a symlink
