@@ -8,11 +8,13 @@
     # Only settings.json is linked: ~/.claude also holds local state
     - ~/.claude
 
-- clean: ["~", "~/.claude/rules"]
+- clean: ["~", "~/.config", "~/.claude/rules"]
 
 - shell:
-    # The private submodule fails to clone without access — not an error
-    - [git submodule update --init --recursive || true, Installing submodules]
+    # Without access the private submodule is skipped, not an error.
+    # GIT_TERMINAL_PROMPT=0 is what makes that a failure rather than a
+    # credential prompt that hangs the install
+    - [GIT_TERMINAL_PROMPT=0 git submodule update --init --recursive || true, Installing submodules]
     # Dropbox's own ignore rules
     # Not synced by Dropbox, so every machine needs its own copy
     # Must be a copy, not a symlink: Dropbox ignores the symlinked form
