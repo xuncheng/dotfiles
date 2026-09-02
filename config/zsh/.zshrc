@@ -46,4 +46,7 @@ exists rbenv && eval "$(rbenv init - --no-rehash zsh)"
 #  Syntax Highlighting
 #-------------------------------------------------------------------------------
 # NOTE: syntax highlighting must load after all the zsh widgets are setup
-source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# The bootstrap opens its first shell before `brew bundle` installs this
+_zsh_syntax_highlighting="${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -r "$_zsh_syntax_highlighting" ]] && source "$_zsh_syntax_highlighting"
+unset _zsh_syntax_highlighting
