@@ -18,7 +18,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Picked by shebang rather than by extension, so a script in bin/ that
       # is not shell does not fail the run
@@ -40,7 +40,7 @@ jobs:
     env:
       GIT_TERMINAL_PROMPT: 0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Link into an empty HOME
         run: |
