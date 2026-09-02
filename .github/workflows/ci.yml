@@ -1,0 +1,58 @@
+# The full install path is otherwise only exercised when setting up a new
+# machine, which is the worst moment to find a typo in the manifest.
+name: CI
+
+# Everything not listed here is something the install job links or the lint
+# job reads, so the filter is an exclude list rather than an include one:
+# forgetting to add a path would silently stop checking it
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md', 'LICENSE']
+  pull_request:
+    paths-ignore: ['**.md', 'LICENSE']
+
+jobs:
+  # Nothing here is platform-specific, and shellcheck is preinstalled on the
+  # Linux image; the install job below is the one that needs a real macOS
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Picked by shebang rather than by extension, so a script in bin/ that
+      # is not shell does not fail the run
+      - name: shellcheck
+        run: grep -rlE '^#!.*(bash|/sh)' install bin macos | xargs -r shellcheck
+
+      # A malformed settings.json is ignored silently by its reader
+      - name: json
+        run: |
+          git ls-files '*.json' | xargs -r -n1 python3 -c \
+            'import json,sys; json.load(open(sys.argv[1]))'
+
+  # macOS because the manifest branches on it: the ~/.Brewfile link is guarded
+  # by `uname = Darwin` and would never be exercised on Linux
+  install:
+    runs-on: macos-latest
+    # The private submodule is unreachable here; without this git stops to ask
+    # for credentials instead of failing
+    env:
+      GIT_TERMINAL_PROMPT: 0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Link into an empty HOME
+        run: |
+          export HOME="${RUNNER_TEMP}/home"
+          mkdir -p "$HOME"
+          ./install
+
+      - name: Re-run, which must be idempotent
+        run: |
+          export HOME="${RUNNER_TEMP}/home"
+          ./install
+
+      # The Darwin-only branch of the manifest, and the reason this runs here
+      - name: The macOS-only links exist
+        run: test -L "${RUNNER_TEMP}/home/.Brewfile"
