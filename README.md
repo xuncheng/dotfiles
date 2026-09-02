@@ -92,8 +92,7 @@ side. `prefix + r` reloads the config.
 ## Git
 
 `git/.gitconfig` is linked to `~/.gitconfig`. `git l`, `git r`, `git hp` and
-friends are pretty-log aliases implemented in `git/.githelpers`. `git div` and
-`git gn` shell out to `bin/git-divergence` and `bin/git-goodness`.
+friends are pretty-log aliases implemented in `git/.githelpers`.
 
 `user.email` is the GitHub `users.noreply.github.com` address rather than a
 real mailbox: commit metadata is public and permanent, and an address tied to
