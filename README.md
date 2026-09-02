@@ -3,6 +3,21 @@
 Personal macOS (Apple Silicon) configuration, symlinked into place with
 [dotbot](https://github.com/anishathalye/dotbot).
 
+> [!WARNING]
+> These are one person's dotfiles. Fork the repo, read what it does, and strip
+> out what you do not want before running anything. What bites:
+>
+> - **`./install`** — force-links over `~/.bin`, `~/.gitconfig`,
+>   `~/.config/nvim`, `~/.config/kitty` and `~/.config/vscode`, replacing real
+>   files already sitting at those paths, and copies a file into `~/Dropbox`.
+> - **`git/.gitconfig`** — carries my name, email, GitHub user and signing key
+>   path, and sets `commit.gpgsign`, so a machine without that key cannot
+>   commit at all.
+> - **`macos/defaults.sh`** — rewrites 24 system preferences, then restarts
+>   Finder and Dock.
+> - **`macos/pinned-casks.sh`** — installs four apps at deliberately old
+>   versions.
+
 ## Bootstrap on a new machine
 
 ```sh
@@ -241,3 +256,8 @@ sync meant to be re-run any time, while this mutates system state and restarts
 Finder and Dock. It asks for `sudo` up front (only
 `mdutil` needs it), and the keyboard, text and hotkey settings take effect on
 the next login.
+
+## License
+
+MIT, see `LICENSE`. The `dotbot/` submodule and the files under `vim/colors/`
+and `vim/autoload/` carry their own upstream licenses.
