@@ -1,6 +1,7 @@
 [user]
   name = Xuncheng Wang
   email = 1650860+xuncheng@users.noreply.github.com
+  signingkey = ~/.ssh/id_ed25519_signing.pub
 [push]
   default = current
   autoSetupRemote = true
@@ -41,8 +42,8 @@
 [core]
   editor = nvim
   pager = delta
-	excludesfile = ~/.gitignore_global
-	quotepath = false
+  excludesfile = ~/.gitignore_global
+  quotepath = false
 [interactive]
   diffFilter = delta --color-only
 [delta]
@@ -52,6 +53,7 @@
   helper = osxkeychain
 [commit]
   template = ~/.gitmessage
+  gpgsign = true
 [diff]
   tool = nvimdiff
 [merge]
@@ -63,23 +65,19 @@
 [github]
   user = xuncheng
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 [fetch]
   prune = true
 [pull]
-	rebase = false
+  rebase = false
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [submodule]
-	recurse = true
+  recurse = true
 [gpg]
   format = ssh
-[user]
-  signingkey = ~/.ssh/id_ed25519_signing.pub
-[commit]
-  gpgsign = true
 [tag]
   gpgsign = true
