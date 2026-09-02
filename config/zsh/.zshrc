@@ -29,6 +29,12 @@ for ZSH_FILE in "${ZDOTDIR:-$HOME}"/scripts/*.zsh(N); do
   source "${ZSH_FILE}"
 done
 
+# Outside ZDOTDIR, which is a symlink into this repo's work tree
+# After the above, so these files can call compdef
+for ZSH_FILE in "${XDG_CONFIG_HOME}"/zsh-local/*.zsh(N); do
+  source "${ZSH_FILE}"
+done
+
 #-------------------------------------------------------------------------------
 #  RUBY
 #-------------------------------------------------------------------------------

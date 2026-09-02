@@ -41,7 +41,7 @@ It only creates symlinks. Four more steps are run once per machine:
 | `install.conf.yaml` | dotbot manifest: the source-of-truth list of every symlink       |
 | `install`           | dotbot entry point (syncs the submodule, then applies the yaml)  |
 | `dotbot/`           | git submodule                                                    |
-| `dotfiles-private/` | private git submodule: machine-local, non-public config          |
+| `dotfiles-private/` | private git submodule: work-only config, kept out of this repo   |
 | `config/zsh/`       | zsh config, linked to `~/.config/zsh` (`$ZDOTDIR`)               |
 | `config/nvim/`      | Neovim config (LazyVim based)                                    |
 | `config/tmux/`      | tmux config                                                      |
@@ -67,11 +67,22 @@ Startup is split across three files by role:
 - **`.zprofile`** — login shells only. Runs `brew shellenv` and caches
   `$BREW_PREFIX` (must come after brew is on the path, hence not in `.zshenv`).
 - **`.zshrc`** — interactive shells. Sources every `scripts/*.zsh`, then
-  initialises rbenv, then loads zsh-syntax-highlighting last.
+  `~/.config/zsh-local/`, then initialises rbenv, then loads
+  zsh-syntax-highlighting last.
 
 Add new shell config as a file in `config/zsh/scripts/` — it is picked up
 automatically, no `source` line needed. Syntax highlighting must stay last in
 `.zshrc`, since it has to wrap widgets defined by everything before it.
+
+Anything this repo does not carry goes in `~/.config/zsh-local/`, where every
+`*.zsh` is sourced. It is the one extension point, and it does not care what put
+a file there — hand-written on a single machine, or symlinked in by another repo,
+both work and neither needs an edit here.
+
+It sits outside `$ZDOTDIR` on purpose: that path is a symlink into this repo, so
+a file dropped under it at runtime would land in this repo's work tree. Its slot
+in `.zshrc` is also deliberate — after `completion.zsh` has run `compinit`, so
+those files can call `compdef`, and before rbenv and syntax highlighting.
 
 > [!NOTE]
 > `~/.zshrc` in `$HOME` is _not_ used. Because `$ZDOTDIR` is set, zsh reads

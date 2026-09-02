@@ -20,8 +20,6 @@ alias vim='nvim'
 #-------------------------------------------------------------------------------
 (( $+commands[bat] )) && alias cat='bat'
 (( $+commands[kitty] )) && alias icat="kitty +kitten icat"
-# Switch Tencent CloudBase account; completion lives in scripts/tcb-env.zsh
-(( $+commands[tcb-env] )) && alias tu='tcb-env use'
 
 # Unix
 alias ...='cd ../..'
