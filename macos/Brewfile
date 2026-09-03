@@ -20,10 +20,22 @@ brew "terminal-notifier"
 # Shell (zsh itself comes from macOS; only the plugins are installed)
 brew "zsh-syntax-highlighting"
 
-# Editors: Neovim + LazyVim deps, plus Vim for the legacy vim/ config
+# Editors: Neovim, plus Vim for the legacy vim/ config
 brew "neovim"
 brew "vim"
+# nvim-treesitter compiles parsers with this; the tree-sitter formula neovim
+# itself depends on is the library alone and carries no executable
+brew "tree-sitter-cli"
+
+# Language servers and formatters. nvim's LSP config names the binaries and
+# attaches to whichever are present, so a missing one is quiet rather than
+# broken. One package covers both jsonls and eslint
+brew "vscode-langservers-extracted"
+brew "marksman"
+brew "prettier"
 brew "stylua"
+# Not from brew: vtsls comes from volta, ruby-lsp and rubocop from the gems,
+# so that each follows the toolchain its projects already pin
 
 # Languages / runtimes (Ruby via rbenv; system ruby is EOL 2.6)
 brew "rbenv"
