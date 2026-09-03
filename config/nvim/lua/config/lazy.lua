@@ -23,7 +23,7 @@ require("lazy").setup({
       return plugin.vscode == true
     end or nil,
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "cobalt2", "habamax" } },
   -- Updates happen when I ask for them, not on a schedule
   checker = { enabled = false },
   change_detection = { notify = false },
