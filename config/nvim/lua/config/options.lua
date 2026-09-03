@@ -19,7 +19,7 @@ opt.grepformat = "%f:%l:%c:%m"
 
 -- Windows and splits
 opt.laststatus = 3
-opt.showtabline = 2
+opt.showtabline = 1
 opt.splitbelow = true
 opt.splitright = true
 opt.splitkeep = "screen"
@@ -39,6 +39,19 @@ opt.signcolumn = "yes"
 -- Whitespace is shown, text is not wrapped
 opt.list = true
 opt.listchars = { tab = "»·", trail = "·" }
+
+-- Blank rather than a column of ~ below the last line, and heavy box drawing
+-- between windows: two splits share one background, so the edge is all there is
+opt.fillchars = {
+  eob = " ",
+  vert = "\u{2503}",
+  horiz = "\u{2501}",
+  horizup = "\u{253B}",
+  horizdown = "\u{2533}",
+  vertleft = "\u{252B}",
+  vertright = "\u{2523}",
+  verthoriz = "\u{254B}",
+}
 opt.wrap = false
 opt.linebreak = true
 

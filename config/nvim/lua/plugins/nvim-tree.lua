@@ -1,4 +1,5 @@
--- The sidebar from NvChad's look: indent guides, git colouring, no root path line
+-- A sidebar close to VSCode's: git status at the right edge, no root path
+-- line, no indent guides
 return {
   "nvim-tree/nvim-tree.lua",
   cmd = { "NvimTreeToggle", "NvimTreeFocus" },
@@ -21,7 +22,9 @@ return {
     renderer = {
       -- The path line above the tree repeats what the statusline already says
       root_folder_label = false,
-      indent_markers = { enable = true },
+      -- Cargo.toml / Makefile / README.md are underlined by default, which
+      -- reads as a link and singles out files that are not special here
+      special_files = {},
       -- Git status the way VSCode places it: the name carries the colour and
       -- the marker sits at the right edge, rather than crowding in before
       -- every name. The markers themselves are nvim-tree's own defaults.
