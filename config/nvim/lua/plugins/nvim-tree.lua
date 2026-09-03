@@ -8,7 +8,20 @@ return {
     { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
   },
   opts = {
-    filters = { dotfiles = true },
+    filters = {
+      dotfiles = true,
+      -- A project's .nvim.lua sets nvim_tree_hide, and 'exrc' sources it after
+      -- this config has been read, so the list is looked up per match rather
+      -- than captured here. work-ignore writes the fragments
+      custom = function(path)
+        for _, fragment in ipairs(vim.g.nvim_tree_hide or {}) do
+          if path:find(fragment, 1, true) then
+            return true
+          end
+        end
+        return false
+      end,
+    },
     -- An expanded directory repeats what its visible children already show;
     -- a collapsed one is the only place the summary carries information
     git = { show_on_open_dirs = false },
