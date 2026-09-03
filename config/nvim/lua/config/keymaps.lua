@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
 local map = vim.keymap.set
 
 -- <leader><leader> switches to the previous buffer
@@ -42,8 +38,9 @@ function RenameFile()
 end
 map("n", "<leader>n", "<cmd>lua RenameFile()<CR>", {})
 
--- https://github.com/LazyVim/LazyVim/discussions/4109
--- Both sides have to override LazyVim's default <C-w>hjkl bindings
+-- Window movement goes to tmux in the terminal and to VSCode inside VSCode
+-- The plugin registers its own keybindings table, but the lhs there is stored
+-- literally rather than as a keycode, so these explicit maps are what fire
 if vim.g.vscode then
   require("config.vscode")
 else
@@ -54,16 +51,13 @@ else
   map("n", "<C-\\>", "<cmd>NvimTmuxNavigateLastActive<CR>")
 end
 
--- <leader>j jumps to a directory the project layout guarantees, so the path
--- never has to be typed; the picker still fuzzy-matches within it
--- The letters come from the old vimrc, where selecta filled this role
--- A directory the project does not have simply comes up empty
-local jump_dirs = {
-  a = { "admin/functions" },
-  b = { "backend" },
-}
-for key, dirs in pairs(jump_dirs) do
-  map("n", "<leader>j" .. key, function()
-    Snacks.picker.files({ dirs = dirs })
-  end, { desc = table.concat(dirs, " ") })
-end
+-- Buffers and quitting, the LazyVim bindings these hands already know
+map("n", "[b", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+
+-- Diagnostics are not drawn inline, so this is how the full text is read
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next diagnostic" })
+map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Previous diagnostic" })

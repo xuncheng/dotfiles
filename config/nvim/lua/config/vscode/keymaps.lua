@@ -1,7 +1,7 @@
 -- Keymaps under VSCode
 --
--- The vscode extra allowlists plugins, so snacks' picker, explorer and
--- nvim-tmux-navigation never load and their keys die with them
+-- config/lazy.lua only loads plugins marked `vscode = true`, so the picker,
+-- the file tree and nvim-tmux-navigation never load and their keys die with them
 
 local vscode = require("vscode")
 local map = vim.keymap.set
@@ -21,7 +21,7 @@ map("n", "<C-l>", function()
   vscode.action("workbench.action.navigateRight")
 end)
 
--- Restore the LazyVim keys the vscode extra switches off
+-- The same lhs the terminal config uses, pointed at VSCode's own commands
 map("n", "<leader>e", function()
   vscode.action("workbench.action.toggleSidebarVisibility")
 end)
