@@ -14,7 +14,6 @@ Plug 'dstein64/vim-startuptime'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
-Plug 'mileszs/ack.vim'
 Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular'
 Plug 'mattn/webapi-vim'
@@ -43,7 +42,7 @@ Plug 'dracula/vim'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
-Plug 'scrooloose/nerdtree',            { 'on':  'NERDTree' }
+Plug 'scrooloose/nerdtree',            { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 
 Plug 'posva/vim-vue',                  { 'for': 'vue' }
 Plug 'tpope/vim-jdaddy',               { 'for': 'json' }
@@ -203,6 +202,11 @@ augroup vimrcEx
   autocmd! CmdwinEnter * :unmap <cr>
   autocmd! CmdwinLeave * :call MapCR()
 
+  " o opens the entry under the cursor, the key NERDTree uses for the same
+  " thing. The quickfix buffer is nomodifiable, so o does nothing there
+  " otherwise, and <cr> is taken by the :nohlsearch mapping further down
+  autocmd FileType qf nnoremap <buffer> o <cr>
+
   " *.md is markdown
   autocmd! BufNewFile,BufRead *.md setlocal ft=
 augroup END
@@ -349,6 +353,14 @@ endfunction
 nnoremap <leader>ri :call InlineVariable()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree Configuration
+"
+" <C-n> is what nvim-tree answers to in the nvim config; <leader>e is not free
+" here, it already opens a file from the current file's directory
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -357,6 +369,8 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_user_command  = 'find %s -type f'
 let g:ctrlp_use_caching   = 0
 let g:ctrlp_extensions    = ['funky']
+" The lhs fzf-lua answers to in the nvim config
+nnoremap <leader>ff :CtrlP<cr>
 nnoremap <leader>fu :CtrlPFunky<cr>
 noremap <leader>fm :CtrlP ./app/models/<CR>
 
@@ -369,20 +383,24 @@ if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
   set grepformat=%f:%l:%c:%m
 
-  let g:ackprg = 'rg --vimgrep --no-heading --smart-case'
-
-  cnoreabbrev rg Ack
-  cnoreabbrev rG Ack
-  cnoreabbrev Rg Ack
-  cnoreabbrev RG Ack
-
   " --files lists paths rather than searching them, and .gitignore is honoured
   let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 
   " rg is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 
-  nnoremap <Leader>rg :Ack<CR>
+  " :grep already runs rg, so the quickfix list is the whole feature; the bang
+  " keeps the cursor here instead of jumping to the first match
+  " The lhs are the ones fzf-lua answers to in the nvim config
+  nnoremap <leader>sg :grep!<space>
+  nnoremap <leader>sw :grep! <C-r><C-w><CR>
+  nnoremap <Leader>rg :grep! <C-r><C-w><CR>
+
+  " Nothing shows the results otherwise, and :grep does not open it itself
+  augroup vimrcQuickfix
+    autocmd!
+    autocmd QuickFixCmdPost grep,grepadd cwindow
+  augroup END
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
