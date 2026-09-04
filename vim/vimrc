@@ -219,7 +219,12 @@ augroup END
 if has("gui_running")
   set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
   set linespace=2
-  set guifont=Dank\ Mono:h16
+  " The same face kitty uses, so the terminal and the GUI look alike
+  set guifont=Cartograph\ CF:h14
+  " Cartograph CF has ligatures and != should stay as ! and =. Off is already
+  " MacVim's default, spelled out so a change to that default cannot move it.
+  " In the terminal the ligatures are the terminal's to disable, not vim's
+  set nomacligatures
   :color cobalt2
 endif
 
