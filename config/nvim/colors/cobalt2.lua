@@ -28,6 +28,8 @@ local palette = {
   bright_green = "#3ad900", -- template string, git untracked
   blue = "#0088ff", -- comment
   mint = "#80ffbb", -- types
+  cyan = "#9effff", -- semantic property
+  hot_pink = "#ff68b8", -- semantic type and interface
   grey = "#808080", -- gitDecoration.ignoredResourceForeground
   red = "#a22929", -- editorError.foreground
   git_add = "#3c9f4a", -- editorGutter.addedBackground
@@ -187,6 +189,18 @@ local function load()
     ["@markup.raw"] = { fg = p.pale_yellow },
     ["@markup.list"] = { fg = p.yellow },
     ["@markup.quote"] = { fg = p.mint, italic = true },
+
+    -- LSP semantic tokens, which the VSCode theme colours through a
+    -- semanticTokenColors block of its own rather than through the scopes
+    -- above. They land on top of the treesitter captures where a server is
+    -- attached, so a language with no server keeps the colours above
+    ["@lsp.type.function"] = { fg = p.yellow },
+    ["@lsp.type.method"] = { fg = p.yellow },
+    ["@lsp.type.variable"] = { fg = "#ffffff" },
+    ["@lsp.type.property"] = { fg = p.cyan },
+    ["@lsp.type.type"] = { fg = p.hot_pink, italic = true },
+    ["@lsp.type.interface"] = { fg = p.hot_pink, italic = true },
+    ["@lsp.type.class"] = { fg = p.hot_pink, italic = true },
 
     -- Diff and git
     DiffAdd = { bg = p.diff_add },

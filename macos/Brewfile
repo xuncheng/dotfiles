@@ -32,6 +32,7 @@ brew "tree-sitter-cli"
 # broken. One package covers both jsonls and eslint
 brew "vscode-langservers-extracted"
 brew "marksman"
+brew "lua-language-server"
 brew "prettier"
 brew "stylua"
 # Not from brew: vtsls comes from volta, ruby-lsp and rubocop from the gems,

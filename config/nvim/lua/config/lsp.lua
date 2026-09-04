@@ -12,10 +12,11 @@ vim.diagnostic.config({
 
 -- A server whose binary is missing simply never attaches, so a machine without
 -- them shows no error and no LSP either. Nothing installs them automatically:
---   brew install vscode-langservers-extracted marksman   # jsonls, eslint, marksman
---   volta install @vtsls/language-server                 # vtsls
---   gem install ruby-lsp                                 # or via the project's Gemfile
-vim.lsp.enable({ "ruby_lsp", "vtsls", "jsonls", "marksman", "eslint" })
+--   brew install vscode-langservers-extracted  # jsonls and eslint, one package
+--   brew install marksman lua-language-server  # marksman, lua_ls
+--   volta install @vtsls/language-server       # vtsls
+--   gem install ruby-lsp                       # or via the project's Gemfile
+vim.lsp.enable({ "ruby_lsp", "vtsls", "jsonls", "marksman", "eslint", "lua_ls" })
 
 -- eslint fixes on save; conform never runs eslint, so this is the only thing
 -- applying its rules. Shares vim.b.autoformat with conform's format_on_save.
@@ -26,7 +27,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       return
     end
     if #vim.lsp.get_clients({ bufnr = ev.buf, name = "eslint" }) > 0 then
-      pcall(vim.cmd, "EslintFixAll")
+      pcall(function()
+        vim.cmd("EslintFixAll")
+      end)
     end
   end,
 })
