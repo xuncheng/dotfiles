@@ -1,3 +1,8 @@
+-- vscode-neovim brings its own language servers
+if vim.g.vscode then
+  return
+end
+
 -- Server definitions come from nvim-lspconfig's lsp/ directory
 -- Anything under this config's own lsp/ is deep-merged on top of them
 
@@ -9,6 +14,18 @@ vim.diagnostic.config({
   signs = { severity = { min = vim.diagnostic.severity.WARN } },
   severity_sort = true,
 })
+
+-- Diagnostics are not drawn inline, so this is how the full text is read.
+-- They live here rather than in keymaps.lua because LSP is the only thing
+-- that fills the list, so under VSCode they should be gone with the rest of
+-- this file instead of jumping around an empty one
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.jump({ count = 1 })
+end, { desc = "Next diagnostic" })
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump({ count = -1 })
+end, { desc = "Previous diagnostic" })
 
 -- A server whose binary is missing simply never attaches, so a machine without
 -- them shows no error and no LSP either. Nothing installs them automatically:
@@ -37,6 +54,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("custom_lsp", { clear = true }),
   callback = function(ev)
+    -- 'autocomplete' already opens the menu and pulls items in through
+    -- 'omnifunc', so autotrigger stays off. This is for the other half:
+    -- accepting with <C-y> then expands snippets, applies the text edits that
+    -- add imports, and runs whatever command the server attached to the item
+    vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, {})
+
     local function map(lhs, rhs, desc)
       vim.keymap.set("n", lhs, rhs, { buffer = ev.buf, desc = desc })
     end

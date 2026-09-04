@@ -1,5 +1,3 @@
--- Everything LazyVim used to set that still matters, plus the overrides that
--- were already in this file. Nothing here is carried over from the vimrc.
 local opt = vim.opt
 
 -- Indentation
@@ -57,7 +55,16 @@ opt.linebreak = true
 
 -- Command line and completion
 opt.wildmode = "longest,list"
-opt.completeopt = "menu,menuone,noselect"
+
+-- The completion menu opens as it is typed into rather than on a keypress
+-- Sources in priority order, each capped so no one of them fills the menu:
+-- the language server through 'omnifunc', the current buffer, then the rest.
+-- Nothing here generates a tags file, so the default "t" is gone.
+opt.autocomplete = true
+opt.complete = "o^10,.^10,w^5,b^5,u^5"
+-- popup gives vim.lsp.completion somewhere to draw the documentation it
+-- resolves for the selected item
+opt.completeopt = "menu,menuone,noselect,popup"
 opt.pumheight = 10
 -- lualine already shows the mode
 opt.showmode = false

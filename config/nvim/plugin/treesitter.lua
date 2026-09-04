@@ -1,0 +1,46 @@
+-- vscode-neovim brings its own; nothing here is wanted there
+if vim.g.vscode then
+  return
+end
+
+-- nvim bundles parsers for c, lua, markdown, markdown_inline, query, vim and
+-- vimdoc, and starts them from its own ftplugins. This adds the languages
+-- actually written here; the bundled ones are left alone so nvim's copies
+-- stay authoritative
+local parsers = {
+  "bash",
+  "css",
+  "html",
+  "javascript",
+  "json",
+  "ruby",
+  "toml",
+  "tsx",
+  "typescript",
+  "yaml",
+}
+
+-- A plugin update that outruns the parsers breaks highlighting until they are
+-- rebuilt. Registering this here rather than in init.lua is fine: it only fires
+-- on update, and vim.pack.update() is run by hand long after startup.
+vim.api.nvim_create_autocmd("PackChanged", {
+  group = vim.api.nvim_create_augroup("custom_treesitter_build", { clear = true }),
+  callback = function(ev)
+    if ev.data.spec.name == "nvim-treesitter" and ev.data.kind == "update" then
+      vim.cmd.packadd(ev.data.spec.name)
+      vim.cmd("TSUpdate")
+    end
+  end,
+})
+
+require("nvim-treesitter").install(parsers)
+
+-- Highlighting is nvim's, not the plugin's: the plugin only supplies the
+-- parser and the queries. pcall because a filetype without a parser and a
+-- parser still compiling both raise here
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("custom_treesitter", { clear = true }),
+  callback = function(ev)
+    pcall(vim.treesitter.start, ev.buf)
+  end,
+})

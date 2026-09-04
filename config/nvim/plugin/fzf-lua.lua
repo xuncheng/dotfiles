@@ -1,9 +1,13 @@
+-- vscode-neovim brings its own; nothing here is wanted there
+if vim.g.vscode then
+  return
+end
+
 -- Matching is done by the fzf binary, listing by fd and grepping by rg
 
 -- Dependency directories, build output and lock files, shared by files and
 -- grep. Both tools take a plain name for either a file or a directory.
--- Lock files are committed, so .gitignore does not cover them; lazy-lock.json
--- is left in because it is small and read by hand
+-- Lock files are committed, so .gitignore does not cover them
 local exclude = {
   "node_modules",
   "miniprogram_npm",
@@ -21,6 +25,8 @@ local exclude = {
   "Gemfile.lock",
 }
 
+-- dotfiles are ordinary files in a dotfiles-heavy tree, hence --hidden
+-- .gitignore is still honoured, which is what keeps build output out
 local function fd_opts()
   local o = "--color=never --type f --type l --hidden"
   for _, name in ipairs(exclude) do
@@ -31,7 +37,10 @@ end
 
 -- ripgrep paints its own output and knows nothing of the colorscheme; left to
 -- itself it uses magenta paths and green line numbers. It takes decimal RGB, so
--- the groups are read back out of the loaded theme rather than repeated here
+-- the groups are read back out of the loaded theme rather than repeated here.
+-- The theme has to be set by then, which holds because Nvim sources plugin/
+-- alphabetically and colorscheme.lua sorts before this file; renaming either
+-- one silently falls back to the hardcoded values below.
 local function rg_colors()
   local function rgb(group, fallback)
     local fg = vim.api.nvim_get_hl(0, { name = group, link = false }).fg or fallback
@@ -55,8 +64,8 @@ local function rg_opts()
   return o .. rg_colors()
 end
 
--- <leader>j jumps to a directory the project layout guarantees, so the path
--- never has to be typed; fzf still matches within it
+-- <leader>j jumps straight to a directory these projects tend to have, so the
+-- path never has to be typed; fzf still matches within it
 -- The letters come from the old vimrc, where selecta filled this role
 -- fd errors out on a path that is not a directory, hence the check
 local jump_dirs = {
@@ -65,43 +74,29 @@ local jump_dirs = {
 }
 
 -- The lhs are the LazyVim ones these hands already know
-local keys = {
-  { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find files" },
-  { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
-  { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent files" },
-  { "<leader>sg", "<cmd>FzfLua live_grep<cr>", desc = "Grep" },
-  { "<leader>sw", "<cmd>FzfLua grep_cword<cr>", desc = "Grep word under cursor" },
-  { "<leader>sh", "<cmd>FzfLua helptags<cr>", desc = "Help pages" },
-}
+local map = vim.keymap.set
+map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+map("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Buffers" })
+map("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Recent files" })
+map("n", "<leader>sg", "<cmd>FzfLua live_grep<cr>", { desc = "Grep" })
+map("n", "<leader>sw", "<cmd>FzfLua grep_cword<cr>", { desc = "Grep word under cursor" })
+map("n", "<leader>sh", "<cmd>FzfLua helptags<cr>", { desc = "Help pages" })
+
 for key, dir in pairs(jump_dirs) do
-  table.insert(keys, {
-    "<leader>j" .. key,
-    function()
-      if vim.fn.isdirectory(dir) == 0 then
-        vim.notify(dir .. " not in this project", vim.log.levels.WARN)
-        return
-      end
-      require("fzf-lua").files({ cwd = dir })
-    end,
-    desc = dir,
-  })
+  map("n", "<leader>j" .. key, function()
+    if vim.fn.isdirectory(dir) == 0 then
+      vim.notify(dir .. " not in this project", vim.log.levels.WARN)
+      return
+    end
+    require("fzf-lua").files({ cwd = dir })
+  end, { desc = dir })
 end
 
-return {
-  "ibhagwan/fzf-lua",
-  cmd = "FzfLua",
-  keys = keys,
-  -- A function, so the colours are read after the colorscheme has loaded
-  opts = function()
-    return {
-      -- fzf is a separate process painting its own window; without this it
-      -- keeps its built-in palette and the panel does not match the editor
-      fzf_colors = true,
-      -- dotfiles are ordinary files in a dotfiles-heavy tree
-      -- .gitignore is still honoured, which is what keeps build output out
-      -- The prompt otherwise carries the whole cwd, which never changes here
-      files = { fd_opts = fd_opts(), cwd_prompt = false },
-      grep = { rg_opts = rg_opts() },
-    }
-  end,
-}
+require("fzf-lua").setup({
+  -- fzf is a separate process painting its own window; without this it
+  -- keeps its built-in palette and the panel does not match the editor
+  fzf_colors = true,
+  -- The prompt otherwise carries the whole cwd, which never changes here
+  files = { fd_opts = fd_opts(), cwd_prompt = false },
+  grep = { rg_opts = rg_opts() },
+})

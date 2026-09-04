@@ -1,7 +1,10 @@
--- Keymaps under VSCode
+-- Everything that only applies under vscode-neovim
 --
--- config/lazy.lua only loads plugins marked `vscode = true`, so the picker,
--- the file tree and nvim-tmux-navigation never load and their keys die with them
+-- init.lua installs only nvim-surround there, so the picker, the file tree and
+-- nvim-tmux-navigation never load and their keys die with them
+if not vim.g.vscode then
+  return
+end
 
 local vscode = require("vscode")
 local map = vim.keymap.set
