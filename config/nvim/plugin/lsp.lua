@@ -13,6 +13,14 @@ vim.diagnostic.config({
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
   signs = { severity = { min = vim.diagnostic.severity.WARN } },
   severity_sort = true,
+  -- Nothing is drawn inline, so ]d and [d would land on a diagnostic without
+  -- showing it. focus = false leaves the cursor in the code, which closes the
+  -- float again on the next move
+  jump = {
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+    end,
+  },
 })
 
 -- Diagnostics are not drawn inline, so this is how the full text is read.
