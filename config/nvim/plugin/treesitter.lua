@@ -20,18 +20,20 @@ local parsers = {
   "yaml",
 }
 
--- A plugin update that outruns the parsers breaks highlighting until they are
--- rebuilt. Registering this here rather than in init.lua is fine: it only fires
--- on update, and vim.pack.update() is run by hand long after startup.
+-- An update outruns the compiled parsers and breaks highlighting until they
+-- are rebuilt. Registered before the add below, which is what a first install
+-- would fire; a fresh install needs nothing though, the install() call having
+-- put the parsers there in the first place
 vim.api.nvim_create_autocmd("PackChanged", {
   group = vim.api.nvim_create_augroup("custom_treesitter_build", { clear = true }),
   callback = function(ev)
     if ev.data.spec.name == "nvim-treesitter" and ev.data.kind == "update" then
-      vim.cmd.packadd(ev.data.spec.name)
       vim.cmd("TSUpdate")
     end
   end,
 })
+
+vim.pack.add({ "https://github.com/nvim-treesitter/nvim-treesitter" })
 
 require("nvim-treesitter").install(parsers)
 

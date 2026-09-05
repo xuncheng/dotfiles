@@ -3,6 +3,8 @@ if vim.g.vscode then
   return
 end
 
+vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" })
+
 -- Matching is done by the fzf binary, listing by fd and grepping by rg
 
 -- Dependency directories, build output and lock files, shared by files and
@@ -38,9 +40,8 @@ end
 -- ripgrep paints its own output and knows nothing of the colorscheme; left to
 -- itself it uses magenta paths and green line numbers. It takes decimal RGB, so
 -- the groups are read back out of the loaded theme rather than repeated here.
--- The theme has to be set by then, which holds because Nvim sources plugin/
--- alphabetically and colorscheme.lua sorts before this file; renaming either
--- one silently falls back to the hardcoded values below.
+-- Whatever theme is loaded when this runs, the ColorScheme event below reads
+-- them again, so the fallbacks are only ever what an unstyled group yields.
 local function rg_colors()
   local function rgb(group, fallback)
     local fg = vim.api.nvim_get_hl(0, { name = group, link = false }).fg or fallback
@@ -92,11 +93,23 @@ for key, dir in pairs(jump_dirs) do
   end, { desc = dir })
 end
 
-require("fzf-lua").setup({
-  -- fzf is a separate process painting its own window; without this it
-  -- keeps its built-in palette and the panel does not match the editor
-  fzf_colors = true,
-  -- The prompt otherwise carries the whole cwd, which never changes here
-  files = { fd_opts = fd_opts(), cwd_prompt = false },
-  grep = { rg_opts = rg_opts() },
+-- rg_opts is a plain string, so the colours in it are fixed at this call and
+-- a later :colorscheme would leave them behind. Re-running the whole setup on
+-- the event is also what frees this file from being sourced after
+-- colorscheme.lua, which nothing but the alphabet was guaranteeing
+local function setup()
+  require("fzf-lua").setup({
+    -- fzf is a separate process painting its own window; without this it
+    -- keeps its built-in palette and the panel does not match the editor
+    fzf_colors = true,
+    -- The prompt otherwise carries the whole cwd, which never changes here
+    files = { fd_opts = fd_opts(), cwd_prompt = false },
+    grep = { rg_opts = rg_opts() },
+  })
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("custom_fzf_colors", { clear = true }),
+  callback = setup,
 })
+setup()

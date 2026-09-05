@@ -3,6 +3,11 @@ if vim.g.vscode then
   return
 end
 
+-- Wanted for its lsp/ directory, which vim.lsp.enable() reads off the
+-- runtimepath, and really only for eslint: that server needs a few hundred
+-- lines of protocol glue that are an implementation, not config
+vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
+
 -- Server definitions come from nvim-lspconfig's lsp/ directory
 -- Anything under this config's own lsp/ is deep-merged on top of them
 

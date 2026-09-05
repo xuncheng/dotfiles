@@ -3,6 +3,8 @@ if vim.g.vscode then
   return
 end
 
+vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
+
 -- A sidebar close to VSCode's: git status at the right edge, no root path line
 
 vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<cr>", { desc = "Explorer" })

@@ -4,11 +4,7 @@ if vim.g.vscode then
 end
 
 -- The preview runs on a node app that has to be built after install and after
--- update. Registering the hook here rather than in init.lua keeps this file
--- self-contained, at one cost: on a machine that installs from the lockfile,
--- every plugin is installed during the first vim.pack call in init.lua, which
--- is before this runs. The build is skipped there and has to be done once by
--- hand with `:call mkdp#util#install()`. Updates are unaffected.
+-- update, so this has to be registered before the add below
 vim.api.nvim_create_autocmd("PackChanged", {
   group = vim.api.nvim_create_augroup("custom_mkdp_build", { clear = true }),
   callback = function(ev)
@@ -21,10 +17,14 @@ vim.api.nvim_create_autocmd("PackChanged", {
     -- The installer is vimscript inside the plugin, so it has to be sourced
     -- first. It is slow even when it decides no build is needed, which is why
     -- it is behind this hook rather than simply run at startup.
-    vim.cmd.packadd(ev.data.spec.name)
+    if not ev.data.active then
+      vim.cmd.packadd(ev.data.spec.name)
+    end
     vim.fn["mkdp#util#install"]()
   end,
 })
+
+vim.pack.add({ "https://github.com/iamcco/markdown-preview.nvim" })
 
 -- Browser preview, toggled with <leader>cp
 

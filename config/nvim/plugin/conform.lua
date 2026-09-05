@@ -3,6 +3,8 @@ if vim.g.vscode then
   return
 end
 
+vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
+
 -- Formatting only; diagnostics come from the language servers
 --
 -- The binaries are not installed by anything here:

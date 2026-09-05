@@ -3,6 +3,8 @@ if vim.g.vscode then
   return
 end
 
+vim.pack.add({ "https://github.com/alexghergh/nvim-tmux-navigation" })
+
 -- The keybindings table below is what registers C-hjkl
 -- The same lhs under VSCode are vscode.lua's
 
