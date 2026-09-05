@@ -41,6 +41,16 @@ require("nvim-treesitter").install(parsers)
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("custom_treesitter", { clear = true }),
   callback = function(ev)
-    pcall(vim.treesitter.start, ev.buf)
+    if not pcall(vim.treesitter.start, ev.buf) then
+      return
+    end
+
+    -- Indentation is a query of its own and plenty of parsers ship without
+    -- one; pointing 'indentexpr' at a parser that has none flattens the
+    -- buffer instead of leaving Vim's own indent rules in place
+    local lang = vim.treesitter.language.get_lang(ev.match)
+    if lang and vim.treesitter.query.get(lang, "indents") then
+      vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
   end,
 })
