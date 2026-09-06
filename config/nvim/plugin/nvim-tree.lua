@@ -36,6 +36,11 @@ require("nvim-tree").setup({
   -- Reveal the current buffer in the tree, uncollapsing folders on the way
   -- update_root stays off so opening a file elsewhere never moves the root
   update_focused_file = { enable = true },
+  -- m toggles a bookmark, which nothing here ever reads back
+  on_attach = function(bufnr)
+    require("nvim-tree.api").config.mappings.default_on_attach(bufnr)
+    vim.keymap.del("n", "m", { buffer = bufnr })
+  end,
   view = { width = 40 },
   renderer = {
     -- The path line above the tree repeats what the statusline already says

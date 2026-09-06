@@ -12,6 +12,12 @@ end, { expr = true })
 
 map("i", "<C-l>", "<space>=><space>", {})
 
+-- Neither macro recording nor marks are used here, and both are a
+-- single stray keypress away: q silently starts recording, m drops a
+-- mark. Buffer-local mappings win over these, so nvim-tree keeps its q.
+map("n", "q", "<Nop>")
+map("n", "m", "<Nop>")
+
 -- Tab walks the completion menu, which 'autocomplete' opens on its own
 -- Accept with <C-y>, dismiss with <C-e>
 map("i", "<Tab>", function()
