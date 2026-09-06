@@ -18,16 +18,6 @@ map("i", "<C-l>", "<space>=><space>", {})
 map("n", "q", "<Nop>")
 map("n", "m", "<Nop>")
 
--- Tab walks the completion menu, which 'autocomplete' opens on its own
--- Accept with <C-y>, dismiss with <C-e>
-map("i", "<Tab>", function()
-  return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
-end, { expr = true })
-
-map("i", "<S-Tab>", function()
-  return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
-end, { expr = true })
-
 -- <leader>n renames the file and carries this buffer over to the new name;
 -- opening the new name instead would leave the old one listed and pointing
 -- at a file that is no longer there
