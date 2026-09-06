@@ -74,6 +74,9 @@ opt.shortmess:append({ W = true, I = true, c = true, C = true })
 opt.autowrite = true
 opt.confirm = true
 opt.writebackup = false
+-- A swap file is never read back here, it only ever surfaces as the E325
+-- prompt on the next open after a crash
+opt.swapfile = false
 opt.undofile = true
 opt.undolevels = 10000
 
