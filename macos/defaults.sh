@@ -16,8 +16,8 @@ if [[ "$(uname)" != "Darwin" ]]; then
     exit 1
 fi
 
-# Only the Spotlight index needs root; grab the credential up front so the
-# password prompt doesn't land halfway through the run
+# The startup chime and the Spotlight index need root; grab the credential up
+# front so the password prompt doesn't land halfway through the run
 sudo -v
 
 ################################################################################
@@ -27,6 +27,12 @@ sudo -v
 # Holding a key pops up the accent menu by default; turn it off and the key
 # repeats the way it does on every other system
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Arrow and hjkl movement in a terminal rides on these two.
+# The unit is a 1/60 s frame: a repeat every 50ms, once a key has been held
+# for 250ms
+defaults write -g KeyRepeat -int 3
+defaults write -g InitialKeyRepeat -int 15
 
 ################################################################################
 # Text substitution
@@ -142,6 +148,14 @@ sudo mdutil -a -i off
 # Network shares and USB sticks are other people's too — don't litter .DS_Store
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+################################################################################
+# Sound
+################################################################################
+
+# The startup chime lives in NVRAM rather than in a preference domain, since
+# it plays before there is a filesystem to read one from
+sudo nvram StartupMute=%01
 
 ################################################################################
 # Dock

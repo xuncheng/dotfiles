@@ -246,16 +246,15 @@ casks), but `brew upgrade --greedy` would not.
 ./macos/defaults.sh
 ```
 
-Every line is a deviation from the macOS factory defaults — press-and-hold,
-text substitution, tap to click, Finder view and search scope, Spotlight,
-Dock. Anything the factory already gets right is deliberately
-absent, so the file stays a diff rather than a dump.
+Every line is a deviation from the macOS factory defaults; anything the
+factory already gets right is deliberately absent, so the file stays a diff
+rather than a dump. It is grouped by area and commented line by line — read it
+for what it sets and why.
 
 Deliberately _not_ wired into `install.conf.yaml`: `./install` is a symlink
 sync meant to be re-run any time, while this mutates system state and restarts
-Finder and Dock. It asks for `sudo` up front (only
-`mdutil` needs it), and the keyboard, text and hotkey settings take effect on
-the next login.
+Finder and Dock. It asks for `sudo` up front, and some of what it writes only
+takes effect on the next login.
 
 ## License
 
