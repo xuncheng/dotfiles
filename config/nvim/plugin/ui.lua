@@ -17,7 +17,11 @@ require("lualine").setup({
     component_separators = "|",
   },
   sections = {
-    lualine_a = { "mode" },
+    -- V, V-LINE and V-BLOCK all collapse to "V": the cursor shape and
+    -- the selection itself already say which visual mode is active
+    lualine_a = {
+      { "mode", fmt = function(str) return str:sub(1, 1) end },
+    },
     lualine_b = { "branch" },
     -- Parent directory and filename only: the full relative path is
     -- shortened a segment at a time once the window narrows, so the same

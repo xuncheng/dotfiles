@@ -82,6 +82,7 @@ map("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Recent files" })
 map("n", "<leader>sg", "<cmd>FzfLua live_grep<cr>", { desc = "Grep" })
 map("n", "<leader>sw", "<cmd>FzfLua grep_cword<cr>", { desc = "Grep word under cursor" })
 map("n", "<leader>sh", "<cmd>FzfLua helptags<cr>", { desc = "Help pages" })
+map("n", "<leader>gs", "<cmd>FzfLua git_status<cr>", { desc = "Git status" })
 
 for key, dir in pairs(jump_dirs) do
   map("n", "<leader>j" .. key, function()
@@ -105,6 +106,14 @@ local function setup()
     -- The prompt otherwise carries the whole cwd, which never changes here
     files = { fd_opts = fd_opts(), cwd_prompt = false },
     grep = { rg_opts = rg_opts() },
+    -- git_status is only ever used here to open files. Staging belongs in the
+    -- shell, and ctrl-x discards working tree changes with no confirmation,
+    -- which is not something a file picker should be one keypress away from
+    git = {
+      status = {
+        actions = { ["left"] = false, ["right"] = false, ["ctrl-x"] = false },
+      },
+    },
   })
 end
 
