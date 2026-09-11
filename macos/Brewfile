@@ -65,7 +65,7 @@ cask "dropbox"
 # Apps: GUI editors and dev tools
 cask "visual-studio-code"
 cask "sublime-text"
-cask "macvim"
+cask "macvim-app"
 cask "github"
 
 # Apps: browsers and communication

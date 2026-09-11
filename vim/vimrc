@@ -11,13 +11,11 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 
 Plug 'dstein64/vim-startuptime'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular'
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -35,33 +33,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " themes
 Plug 'haishanh/night-owl.vim'
-Plug 'jeffkreeftmeijer/vim-dim'
-Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 Plug 'scrooloose/nerdtree',            { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 
-Plug 'posva/vim-vue',                  { 'for': 'vue' }
+Plug 'pangloss/vim-javascript',        { 'for': ['javascript', 'javascriptreact'] }
 Plug 'tpope/vim-jdaddy',               { 'for': 'json' }
 Plug 'junegunn/goyo.vim',              { 'for': 'markdown' }
-Plug 'elixir-lang/vim-elixir',         { 'for': 'elixir' }
-Plug 'kylef/apiblueprint.vim',         { 'for': 'apiblueprint' }
-Plug 'kchmck/vim-coffee-script',       { 'for': 'coffeescript' }
-Plug 'cakebaker/scss-syntax.vim',      { 'for': ['scss', 'sass'] }
-Plug 'dearrrfish/vim-applescript',     { 'for': 'applescript' }
-Plug 'dense-analysis/ale',             { 'for': ['js', 'vue'] }
 
 Plug 'tpope/vim-rails',                { 'for': 'ruby' }
 Plug 'ngmy/vim-rubocop',               { 'for': 'ruby' }
 Plug 'vim-ruby/vim-ruby',              { 'for': 'ruby' }
-Plug 'jgdavey/vim-blockle',            { 'for': 'ruby' }
 Plug 'thoughtbot/vim-rspec',           { 'for': 'ruby' }
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 
-Plug 'fatih/vim-go',                   { 'do': ':GoUpdateBinaries' }
 
 " Initialize plugin system
 call plug#end()
@@ -181,10 +166,6 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
-  " For API Blueprint, autoindent with four spaces
-  autocmd FileType apiblueprint setlocal sw=4 sts=4 et
-  autocmd FileType applescript setlocal sw=4 sts=4 et
-
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
   autocmd! BufRead,BufNewFile *.jbuilder setfiletype ruby
 
@@ -216,7 +197,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
-:color grb24bit
+:color onedark
 :hi CursorLine cterm=none
 :hi CursorLineNr cterm=none
 
@@ -225,6 +206,12 @@ if has("gui_running")
   set linespace=2
   " The same face kitty uses, so the terminal and the GUI look alike
   set guifont=Cartograph\ CF:h14
+  " Cartograph CF carries no CJK, and MacVim's automatic substitution picks a
+  " face whose advance is not exactly twice the latin cell, which smears the
+  " rest of any line holding a CJK character. Naming the wide font is what
+  " pins that ratio; :h gui-fontwide spells the requirement out.
+  " Hiragino Sans GB ships with macOS, so this holds on any machine
+  set guifontwide=Hiragino\ Sans\ GB:h14
   " Cartograph CF has ligatures and != should stay as ! and =. Off is already
   " MacVim's default, spelled out so a change to that default cannot move it.
   " In the terminal the ligatures are the terminal's to disable, not vim's
@@ -361,18 +348,38 @@ nnoremap <leader>ri :call InlineVariable()<cr>
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CtrlP Configuration
+" coc.nvim Configuration
+"
+" Extensions live outside this repo, under g:coc_data_home; listing them here
+" is what gets them installed on a machine that has none.
+" coc.nvim binds no jump keys of its own, so gd stays Vim's built-in
+" declaration search until this map replaces it
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:coc_global_extensions = [
+      \ 'coc-tsserver',
+      \ 'coc-eslint',
+      \ 'coc-json',
+      \ 'coc-html',
+      \ 'coc-css',
+      \ 'coc-prettier',
+      \ ]
+nmap <silent> gd <Plug>(coc-definition)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fzf.vim Configuration
+" https://github.com/junegunn/fzf.vim
+"
+" The fzf binary comes from the Brewfile; the junegunn/fzf plugin is only the
+" Vim side of it, so its install script is deliberately not run.
+" :Files honours $FZF_DEFAULT_COMMAND, which config/zsh/scripts/fzf.zsh points
+" at fd, so this and the nvim side list the same files
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|svn))$'
-let g:ctrlp_user_command  = 'find %s -type f'
-let g:ctrlp_use_caching   = 0
-let g:ctrlp_extensions    = ['funky']
 " The lhs fzf-lua answers to in the nvim config
-nnoremap <leader>ff :CtrlP<cr>
-nnoremap <leader>fu :CtrlPFunky<cr>
-noremap <leader>fm :CtrlP ./app/models/<CR>
+nnoremap <leader>ff :Files<cr>
+noremap <leader>fm :Files app/models<cr>
+" Symbols in the current buffer, from whichever language server coc attached
+nnoremap <leader>fu :CocList outline<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use ripgrep
@@ -382,12 +389,6 @@ if executable('rg')
   " --vimgrep emits a column, which the default grepformat does not expect
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
   set grepformat=%f:%l:%c:%m
-
-  " --files lists paths rather than searching them, and .gitignore is honoured
-  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-
-  " rg is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 
   " :grep already runs rg, so the quickfix list is the whole feature; the bang
   " keeps the cursor here instead of jumping to the first match
@@ -522,13 +523,6 @@ command! RemoveFancyCharacters :call RemoveFancyCharacters()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Leader>vbp o<%= require'pry';binding.pry %><esc>:w<cr>
 map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ALE Configuration
-" https://github.com/dense-analysis/ale
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_fixers = { 'javascript': ['eslint'] }
-let g:ale_fix_on_save = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Selecta Mappings

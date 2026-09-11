@@ -1,4 +1,9 @@
 {
   "eslint.format.enable": true,
-  "eslint.autoFixOnSave": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "semanticTokens.enable": true,
+  "javascript.suggestionActions.enabled": false,
+  "typescript.suggestionActions.enabled": false
 }
