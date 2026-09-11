@@ -347,6 +347,39 @@ nnoremap <leader>ri :call InlineVariable()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <C-n> :NERDTreeToggle<CR>
 
+" nvim-tree's update_focused_file. NERDTree carries no setting for it, so the
+" guards below are the whole feature:
+"   exists()      the Plug above is lazy, g:NERDTree is undefined until the
+"                 drawer has been opened once
+"   IsOpen()      :NERDTreeFind builds a drawer when none is up, which would
+"                 turn every :edit into one popping open
+"   buftype/diff  keeps the drawer's own buffer and fugitive's diffs out
+"   isdirectory   NERDTreeHijackNetrw answers a directory with a second,
+"                 window-local tree that IsOpen() above cannot see
+"   stridx        a file outside the root makes NERDTreeFind move the root;
+"                 the nvim side keeps update_root off, so skip instead
+"   s:last        BufEnter also fires on every window switch, and revealing
+"                 the same file again only costs a flicker
+let s:nerdtree_last = ''
+function! s:NERDTreeFollow() abort
+  if !exists('g:NERDTree') || !g:NERDTree.IsOpen() | return | endif
+  if &buftype !=# '' || &diff | return | endif
+  let l:file = expand('%:p')
+  if empty(l:file) || isdirectory(l:file) | return | endif
+  if l:file ==# s:nerdtree_last | return | endif
+  let l:tree = getbufvar(bufnr(t:NERDTreeBufName), 'NERDTree')
+  if empty(l:tree) || stridx(l:file, l:tree.root.path.str()) != 0 | return | endif
+  let s:nerdtree_last = l:file
+  let l:win = win_getid()
+  NERDTreeFind
+  call win_gotoid(l:win)
+endfunction
+
+augroup vimrcNERDTree
+  autocmd!
+  autocmd BufEnter * call s:NERDTreeFollow()
+augroup END
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc.nvim Configuration
 "
