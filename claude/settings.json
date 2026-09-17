@@ -86,5 +86,9 @@
       "Additional context: a project may span several repos, each carrying its own cloudbaserc.json whose values are `{{env.X}}` placeholders resolved from the selected `.env.<mode>`. In practice targets are pinned with `--mode` alone; `-e`/`--env-id` is rarely typed here, since env IDs are awkward to remember, but it overrides the mode file when present. A command carrying neither is unpinned: the bare `.env` is conventionally the test environment but that is not guaranteed, can be stale, and can be overridden locally, so an unpinned write has an unverifiable target."
     ]
   },
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
 }

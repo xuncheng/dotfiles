@@ -37,6 +37,7 @@
     ~/.gitmessage: git/.gitmessage
     ~/.zshenv: config/zsh/.zshenv
     ~/.claude/settings.json: claude/settings.json
+    ~/.claude/statusline.sh: claude/statusline.sh
     ~/.claude/rules/common: claude/rules
     ~/.config/zsh: config/zsh
     # LazyVim's starter is usually cloned straight into this path
