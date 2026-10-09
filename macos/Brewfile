@@ -70,6 +70,8 @@ cask "github"
 
 # Apps: browsers and communication
 cask "google-chrome"
+cask "brave-browser"
+cask "finicky"
 cask "wechat"
 cask "wechatwork"
 
