@@ -1,0 +1,13 @@
+# Keep model selection and account-specific settings in the client.
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
+sandbox_mode = "workspace-write"
+model_verbosity = "low"
+
+[sandbox_workspace_write]
+network_access = false
+
+[tui]
+alternate_screen = "always"
+notifications = true
+notification_condition = "unfocused"

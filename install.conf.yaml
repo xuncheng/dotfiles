@@ -7,6 +7,8 @@
     - ~/.config
     # Only settings.json is linked: ~/.claude also holds local state
     - ~/.claude
+    # Link individual Codex files; credentials and state stay local.
+    - ~/.codex
 
 - clean: ["~", "~/.config", "~/.claude/rules"]
 
@@ -39,6 +41,9 @@
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/statusline.sh: claude/statusline.sh
     ~/.claude/rules/common: claude/rules
+    ~/.codex/AGENTS.md: codex/AGENTS.md
+    ~/.codex/config.toml: codex/config.toml
+    ~/.codex/rules/common.rules: codex/rules/common.rules
     ~/.config/zsh: config/zsh
     # LazyVim's starter is usually cloned straight into this path
     ~/.config/nvim:

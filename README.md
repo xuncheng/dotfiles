@@ -200,10 +200,54 @@ internal conventions — goes in the private submodule; the public `claude/rules
 holds only general engineering habits. Real credentials belong in neither: the
 private repo is still hosted on GitHub.
 
-The `private` link is guarded by an `if:` in `install.conf.yaml`, so a machine
-without access to the private repo installs everything else and skips it,
-instead of failing. `install.conf.yaml` inits submodules _before_ the link
-step, so a fresh clone is fully set up in a single `./install` run.
+`./install` runs the private manifest only when the submodule's manifest is
+present. A machine without access to the private repo installs the public
+configuration and skips the private links. The public manifest attempts to
+initialize submodules before the link step.
+
+## Codex
+
+`codex/AGENTS.md` is linked to `~/.codex/AGENTS.md` as global guidance.
+It carries the same general engineering preferences as the Claude rules, with
+agent-specific wording adapted. Changes to shared preferences should be kept
+in sync between the two files.
+
+The optional private manifest links its `codex/cloudbase.md` to
+`~/.codex/cloudbase.md`. This is Codex-specific guidance based on the existing
+Claude stack rules; Claude keeps its original file. The global AGENTS.md asks
+Codex to read the file when working on that stack; this is an explicit read instruction, not
+automatic recursive discovery of a rules folder.
+Without the private submodule, general guidance still works.
+
+`codex/config.toml` is linked to `~/.codex/config.toml`: workspace-write sandbox,
+network access requiring escalation, automatic review of eligible approvals, concise output,
+fullscreen TUI and notifications while unfocused. Model selection stays with the
+client. These TUI options apply to the CLI, not the desktop app's appearance.
+
+`codex/rules/common.rules` is linked as an individual file under
+`~/.codex/rules/`, alongside Codex's locally managed `default.rules`.
+It blocks sudo and rebase and prompts for push and PR creation outside the
+sandbox. Tests keep normal sandbox permissions; no blanket host-access grants
+are installed. Native `.rules` files are command policies, unlike the private
+Markdown instructions above. They do not provide file-read exclusions or the
+same wildcard matching as Claude permissions.
+
+The private manifest also links a native CloudBase command policy. The Codex
+Markdown file contains its stack conventions and environment checks.
+Credential-file avoidance lives in AGENTS.md as an instruction,
+not an enforced filesystem deny list. CloudBase command rules conservatively
+prompt outside the sandbox; environment checks live in the private instructions.
+
+Run `./install` to install the links, then start a new Codex session. Existing
+regular files at these destinations are not forcibly overwritten. If
+`~/.codex/config.toml` already exists, merge the desired settings manually or
+back it up and replace it with the link; review account and provider settings
+before replacing it. Credentials, skills and session state remain local.
+These paths assume the default Codex home; a custom `CODEX_HOME` needs matching
+links. A non-empty `~/.codex/AGENTS.override.md` takes precedence over AGENTS.md.
+
+References: [configuration](https://learn.chatgpt.com/docs/config-file/config-reference)
+and [command rules](https://learn.chatgpt.com/docs/agent-configuration/rules).
 
 ## Brewfile
 
