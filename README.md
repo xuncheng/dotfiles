@@ -208,9 +208,22 @@ initialize submodules before the link step.
 ## Codex
 
 `codex/AGENTS.md` is linked to `~/.codex/AGENTS.md` as global guidance.
-It carries the same general engineering preferences as the Claude rules, with
-agent-specific wording adapted. Changes to shared preferences should be kept
-in sync between the two files.
+It carries cross-project engineering preferences and the default workflow:
+Codex investigates, implements, tests, fixes failures and reviews the final diff.
+Routine reversible decisions do not require confirmation. Material requirement
+ambiguities and actions requiring authorization still do.
+
+Project-root `AGENTS.md` files should describe architecture, setup and validation
+commands, and business constraints. Nested files add directory-specific guidance.
+Existing project conventions take precedence over personal code-style defaults.
+Use personal preferences when the project has no established convention; leave
+unrelated code alone.
+A non-empty `AGENTS.override.md` replaces `AGENTS.md` at the same discovery level;
+it does not discard instructions inherited from other levels.
+
+Claude and Codex retain separate instruction files because their execution and
+permission mechanisms differ. Keep shared engineering preferences consistent
+when applicable; tool-specific workflow changes need not be mirrored verbatim.
 
 The optional private manifest links its `codex/cloudbase.md` to
 `~/.codex/cloudbase.md`. This is Codex-specific guidance based on the existing
@@ -221,16 +234,47 @@ Without the private submodule, general guidance still works.
 
 `codex/config.toml` is linked to `~/.codex/config.toml`: workspace-write sandbox,
 network access requiring escalation, automatic review of eligible approvals, concise output,
-fullscreen TUI and notifications while unfocused. Model selection stays with the
-client. These TUI options apply to the CLI, not the desktop app's appearance.
+fullscreen TUI and notifications while unfocused. Run `codex` directly; no profile
+or wrapper is required. These TUI options apply to the CLI, not the desktop app's appearance.
+
+The development default is `gpt-6.1-sol` with `medium` reasoning and Standard
+speed. Explicit Plan mode uses `high` reasoning. For a difficult debugging or
+design task, use `codex -c 'model_reasoning_effort="high"'`; model access depends
+on the signed-in account or workspace. Keep automatic context compaction at the
+client defaults rather than hardcoding model context windows or token thresholds.
+
+Simple tasks use one agent. Global guidance requests delegation only when a
+complex task has independent work, or a critical change needs independent review.
+At most two spawned agents may be open concurrently, excluding the primary agent.
+Prefer parallel read-only work; parallel implementation needs separate worktrees
+or non-overlapping file ownership. The primary agent integrates and validates the result.
+Subagents inherit model and reasoning settings unless explicitly overridden;
+they consume additional usage, so there is no mandatory multi-agent pipeline.
+
+Validation follows the project's existing commands and the affected behavior.
+Behavior fixes should have regression coverage; small documentation or config
+changes use appropriate static checks. Ordinary changes receive a final diff
+self-review. Authorization, concurrency, data migration and public API compatibility
+changes also receive independent review. A separate manual review is available
+with `codex review --uncommitted`; review does not replace tests.
+
+No custom skills or agent definitions are installed by this repo. Built-in and
+plugin-provided capabilities remain client-managed. Add a skill only for a focused,
+repeatable workflow: personal skills belong under `~/.agents/skills/<name>/SKILL.md`,
+and project skills under `.agents/skills/<name>/SKILL.md`. Codex can choose a skill
+from its description or the user can invoke it with `$skill-name`; global engineering
+rules belong in AGENTS.md rather than being duplicated into skills.
 
 `codex/rules/common.rules` is linked as an individual file under
-`~/.codex/rules/`, alongside Codex's locally managed `default.rules`.
+`~/.codex/rules/`, alongside any locally managed command rules.
 It blocks sudo and rebase and prompts for push and PR creation outside the
 sandbox. Tests keep normal sandbox permissions; no blanket host-access grants
 are installed. Native `.rules` files are command policies, unlike the private
 Markdown instructions above. They do not provide file-read exclusions or the
 same wildcard matching as Claude permissions.
+With automatic review enabled, a `prompt` rule routes through approval review;
+it does not guarantee a human confirmation. The explicit push and PR authorization
+requirement also remains in AGENTS.md.
 
 The private manifest also links a native CloudBase command policy. The Codex
 Markdown file contains its stack conventions and environment checks.
@@ -246,8 +290,24 @@ before replacing it. Credentials, skills and session state remain local.
 These paths assume the default Codex home; a custom `CODEX_HOME` needs matching
 links. A non-empty `~/.codex/AGENTS.override.md` takes precedence over AGENTS.md.
 
+The CLI is installed separately from these links. Use `command -v codex` and
+`codex --version` to inspect the installation. After configuration changes, validate
+with `codex --strict-config app-server --print-startup-config` and check command rules
+with `codex execpolicy check --rules codex/rules/common.rules git push origin main`.
+The latter evaluates the policy without executing the command. CI checks TOML syntax
+and the installed public Codex links; CLI validation uses the installed binary.
+
+Because the config is a symlink, client changes can write project trust entries,
+absolute paths and UI state back into the worktree. Inspect `git diff -- codex/config.toml`
+before staging; do not commit machine-specific entries or credentials. The symlink
+keeps shared defaults easy to maintain, but does not isolate client-written state.
+Do not use assume-unchanged or skip-worktree to hide these changes.
+
 References: [configuration](https://learn.chatgpt.com/docs/config-file/config-reference)
-and [command rules](https://learn.chatgpt.com/docs/agent-configuration/rules).
+and [command rules](https://learn.chatgpt.com/docs/agent-configuration/rules),
+[AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
+[subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents),
+and [skills](https://learn.chatgpt.com/docs/build-skills).
 
 ## Brewfile
 

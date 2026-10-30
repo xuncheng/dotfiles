@@ -31,6 +31,11 @@ jobs:
           git ls-files '*.json' | xargs -r -n1 python3 -c \
             'import json,sys; json.load(open(sys.argv[1]))'
 
+      - name: toml
+        run: |
+          git ls-files '*.toml' | xargs -r -n1 python3 -c \
+            'import sys,tomllib; tomllib.load(open(sys.argv[1], "rb"))'
+
   # macOS because the manifest branches on it: the ~/.Brewfile link is guarded
   # by `uname = Darwin` and would never be exercised on Linux
   install:
@@ -56,3 +61,17 @@ jobs:
       # The Darwin-only branch of the manifest, and the reason this runs here
       - name: The macOS-only links exist
         run: test -L "${RUNNER_TEMP}/home/.Brewfile"
+
+      - name: Codex links point to the managed files
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["GITHUB_WORKSPACE"])
+          codex_home = Path(os.environ["RUNNER_TEMP"]) / "home/.codex"
+          for name in ("AGENTS.md", "config.toml", "rules/common.rules"):
+              link = codex_home / name
+              assert link.is_symlink(), f"Missing symlink: {link}"
+              assert link.resolve(strict=True) == root / "codex" / name, f"Wrong target: {link}"
+          PY
