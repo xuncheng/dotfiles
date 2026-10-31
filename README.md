@@ -267,13 +267,13 @@ rules belong in AGENTS.md rather than being duplicated into skills.
 
 `codex/rules/common.rules` is linked as an individual file under
 `~/.codex/rules/`, alongside any locally managed command rules.
-It blocks sudo and rebase and prompts for push and PR creation outside the
+It blocks sudo and prompts for rebase, push and PR creation outside the
 sandbox. Tests keep normal sandbox permissions; no blanket host-access grants
 are installed. Native `.rules` files are command policies, unlike the private
 Markdown instructions above. They do not provide file-read exclusions or the
 same wildcard matching as Claude permissions.
 With automatic review enabled, a `prompt` rule routes through approval review;
-it does not guarantee a human confirmation. The explicit push and PR authorization
+it does not guarantee a human confirmation. The explicit rebase, push and PR authorization
 requirement also remains in AGENTS.md.
 
 The private manifest also links a native CloudBase command policy. The Codex

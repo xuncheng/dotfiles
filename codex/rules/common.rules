@@ -1,6 +1,6 @@
 # Execpolicy governs commands requested outside the sandbox.
 # Keep tests inside the sandbox rather than granting blanket host access.
 prefix_rule(pattern = ["sudo"], decision = "forbidden", justification = "Run without sudo or ask the user to perform the system administration step.", match = ["sudo ls"])
-prefix_rule(pattern = ["git", "rebase"], decision = "forbidden", justification = "Use a workflow that does not rewrite history.", match = ["git rebase main"])
+prefix_rule(pattern = ["git", "rebase"], decision = "prompt", justification = "Rebase requires explicit user authorization because it rewrites history.", match = ["git rebase main"])
 prefix_rule(pattern = ["git", "push"], decision = "prompt", match = ["git push origin main"])
 prefix_rule(pattern = ["gh", "pr", "create"], decision = "prompt", match = ["gh pr create --draft"])
