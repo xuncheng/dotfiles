@@ -140,6 +140,14 @@
 - 写 commit message 前先读一遍模板：路径用 `git config --get commit.template` 取，按模板里的约定写。不要凭记忆。
 - 用户未明确指定本次提交或本批提交的署名偏好时，提交前主动询问是否添加 `Co-Authored-By`；已有明确指示时直接遵守，不重复询问，不沿用其他代理的署名。
 
+### Git SSH 签名
+
+- 保留提交签名，不因签名失败建议关闭签名。
+- 执行会创建提交的 Git 操作前，若启用 SSH 签名，先用 `ssh-add -l` 检查 agent。
+- 若返回 `Operation not permitted`，申请沙箱外执行检查及已获授权的 Git 操作，不直接判断为密钥或口令问题。
+- 通过 SSH agent 签名，不读取私钥内容。
+- 只有沙箱外仍无法签名或 agent 缺少对应密钥时，才请用户处理。
+
 ## 安全
 - **不读取密钥 / 证书文件**：私钥、证书、各类服务商凭证。需要时只看目录结构或 README，不用 Read / cat / grep 碰内容。
 - 不读取 `.env`、`.env.*`、`.envrc`、`secrets/`、`*.pem`、`*.key`、`id_rsa*`、`.npmrc`、`.netrc`、`.git-credentials` 及用户目录中的云服务、SSH、Kubernetes、Docker、GitHub 和代理认证文件。需要配置结构时查看示例文件或 README；不能通过 shell、脚本或其他工具绕过。
