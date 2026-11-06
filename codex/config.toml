@@ -16,7 +16,10 @@ network_access = false
 
 [tui]
 alternate_screen = "always"
-terminal_title = ["thread"]
-status_line = ["model-with-reasoning", "current-dir", "thread-name", "five-hour-limit", "weekly-limit"]
+terminal_title = ["thread-title"]
+status_line = ["model-with-reasoning", "current-dir", "thread-name"]
 notifications = true
 notification_condition = "unfocused"
+
+[features]
+memories = true
