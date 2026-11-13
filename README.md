@@ -225,11 +225,10 @@ Claude and Codex retain separate instruction files because their execution and
 permission mechanisms differ. Keep shared engineering preferences consistent
 when applicable; tool-specific workflow changes need not be mirrored verbatim.
 
-The optional private manifest links its `codex/cloudbase.md` to
-`~/.codex/cloudbase.md`. This is Codex-specific guidance based on the existing
-Claude stack rules; Claude keeps its original file. The global AGENTS.md asks
-Codex to read the file when working on that stack; this is an explicit read instruction, not
-automatic recursive discovery of a rules folder.
+The optional private manifest installs a work workspace `AGENTS.md`.
+It contains company project conventions and a CloudBase / mini-program section
+that applies only to that stack. Claude keeps its separate stack rules.
+Company guidance stays in the private submodule and applies within that workspace.
 Without the private submodule, general guidance still works.
 
 `codex/config.toml` is linked to `~/.codex/config.toml`: workspace-write sandbox,
@@ -276,8 +275,8 @@ With automatic review enabled, a `prompt` rule routes through approval review;
 it does not guarantee a human confirmation. The explicit rebase, push and PR authorization
 requirement also remains in AGENTS.md.
 
-The private manifest also links a native CloudBase command policy. The Codex
-Markdown file contains its stack conventions and environment checks.
+The private manifest also links a native CloudBase command policy. The work
+workspace `AGENTS.md` contains stack conventions and environment checks.
 Credential-file avoidance lives in AGENTS.md as an instruction,
 not an enforced filesystem deny list. CloudBase command rules conservatively
 prompt outside the sandbox; environment checks live in the private instructions.
