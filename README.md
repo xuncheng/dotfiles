@@ -65,7 +65,10 @@ It only creates symlinks. Four more steps are run once per machine:
 | `config/rg/`        | ripgrep config (`$RIPGREP_CONFIG_PATH`)                          |
 | `config/vscode/`    | VS Code custom CSS                                               |
 | `git/`              | gitconfig, global gitignore, commit template, log helpers        |
+| `agents/`           | shared global `AGENTS.md` linked into Codex and Antigravity CLI  |
+| `agy/`              | Antigravity CLI `settings.json` template, merge script, hooks    |
 | `claude/`           | Claude Code `settings.json` + `rules/` (into `~/.claude/`)       |
+| `codex/`            | Codex `config.toml` + `rules/` (into `~/.codex/`)                |
 | `bin/`              | personal scripts, linked to `~/.bin` (on `$PATH`)                |
 | `npm/`              | `npmrc` (linked to `~/.npmrc`)                                   |
 | `dropbox/`          | `rules.dropboxignore`, **copied** into `~/Dropbox` by `install`  |
@@ -207,7 +210,8 @@ initialize submodules before the link step.
 
 ## Codex
 
-`codex/AGENTS.md` is linked to `~/.codex/AGENTS.md` as global guidance.
+`agents/AGENTS.md` is linked to `~/.codex/AGENTS.md` as global guidance (shared
+with Antigravity CLI).
 It carries cross-project engineering preferences and the default workflow:
 Codex investigates, implements, tests, fixes failures and reviews the final diff.
 Routine reversible decisions do not require confirmation. Material requirement
@@ -307,6 +311,36 @@ and [command rules](https://learn.chatgpt.com/docs/agent-configuration/rules),
 [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
 [subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents),
 and [skills](https://learn.chatgpt.com/docs/build-skills).
+
+## Antigravity CLI
+
+`agents/AGENTS.md` is linked to `~/.gemini/config/AGENTS.md` as global guidance,
+sharing the same cross-project engineering preferences as Codex. In the work
+workspace, `~/code/work/AGENTS.md` (installed by the private manifest) is loaded
+automatically when launching `agy` from that directory. Because Antigravity does
+not auto-load `AGENTS.md` files from subfolders below the workspace root, the
+workspace instructions explicitly direct the agent to check and read any
+subproject `AGENTS.md` before editing files there.
+
+`agy/settings.json` is **merged** into `~/.gemini/antigravity-cli/settings.json`
+by `agy/merge-settings.py` during `./install` rather than symlinked. Antigravity
+CLI atomically rewrites `settings.json` on startup, strips keys equal to their
+defaults (such as `"agentMode": "auto"`), and persists machine-local state like
+`trustedWorkspaces` and `model`. Merging overwrites only the managed top-level
+keys (`$schema`, `altScreenMode`, `notifications`, `permissions`) while
+preserving local keys and file mode `0600`.
+
+Permission rules layer on top of `auto` mode (`deny > ask > allow`): destructive
+or high-risk commands (`sudo`, `git rebase`, `tcb`/`cloudbase` `env delete`,
+`api`, `secrets`, `npm run deploy-prod`) and workspace-root `.env` reads are
+denied, while `git push`, `gh pr create`, `tcb`, `cloudbase`, and
+`npx @cloudbase/cli` always prompt for confirmation. Because native `read_file`
+rules do not support recursive glob patterns across nested subprojects,
+`agy/hooks.json` and `agy/hooks/block-sensitive-files.py` (linked under
+`~/.gemini/config/`) enforce a `PreToolUse` deny hook for `.env*` (excluding
+`.env.example`/`.sample`/`.template`), `certs/`, `secrets/`, private keys, and
+home-directory credentials. Credentials, sessions, and runtime state under
+`~/.gemini/antigravity-cli/` remain local.
 
 ## Brewfile
 

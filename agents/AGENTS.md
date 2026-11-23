@@ -150,7 +150,7 @@
 
 ## 安全
 - **不读取密钥 / 证书文件**：私钥、证书、各类服务商凭证。需要时只看目录结构或 README，不用 Read / cat / grep 碰内容。
-- 不读取 `.env`、`.env.*`、`.envrc`、`secrets/`、`*.pem`、`*.key`、`id_rsa*`、`.npmrc`、`.netrc`、`.git-credentials` 及用户目录中的云服务、SSH、Kubernetes、Docker、GitHub 和代理认证文件。需要配置结构时查看示例文件或 README；不能通过 shell、脚本或其他工具绕过。
+- 不读取 `.env`、`.env.*`、`.envrc`、`certs/`、`secrets/`、`*.pem`、`*.key`、`id_rsa*`、`.npmrc`、`.netrc`、`.git-credentials` 及用户目录中的云服务、SSH、Kubernetes、Docker、GitHub 和代理认证文件。需要配置结构时查看示例文件或 README；不能通过 shell、脚本或其他工具绕过。
 - 不运行 `sudo`。执行 `git rebase`、`git push` 或创建 PR 前先取得用户对该动作的明确授权；已有明确授权时无需重复询问。
 - 默认简洁回复。
 

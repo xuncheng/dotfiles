@@ -36,6 +36,11 @@ jobs:
           git ls-files '*.toml' | xargs -r -n1 python3 -c \
             'import sys,tomllib; tomllib.load(open(sys.argv[1], "rb"))'
 
+      - name: python
+        run: |
+          git ls-files '*.py' | xargs -r -n1 python3 -c \
+            'import ast,sys; ast.parse(open(sys.argv[1]).read(), filename=sys.argv[1])'
+
   # macOS because the manifest branches on it: the ~/.Brewfile link is guarded
   # by `uname = Darwin` and would never be exercised on Linux
   install:
@@ -62,16 +67,32 @@ jobs:
       - name: The macOS-only links exist
         run: test -L "${RUNNER_TEMP}/home/.Brewfile"
 
-      - name: Codex links point to the managed files
+      - name: Codex and Antigravity configs are installed
         run: |
           python3 - <<'PY'
+          import json
           import os
           from pathlib import Path
 
           root = Path(os.environ["GITHUB_WORKSPACE"])
-          codex_home = Path(os.environ["RUNNER_TEMP"]) / "home/.codex"
-          for name in ("AGENTS.md", "config.toml", "rules/common.rules"):
-              link = codex_home / name
+          home = Path(os.environ["RUNNER_TEMP"]) / "home"
+
+          expected_links = {
+              home / ".codex/AGENTS.md": root / "agents/AGENTS.md",
+              home / ".codex/config.toml": root / "codex/config.toml",
+              home / ".codex/rules/common.rules": root / "codex/rules/common.rules",
+              home / ".gemini/config/AGENTS.md": root / "agents/AGENTS.md",
+              home / ".gemini/config/hooks.json": root / "agy/hooks.json",
+              home / ".gemini/config/hooks/block-sensitive-files.py": root / "agy/hooks/block-sensitive-files.py",
+          }
+          for link, target in expected_links.items():
               assert link.is_symlink(), f"Missing symlink: {link}"
-              assert link.resolve(strict=True) == root / "codex" / name, f"Wrong target: {link}"
+              assert link.resolve(strict=True) == target, f"Wrong target: {link}"
+
+          managed = json.loads((root / "agy/settings.json").read_text(encoding="utf-8"))
+          installed = home / ".gemini/antigravity-cli/settings.json"
+          assert installed.is_file() and not installed.is_symlink(), f"Expected regular file: {installed}"
+          actual = json.loads(installed.read_text(encoding="utf-8"))
+          for key, value in managed.items():
+              assert actual.get(key) == value, f"Mismatched key {key!r} in {installed}"
           PY

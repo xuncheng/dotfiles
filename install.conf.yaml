@@ -9,8 +9,11 @@
     - ~/.claude
     # Link individual Codex files; credentials and state stay local.
     - ~/.codex
+    # Link individual Antigravity files; credentials, sessions and state stay local.
+    - ~/.gemini/config
+    - ~/.gemini/antigravity-cli
 
-- clean: ["~", "~/.config", "~/.claude/rules"]
+- clean: ["~", "~/.config", "~/.claude/rules", "~/.codex/rules", "~/.gemini/config", "~/.gemini/config/hooks"]
 
 - shell:
     # Without access the private submodule is skipped, not an error.
@@ -21,6 +24,9 @@
     # Not synced by Dropbox, so every machine needs its own copy
     # Must be a copy, not a symlink: Dropbox ignores the symlinked form
     - ["[ -d ~/Dropbox ] && cp dropbox/rules.dropboxignore ~/Dropbox/rules.dropboxignore || true", Installing Dropbox ignore rules]
+    # Antigravity CLI rewrites settings.json atomically and stores machine-local
+    # keys (trustedWorkspaces, model), so merge managed keys instead of symlinking.
+    - [python3 agy/merge-settings.py agy/settings.json ~/.gemini/antigravity-cli/settings.json, Merging Antigravity CLI settings]
 
 - link:
     # force is needed: these often exist as real files already, and relink
@@ -41,9 +47,12 @@
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/statusline.sh: claude/statusline.sh
     ~/.claude/rules/common: claude/rules
-    ~/.codex/AGENTS.md: codex/AGENTS.md
+    ~/.codex/AGENTS.md: agents/AGENTS.md
     ~/.codex/config.toml: codex/config.toml
     ~/.codex/rules/common.rules: codex/rules/common.rules
+    ~/.gemini/config/AGENTS.md: agents/AGENTS.md
+    ~/.gemini/config/hooks.json: agy/hooks.json
+    ~/.gemini/config/hooks/block-sensitive-files.py: agy/hooks/block-sensitive-files.py
     ~/.config/zsh: config/zsh
     # LazyVim's starter is usually cloned straight into this path
     ~/.config/nvim:

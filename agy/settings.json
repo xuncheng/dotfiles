@@ -1,0 +1,30 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/settings.json",
+  "altScreenMode": "always",
+  "notifications": true,
+  "permissions": {
+    "allow": [
+      "command(ssh-add -l)"
+    ],
+    "ask": [
+      "command(git push)",
+      "command(gh pr create)",
+      "command(tcb)",
+      "command(cloudbase)",
+      "command(npx @cloudbase/cli)"
+    ],
+    "deny": [
+      "command(sudo)",
+      "command(git rebase)",
+      "command(tcb env delete)",
+      "command(cloudbase env delete)",
+      "command(tcb api)",
+      "command(cloudbase api)",
+      "command(tcb secrets)",
+      "command(cloudbase secrets)",
+      "command(npm run deploy-prod)",
+      "command(npm run prod-deploy)",
+      "read_file(.env)"
+    ]
+  }
+}

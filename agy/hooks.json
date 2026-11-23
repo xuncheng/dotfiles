@@ -1,0 +1,16 @@
+{
+  "block-sensitive-files": {
+    "PreToolUse": [
+      {
+        "matcher": "read_file|view_file|write_file|edit_file|write_to_file|replace_file_content|multi_replace_file_content|grep_search",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.gemini/config/hooks/block-sensitive-files.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
