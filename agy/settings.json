@@ -8,6 +8,7 @@
     ],
     "ask": [
       "command(git push)",
+      "command(regex:git -C .+ push)",
       "command(gh pr create)",
       "command(tcb)",
       "command(cloudbase)",
@@ -16,6 +17,7 @@
     "deny": [
       "command(sudo)",
       "command(git rebase)",
+      "command(regex:git -C .+ rebase)",
       "command(tcb env delete)",
       "command(cloudbase env delete)",
       "command(tcb api)",
