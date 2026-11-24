@@ -25,8 +25,7 @@
       "command(tcb secrets)",
       "command(cloudbase secrets)",
       "command(npm run deploy-prod)",
-      "command(npm run prod-deploy)",
-      "read_file(.env)"
+      "command(npm run prod-deploy)"
     ]
   }
 }

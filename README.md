@@ -332,15 +332,15 @@ preserving local keys and file mode `0600`.
 
 Permission rules layer on top of `auto` mode (`deny > ask > allow`): destructive
 or high-risk commands (`sudo`, `git rebase`, `tcb`/`cloudbase` `env delete`,
-`api`, `secrets`, `npm run deploy-prod`) and workspace-root `.env` reads are
-denied, while `git push`, `gh pr create`, `tcb`, `cloudbase`, and
-`npx @cloudbase/cli` always prompt for confirmation. Because native `read_file`
-rules do not support recursive glob patterns across nested subprojects,
-`agy/hooks.json` and `agy/hooks/block-sensitive-files.py` (linked under
-`~/.gemini/config/`) enforce a `PreToolUse` deny hook for `.env*` (excluding
-`.env.example`/`.sample`/`.template`), `certs/`, `secrets/`, private keys, and
-home-directory credentials. Credentials, sessions, and runtime state under
-`~/.gemini/antigravity-cli/` remain local.
+`api`, `secrets`, `npm run deploy-prod`) are denied, while `git push`,
+`gh pr create`, `tcb`, `cloudbase`, and `npx @cloudbase/cli` always prompt for
+confirmation. Because native `read_file` rules require absolute paths for the
+terminal sandbox and do not support recursive glob patterns across nested
+subprojects, `agy/hooks.json` and `agy/hooks/block-sensitive-files.py` (linked
+under `~/.gemini/config/`) enforce a `PreToolUse` deny hook for `.env*`
+(excluding `.env.example`/`.sample`/`.template`), `certs/`, `secrets/`, private
+keys, and home-directory credentials. Credentials, sessions, and runtime state
+under `~/.gemini/antigravity-cli/` remain local.
 
 ## Brewfile
 
