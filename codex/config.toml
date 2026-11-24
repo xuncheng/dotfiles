@@ -3,7 +3,7 @@ approval_policy = "on-request"
 approvals_reviewer = "auto_review"
 sandbox_mode = "workspace-write"
 model_verbosity = "low"
-model = "gpt-6.1-sol"
+model = "gpt-6.2-sol"
 model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"
 service_tier = "default"
@@ -23,3 +23,6 @@ notification_condition = "unfocused"
 
 [features]
 memories = true
+
+[mcp_servers.1password]
+command = "/Applications/1Password.app/Contents/MacOS/1password-mcp"

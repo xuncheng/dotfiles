@@ -240,7 +240,7 @@ network access requiring escalation, automatic review of eligible approvals, con
 fullscreen TUI and notifications while unfocused. Run `codex` directly; no profile
 or wrapper is required. These TUI options apply to the CLI, not the desktop app's appearance.
 
-The development default is `gpt-6.1-sol` with `medium` reasoning and Standard
+The development default is `gpt-6.2-sol` with `medium` reasoning and Standard
 speed. Explicit Plan mode uses `high` reasoning. For a difficult debugging or
 design task, use `codex -c 'model_reasoning_effort="high"'`; model access depends
 on the signed-in account or workspace. Keep automatic context compaction at the
