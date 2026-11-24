@@ -2,6 +2,14 @@
   "$schema": "https://antigravity.google/schemas/v1/settings.json",
   "altScreenMode": "always",
   "notifications": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.gemini/antigravity-cli/statusline.sh"
+  },
+  "title": {
+    "type": "command",
+    "command": "~/.gemini/antigravity-cli/title.sh"
+  },
   "permissions": {
     "allow": [
       "command(ssh-add -l)"

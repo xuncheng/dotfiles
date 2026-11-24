@@ -13,7 +13,7 @@
     - ~/.gemini/config
     - ~/.gemini/antigravity-cli
 
-- clean: ["~", "~/.config", "~/.claude/rules", "~/.codex/rules", "~/.gemini/config", "~/.gemini/config/hooks"]
+- clean: ["~", "~/.config", "~/.claude/rules", "~/.codex/rules", "~/.gemini/config", "~/.gemini/config/hooks", "~/.gemini/antigravity-cli"]
 
 - shell:
     # Without access the private submodule is skipped, not an error.
@@ -53,6 +53,8 @@
     ~/.gemini/config/AGENTS.md: agents/AGENTS.md
     ~/.gemini/config/hooks.json: agy/hooks.json
     ~/.gemini/config/hooks/block-sensitive-files.py: agy/hooks/block-sensitive-files.py
+    ~/.gemini/antigravity-cli/statusline.sh: agy/statusline.sh
+    ~/.gemini/antigravity-cli/title.sh: agy/title.sh
     ~/.config/zsh: config/zsh
     # LazyVim's starter is usually cloned straight into this path
     ~/.config/nvim:

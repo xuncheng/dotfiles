@@ -23,7 +23,7 @@ jobs:
       # Picked by shebang rather than by extension, so a script in bin/ that
       # is not shell does not fail the run
       - name: shellcheck
-        run: grep -rlE '^#!.*(bash|/sh)' install bin macos | xargs -r shellcheck
+        run: grep -rlE '^#!.*(bash|/sh)' install bin macos agy | xargs -r shellcheck
 
       # A malformed settings.json is ignored silently by its reader
       - name: json
@@ -84,6 +84,8 @@ jobs:
               home / ".gemini/config/AGENTS.md": root / "agents/AGENTS.md",
               home / ".gemini/config/hooks.json": root / "agy/hooks.json",
               home / ".gemini/config/hooks/block-sensitive-files.py": root / "agy/hooks/block-sensitive-files.py",
+              home / ".gemini/antigravity-cli/statusline.sh": root / "agy/statusline.sh",
+              home / ".gemini/antigravity-cli/title.sh": root / "agy/title.sh",
           }
           for link, target in expected_links.items():
               assert link.is_symlink(), f"Missing symlink: {link}"

@@ -327,8 +327,10 @@ by `agy/merge-settings.py` during `./install` rather than symlinked. Antigravity
 CLI atomically rewrites `settings.json` on startup, strips keys equal to their
 defaults (such as `"agentMode": "auto"`), and persists machine-local state like
 `trustedWorkspaces` and `model`. Merging overwrites only the managed top-level
-keys (`$schema`, `altScreenMode`, `notifications`, `permissions`) while
-preserving local keys and file mode `0600`.
+keys (`$schema`, `altScreenMode`, `notifications`, `statusLine`, `title`,
+`permissions`) while preserving local keys and file mode `0600`. `agy/title.sh` publishes the session title (falling back to the directory name)
+for tmux's window name, and `agy/statusline.sh` renders context, quota, mode,
+and model in a single right-aligned status line.
 
 Permission rules layer on top of `auto` mode (`deny > ask > allow`): destructive
 or high-risk commands (`sudo`, `git rebase`, `tcb`/`cloudbase` `env delete`,
